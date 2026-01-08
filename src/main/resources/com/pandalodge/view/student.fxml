@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.pandalodge.controller.StudentController" styleClass="root"
+      stylesheets="@../styles.css">
+    <padding><Insets top="24" right="24" bottom="24" left="24" /></padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+        <Button text="← Back" onAction="#onBack" styleClass="link-button" />
+        <Label text="🎓 Student Management" styleClass="title" />
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox spacing="12" styleClass="header-actions">
+            <TextField fx:id="searchField" promptText="🔍 Search students..." styleClass="search-field" />
+            <Button text="+ Add Student" onAction="#addStudent" styleClass="add-button" />
+        </HBox>
+    </HBox>
+
+    <VBox spacing="16" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card" VBox.vgrow="ALWAYS">
+            <padding><Insets top="0" right="0" bottom="0" left="0" /></padding>
+            <TableView fx:id="studentTable" VBox.vgrow="ALWAYS" prefHeight="400">
+                <columns>
+                    <TableColumn text="ID" prefWidth="80">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="id" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Student Name" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Email Address" prefWidth="250">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="email" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </VBox>
+        <Label fx:id="statusLabel" styleClass="muted" />
+    </VBox>
+</VBox>
+
+
+
+

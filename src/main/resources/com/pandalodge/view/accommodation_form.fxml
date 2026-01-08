@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.AccommodationFormController" styleClass="card">
+    <padding><Insets top="12" right="12" bottom="12" left="12" /></padding>
+    <Label text="Accommodation" styleClass="card-title" />
+    <GridPane hgap="8" vgap="8">
+        <Label text="Type:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <TextField fx:id="typeField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+        <Label text="Price:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <TextField fx:id="priceField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+    </GridPane>
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelBtn" text="Cancel" />
+        <Button fx:id="okBtn" text="Save" />
+    </HBox>
+</VBox>
+
+
+
+

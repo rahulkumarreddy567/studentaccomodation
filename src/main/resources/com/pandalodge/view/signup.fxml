@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.pandalodge.controller.SignupController"
+            styleClass="root-pane" stylesheets="@../styles.css"
+            minWidth="700" minHeight="500">
+    <center>
+        <HBox spacing="0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <!-- Left: branding -->
+            <VBox alignment="CENTER" spacing="16" minWidth="280" prefWidth="340" styleClass="left-pane">
+                <padding><Insets top="30" right="30" bottom="30" left="30" /></padding>
+                <Label text="🎓" style="-fx-font-size: 48px;" />
+                <Label text="Join Panda Stays" styleClass="brand-title" />
+                <Label text="Create your account and find accommodation" wrapText="true" styleClass="brand-sub" />
+                <Region prefHeight="15" />
+                <Label text="✓ Free Registration" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
+                <Label text="✓ Instant Access" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
+                <Label text="✓ Secure Platform" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
+            </VBox>
+
+            <!-- Right: signup form -->
+            <VBox alignment="CENTER" spacing="12" styleClass="form-pane" HBox.hgrow="ALWAYS" minWidth="320">
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40" />
+                </padding>
+                <HBox alignment="CENTER_LEFT">
+                    <Button text="← Back" onAction="#back" styleClass="link-button" />
+                </HBox>
+                <Label text="Create Account 🚀" styleClass="form-title" />
+                <Label text="Fill in your details to get started" styleClass="form-sub" />
+
+                <VBox spacing="12" maxWidth="320">
+                    <VBox spacing="4">
+                        <Label text="Full Name" style="-fx-font-weight: bold; -fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                        <TextField fx:id="nameField" promptText="Enter your full name" styleClass="input-field" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label text="Email" style="-fx-font-weight: bold; -fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                        <TextField fx:id="emailField" promptText="Enter your email" styleClass="input-field" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label text="Password" style="-fx-font-weight: bold; -fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                        <PasswordField fx:id="passwordField" promptText="Create a password" styleClass="input-field" />
+                    </VBox>
+                </VBox>
+
+                <Region prefHeight="5" />
+
+                <HBox spacing="12" alignment="CENTER_LEFT" maxWidth="320">
+                    <Button text="Create Account" onAction="#handleSignup" styleClass="primary-button" prefWidth="140" />
+                    <Button text="Back to Login" onAction="#backToLogin" styleClass="secondary-button" />
+                </HBox>
+                
+                <Label fx:id="statusLabel" styleClass="error-label" />
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Label text="By signing up, you agree to our Terms" styleClass="muted" />
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>
+
+
+
+

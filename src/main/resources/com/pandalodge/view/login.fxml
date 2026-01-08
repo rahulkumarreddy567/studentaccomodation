@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.pandalodge.controller.LoginController"
+            styleClass="root-pane" stylesheets="@../styles.css"
+            minWidth="700" minHeight="500">
+    <center>
+        <HBox spacing="0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <!-- Left: branding / illustration -->
+            <VBox fx:id="branding" alignment="CENTER" spacing="16" minWidth="280" prefWidth="340" styleClass="left-pane">
+                <padding><Insets top="30" right="30" bottom="30" left="30" /></padding>
+                <Label text="🏠" style="-fx-font-size: 48px;" />
+                <Label text="Panda Stays" styleClass="brand-title" />
+                <Label text="Find your perfect student accommodation" wrapText="true" styleClass="brand-sub" />
+                <Region prefHeight="15" />
+                <Label text="✓ Verified Listings" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
+                <Label text="✓ Secure Booking" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
+                <Label text="✓ 24/7 Support" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
+            </VBox>
+
+            <!-- Right: login form -->
+            <VBox alignment="CENTER" spacing="12" styleClass="form-pane" HBox.hgrow="ALWAYS" minWidth="320">
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40" />
+                </padding>
+                <HBox alignment="CENTER_LEFT">
+                    <Button text="← Back" onAction="#back" styleClass="link-button" />
+                </HBox>
+                <Label text="Welcome Back 👋" styleClass="form-title" />
+                <Label text="Sign in to manage your bookings" styleClass="form-sub" />
+
+                <VBox spacing="12" maxWidth="320">
+                    <VBox spacing="4">
+                        <Label text="Email" style="-fx-font-weight: bold; -fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                        <TextField fx:id="usernameField" promptText="Enter your email" styleClass="input-field" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label text="Password" style="-fx-font-weight: bold; -fx-text-fill: #64748b; -fx-font-size: 12px;" />
+                        <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-field" />
+                    </VBox>
+                </VBox>
+
+                <Region prefHeight="5" />
+
+                <HBox spacing="12" alignment="CENTER_LEFT" maxWidth="320">
+                    <Button fx:id="loginButton" text="Sign In" styleClass="primary-button" prefWidth="120" />
+                    <Button fx:id="signupButton" text="Create Account" styleClass="secondary-button" />
+                </HBox>
+
+                <Label fx:id="errorLabel" styleClass="error-label" />
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Label text="Demo: admin@panda.com / admin123" styleClass="muted" />
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>
+
+
+
+

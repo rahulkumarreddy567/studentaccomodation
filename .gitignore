@@ -1,0 +1,30 @@
+# Build artifacts
+target/
+dependency-reduced-pom.xml
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+output.log
+
+# Database (optional - remove this line if you want to track the DB)
+data/*.db
+
+# Maven wrapper downloaded files (optional)
+.mvn/wrapper/maven-wrapper.jar
+
+# JavaFX SDK (users should download their own)
+javafx-sdk-21/
+javafx-sdk-25.0.1/
+

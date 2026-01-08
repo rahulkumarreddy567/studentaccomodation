@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.BookingController" style="-fx-background-color: white;" stylesheets="@../styles.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="← Back" onAction="#onBack" styleClass="link-button" />
+        <Label fx:id="titleLabel" text="Bookings" styleClass="form-title" />
+    </HBox>
+    <Label text="Review and manage accommodation requests." styleClass="muted" />
+
+    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">
+        <!-- Columns are built dynamically in controller based on role -->
+    </TableView>
+</VBox>
+
+
+
+
