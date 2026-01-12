@@ -4,22 +4,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="20" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.BookingController" style="-fx-background-color: white;" stylesheets="@../styles.css">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
-    </padding>
-
-    <HBox spacing="10" alignment="CENTER_LEFT">
+<VBox spacing="0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.BookingController" style="-fx-background-color: #f8fafc;">
+    <!-- Custom Topbar -->
+    <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding: 24 30 0 30;">
         <Button text="← Back" onAction="#onBack" styleClass="link-button" />
-        <Label fx:id="titleLabel" text="Bookings" styleClass="form-title" />
+        <VBox>
+            <Label fx:id="titleLabel" text="Booking Management" styleClass="search-hero-title" style="-fx-font-size: 20px; -fx-text-fill: -text-main;" />
+            <Label text="Manage and track accommodation requests" styleClass="text-muted" style="-fx-font-size: 13px;" />
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="statusLabel" style="-fx-font-weight: bold;" />
     </HBox>
-    <Label text="Review and manage accommodation requests." styleClass="muted" />
 
-    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">
-        <!-- Columns are built dynamically in controller based on role -->
-    </TableView>
+    <!-- Main Content -->
+    <VBox VBox.vgrow="ALWAYS" spacing="20">
+        <padding>
+            <Insets top="25" right="30" bottom="30" left="30" />
+        </padding>
+
+        <VBox VBox.vgrow="ALWAYS" styleClass="card" style="-fx-padding: 0;">
+            <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 0 0 16 16; -fx-border-color: transparent;">
+                <!-- Columns are built dynamically in controller -->
+                <columnResizePolicy>
+                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </VBox>
 </VBox>
-
-
-
-

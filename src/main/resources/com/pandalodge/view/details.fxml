@@ -5,125 +5,126 @@
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.Insets?>
 
-<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.DetailController" styleClass="root-pane" stylesheets="@../styles.css">
-    <VBox spacing="24" style="-fx-background-color: #f8fafc;">
-        <padding>
-            <Insets top="24" right="40" bottom="40" left="40" />
-        </padding>
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.DetailController" styleClass="root-pane">
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+        <VBox spacing="24" style="-fx-background-color: #f8fafc;">
+            <padding>
+                <Insets top="24" right="40" bottom="40" left="40" />
+            </padding>
 
-        <!-- Header with back button -->
-        <HBox spacing="16" alignment="CENTER_LEFT">
-            <Button text="← Back to Listings" onAction="#back" styleClass="link-button" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="saveBtn" text="♥ Save" onAction="#handleSave" styleClass="button-secondary" />
-        </HBox>
+            <!-- Header with back button -->
+            <HBox spacing="16" alignment="CENTER_LEFT">
+                <Button text="← Back to Listings" onAction="#back" styleClass="link-button" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="saveBtn" text="♥ Save" onAction="#handleSave" styleClass="button-secondary" />
+            </HBox>
 
-        <!-- Main Content -->
-        <HBox spacing="32">
-            <!-- Left: Image Gallery -->
-            <VBox spacing="16" prefWidth="520">
-                <StackPane styleClass="detail-image-container">
-                    <ImageView fx:id="imageView" fitWidth="520" fitHeight="350" preserveRatio="false" />
-                    <Label fx:id="typeBadge" text="Room" styleClass="type-badge" StackPane.alignment="TOP_LEFT" translateX="16" translateY="16"/>
-                    <Label fx:id="statusBadge" text="Available" styleClass="status-badge" StackPane.alignment="TOP_RIGHT" translateX="-16" translateY="16"/>
-                </StackPane>
-
-                <!-- Location Map Section -->
-                <VBox styleClass="card" spacing="12">
-                    <Label text="📍 Location" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
-                    <Label fx:id="addressLabel" text="Address" wrapText="true" style="-fx-text-fill: #64748b;" />
-
-                    <!-- Map Container -->
-                    <StackPane fx:id="mapContainer" prefHeight="200" style="-fx-background-color: #e2e8f0; -fx-background-radius: 8;">
-                        <ImageView fx:id="mapImage" fitWidth="488" fitHeight="200" preserveRatio="false" />
-                        <Label fx:id="mapPlaceholder" text="🗺️ Loading map..." style="-fx-font-size: 14px; -fx-text-fill: #64748b;" />
+            <!-- Main Content -->
+            <HBox spacing="32">
+                <!-- Left: Image Gallery -->
+                <VBox spacing="16" prefWidth="520">
+                    <StackPane styleClass="detail-image-container">
+                        <ImageView fx:id="imageView" fitWidth="520" fitHeight="350" preserveRatio="false" />
+                        <Label fx:id="typeBadge" text="Room" styleClass="type-badge" StackPane.alignment="TOP_LEFT" translateX="16" translateY="16"/>
+                        <Label fx:id="statusBadge" text="Available" styleClass="status-badge" StackPane.alignment="TOP_RIGHT" translateX="-16" translateY="16"/>
                     </StackPane>
 
-                    <HBox spacing="16">
-                        <Label text="🚇 Near metro" style="-fx-text-fill: #64748b; -fx-font-size: 13px;" />
-                        <Label text="🚌 Bus stops nearby" style="-fx-text-fill: #64748b; -fx-font-size: 13px;" />
-                        <Label text="🚶 Walkable area" style="-fx-text-fill: #64748b; -fx-font-size: 13px;" />
+                    <!-- Location Map Section -->
+                    <VBox styleClass="card" spacing="12">
+                        <Label text="📍 Location" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+                        <Label fx:id="addressLabel" text="Address" wrapText="true" style="-fx-text-fill: #64748b;" />
+
+                        <!-- Map Container -->
+                        <StackPane fx:id="mapContainer" prefHeight="200" style="-fx-background-color: #e2e8f0; -fx-background-radius: 8;">
+                            <ImageView fx:id="mapImage" fitWidth="488" fitHeight="200" preserveRatio="false" />
+                            <Label fx:id="mapPlaceholder" text="🗺️ Loading map..." style="-fx-font-size: 14px; -fx-text-fill: #64748b;" />
+                        </StackPane>
+
+                        <HBox spacing="16">
+                            <Label text="🚇 Near metro" style="-fx-text-fill: #64748b; -fx-font-size: 13px;" />
+                            <Label text="🚌 Bus stops nearby" style="-fx-text-fill: #64748b; -fx-font-size: 13px;" />
+                            <Label text="🚶 Walkable area" style="-fx-text-fill: #64748b; -fx-font-size: 13px;" />
+                        </HBox>
+
+                        <Button fx:id="openMapBtn" text="🗺️ Open in Google Maps" onAction="#openGoogleMaps" styleClass="button-secondary" />
+                    </VBox>
+                </VBox>
+
+                <!-- Right: Details -->
+                <VBox spacing="20" HBox.hgrow="ALWAYS">
+                    <!-- Title and Price -->
+                    <VBox spacing="8">
+                        <Label fx:id="titleLabel" text="Room Title" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                        <HBox spacing="16" alignment="CENTER_LEFT">
+                            <Label fx:id="priceLabel" text="€0" style="-fx-font-size: 32px; -fx-text-fill: #6366f1; -fx-font-weight: bold;" />
+                            <Label text="/ month" style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="avgRatingLabel" text="⭐ --" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                            <Label fx:id="reviewCountLabel" text="(0 reviews)" style="-fx-text-fill: #64748b;" />
+                        </HBox>
+                    </VBox>
+
+                    <Separator />
+                    
+                    <!-- Quick Info -->
+                    <HBox spacing="24">
+                        <VBox alignment="CENTER" spacing="4">
+                            <Label text="🏠" style="-fx-font-size: 24px;" />
+                            <Label fx:id="typeLabel" text="Room" style="-fx-font-weight: bold;" />
+                            <Label text="Type" styleClass="muted" />
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="4">
+                            <Label text="📐" style="-fx-font-size: 24px;" />
+                            <Label fx:id="sizeLabel" text="18m²" style="-fx-font-weight: bold;" />
+                            <Label text="Size" styleClass="muted" />
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="4">
+                            <Label text="🛏️" style="-fx-font-size: 24px;" />
+                            <Label fx:id="furnishedLabel" text="Furnished" style="-fx-font-weight: bold;" />
+                            <Label text="Furnishing" styleClass="muted" />
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="4">
+                            <Label text="📅" style="-fx-font-size: 24px;" />
+                            <Label fx:id="availableInfoLabel" text="Now" style="-fx-font-weight: bold;" />
+                            <Label text="Available" styleClass="muted" />
+                        </VBox>
                     </HBox>
 
-                    <Button fx:id="openMapBtn" text="🗺️ Open in Google Maps" onAction="#openGoogleMaps" styleClass="button-secondary" />
-                </VBox>
-            </VBox>
+                    <Separator />
 
-            <!-- Right: Details -->
-            <VBox spacing="20" HBox.hgrow="ALWAYS">
-                <!-- Title and Price -->
-                <VBox spacing="8">
-                    <Label fx:id="titleLabel" text="Room Title" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
-                    <HBox spacing="16" alignment="CENTER_LEFT">
-                        <Label fx:id="priceLabel" text="€0" style="-fx-font-size: 32px; -fx-text-fill: #6366f1; -fx-font-weight: bold;" />
-                        <Label text="/ month" style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Label fx:id="avgRatingLabel" text="⭐ --" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-                        <Label fx:id="reviewCountLabel" text="(0 reviews)" style="-fx-text-fill: #64748b;" />
-                    </HBox>
-                </VBox>
-
-                <Separator />
-                
-                <!-- Quick Info -->
-                <HBox spacing="24">
-                    <VBox alignment="CENTER" spacing="4">
-                        <Label text="🏠" style="-fx-font-size: 24px;" />
-                        <Label fx:id="typeLabel" text="Room" style="-fx-font-weight: bold;" />
-                        <Label text="Type" styleClass="muted" />
+                    <!-- Description -->
+                    <VBox spacing="10">
+                        <Label text="About this property" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+                        <Label fx:id="descriptionLabel" text="No description available." wrapText="true" style="-fx-text-fill: #475569; -fx-line-spacing: 4;" />
                     </VBox>
-                    <VBox alignment="CENTER" spacing="4">
-                        <Label text="📐" style="-fx-font-size: 24px;" />
-                        <Label text="18m²" style="-fx-font-weight: bold;" />
-                        <Label text="Size" styleClass="muted" />
+
+                    <!-- Amenities -->
+                    <VBox spacing="12">
+                        <Label text="Amenities included" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+                        <FlowPane hgap="12" vgap="12">
+                            <Label text="✓ Furnished" styleClass="amenity-tag" />
+                            <Label text="✓ WiFi" styleClass="amenity-tag" />
+                            <Label text="✓ Heating" styleClass="amenity-tag" />
+                            <Label text="✓ Kitchen Access" styleClass="amenity-tag" />
+                            <Label text="✓ Washing Machine" styleClass="amenity-tag" />
+                            <Label text="✓ Bills Included" styleClass="amenity-tag" />
+                        </FlowPane>
                     </VBox>
-                    <VBox alignment="CENTER" spacing="4">
-                        <Label text="🛏️" style="-fx-font-size: 24px;" />
-                        <Label fx:id="furnishedLabel" text="Furnished" style="-fx-font-weight: bold;" />
-                        <Label text="Furnishing" styleClass="muted" />
-                    </VBox>
-                    <VBox alignment="CENTER" spacing="4">
-                        <Label text="📅" style="-fx-font-size: 24px;" />
-                        <Label text="Now" style="-fx-font-weight: bold;" />
-                        <Label text="Available" styleClass="muted" />
-                    </VBox>
-                </HBox>
 
-                <Separator />
-
-                <!-- Description -->
-                <VBox spacing="10">
-                    <Label text="About this property" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
-                    <Label fx:id="descriptionLabel" text="No description available." wrapText="true" style="-fx-text-fill: #475569; -fx-line-spacing: 4;" />
-                </VBox>
-
-                <!-- Amenities -->
-                <VBox spacing="12">
-                    <Label text="Amenities included" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
-                    <FlowPane hgap="12" vgap="12">
-                        <Label text="✓ Furnished" styleClass="amenity-tag" />
-                        <Label text="✓ WiFi" styleClass="amenity-tag" />
-                        <Label text="✓ Heating" styleClass="amenity-tag" />
-                        <Label text="✓ Kitchen Access" styleClass="amenity-tag" />
-                        <Label text="✓ Washing Machine" styleClass="amenity-tag" />
-                        <Label text="✓ Bills Included" styleClass="amenity-tag" />
-                    </FlowPane>
-                </VBox>
-
-                <!-- Property Owner Info -->
-                <VBox fx:id="ownerInfoBox" spacing="12" styleClass="card" style="-fx-background-color: #ecfdf5;">
-                    <Label text="👤 Property Owner" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #065f46;" />
-                    <HBox spacing="24" alignment="CENTER_LEFT">
-                        <VBox spacing="4">
-                            <Label text="Name" style="-fx-text-fill: #6b7280; -fx-font-size: 12px;" />
-                            <Label fx:id="ownerNameLabel" text="Loading..." style="-fx-font-weight: bold; -fx-text-fill: #1e293b;" />
-                        </VBox>
-                        <VBox spacing="4">
-                            <Label text="Email" style="-fx-text-fill: #6b7280; -fx-font-size: 12px;" />
-                            <Label fx:id="ownerEmailLabel" text="Loading..." style="-fx-text-fill: #6366f1;" />
-                        </VBox>
-                        <VBox spacing="4">
-                            <Label text="Phone" style="-fx-text-fill: #6b7280; -fx-font-size: 12px;" />
+                    <!-- Property Owner Info -->
+                    <VBox fx:id="ownerInfoBox" spacing="12" styleClass="card" style="-fx-background-color: #ecfdf5;">
+                        <Label text="👤 Property Owner" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #065f46;" />
+                        <HBox spacing="24" alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label text="Name" style="-fx-text-fill: #6b7280; -fx-font-size: 12px;" />
+                                <Label fx:id="ownerNameLabel" text="Loading..." style="-fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Email" style="-fx-text-fill: #6b7280; -fx-font-size: 12px;" />
+                                <Label fx:id="ownerEmailLabel" text="Loading..." style="-fx-text-fill: #6366f1;" />
+                            </VBox>
+                            <VBox spacing="4">
+                                <Label text="Phone" style="-fx-text-fill: #6b7280; -fx-font-size: 12px;" />
                             <Label fx:id="ownerPhoneLabel" text="Loading..." style="-fx-text-fill: #1e293b;" />
                         </VBox>
                     </HBox>
@@ -131,9 +132,10 @@
 
                 <!-- Reviews Section -->
                 <VBox spacing="12" styleClass="card">
-                    <HBox spacing="16" alignment="CENTER_LEFT">
+                     <HBox spacing="16" alignment="CENTER_LEFT">
                         <Label text="⭐ Reviews" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
                         <Region HBox.hgrow="ALWAYS" />
+                        <Button text="+ Add Review" onAction="#handleAddReview" styleClass="button-secondary" />
                     </HBox>
                     <VBox fx:id="reviewsContainer" spacing="10">
                         <Label text="Loading reviews..." style="-fx-text-fill: #94a3b8; -fx-font-style: italic;" />
@@ -177,8 +179,18 @@
             </VBox>
         </HBox>
     </VBox>
-</ScrollPane>
+    </ScrollPane>
 
-
-
-
+    <!-- Success Overlay -->
+    <VBox fx:id="successOverlay" visible="false" alignment="CENTER" spacing="30" style="-fx-background-color: rgba(255,255,255,0.95);">
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="🎉" style="-fx-font-size: 80px;" />
+            <Label fx:id="successTitle" text="Booking Requested!" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+            <Label fx:id="successMessage" text="Your request has been sent to the admin for approval." style="-fx-font-size: 18px; -fx-text-fill: #64748b;" alignment="CENTER" wrapText="true" maxWidth="450" />
+        </VBox>
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="View My Bookings" onAction="#navigateToBookings" styleClass="primary-button" prefWidth="200" />
+            <Button text="Continue Browsing" onAction="#back" styleClass="secondary-button" prefWidth="200" />
+        </HBox>
+    </VBox>
+</StackPane>

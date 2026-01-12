@@ -5,14 +5,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.pandalodge.controller.LoginController"
-            styleClass="root-pane" stylesheets="@../styles.css"
+            styleClass="root-pane"
             minWidth="700" minHeight="500">
     <center>
         <HBox spacing="0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
             <!-- Left: branding / illustration -->
             <VBox fx:id="branding" alignment="CENTER" spacing="16" minWidth="280" prefWidth="340" styleClass="left-pane">
                 <padding><Insets top="30" right="30" bottom="30" left="30" /></padding>
-                <Label text="🏠" style="-fx-font-size: 48px;" />
+                <Label text="🐼" style="-fx-font-size: 48px;" />
                 <Label text="Panda Stays" styleClass="brand-title" />
                 <Label text="Find your perfect student accommodation" wrapText="true" styleClass="brand-sub" />
                 <Region prefHeight="15" />

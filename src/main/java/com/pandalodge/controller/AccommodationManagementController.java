@@ -32,32 +32,22 @@ public class AccommodationManagementController {
     private Label statusLabel;
 
     private DashboardController dashboardController;
-    private AdminController adminController;
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
         System.out.println("DEBUG AccommodationManagementController: dashboardController set = " + (dash != null));
     }
 
-    public void setAdminController(AdminController admin) {
-        this.adminController = admin;
-        System.out.println("DEBUG AccommodationManagementController: adminController set = " + (admin != null));
-    }
-
     @FXML
     public void onBack() {
         System.out.println("DEBUG AccommodationManagementController.onBack() called");
         if (dashboardController != null) {
-            dashboardController.showAccommodations();
-        } else if (adminController != null) {
-            // Navigate back to admin dashboard
-            javafx.stage.Stage stage = (javafx.stage.Stage) accommodationTable.getScene().getWindow();
-            adminController.goToAdmin(stage);
+            dashboardController.showAdminOverview();
         } else {
-            // Fallback: navigate to home page if no controller is set
-            System.err.println("WARN: No parent controller set in AccommodationManagementController.onBack(), navigating to home");
+            // Fallback: navigate to home page
             try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/pandalodge/view/home.fxml"));
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/com/pandalodge/view/home.fxml"));
                 javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
                 scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
                 javafx.stage.Stage stage = (javafx.stage.Stage) accommodationTable.getScene().getWindow();
@@ -74,87 +64,112 @@ public class AccommodationManagementController {
     @FXML
     @SuppressWarnings("unchecked")
     public void initialize() {
-        if (accommodationTable.getColumns().isEmpty()) {
-            TableColumn<Accommodation, Integer> idCol = new TableColumn<>("ID");
-            idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            idCol.setPrefWidth(50);
+        // Always clear and rebuild columns to ensure all features (Actions, Status
+        // colors) are active
+        accommodationTable.getColumns().clear();
 
-            TableColumn<Accommodation, String> typeCol = new TableColumn<>("Type");
-            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            typeCol.setPrefWidth(100);
+        TableColumn<Accommodation, Integer> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setPrefWidth(50);
 
-            TableColumn<Accommodation, String> addressCol = new TableColumn<>("Address");
-            addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-            addressCol.setPrefWidth(220);
+        TableColumn<Accommodation, String> typeCol = new TableColumn<>("Type");
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        typeCol.setPrefWidth(100);
 
-            TableColumn<Accommodation, Double> rentCol = new TableColumn<>("Rent (€)");
-            rentCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-            rentCol.setPrefWidth(90);
-            rentCol.setCellFactory(col -> new TableCell<>() {
-                @Override
-                protected void updateItem(Double item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
+        TableColumn<Accommodation, String> addressCol = new TableColumn<>("Address");
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        addressCol.setPrefWidth(220);
+
+        TableColumn<Accommodation, Double> rentCol = new TableColumn<>("Rent (€)");
+        rentCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        rentCol.setPrefWidth(90);
+        rentCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText("€" + String.format("%.0f", item));
+                }
+            }
+        });
+
+        TableColumn<Accommodation, String> sizeCol = new TableColumn<>("Size");
+        sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
+        sizeCol.setPrefWidth(80);
+
+        TableColumn<Accommodation, Boolean> furnishedCol = new TableColumn<>("Furnished");
+        furnishedCol.setCellValueFactory(new PropertyValueFactory<>("furnished"));
+        furnishedCol.setPrefWidth(90);
+        furnishedCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item ? "Yes" : "No");
+                }
+            }
+        });
+
+        TableColumn<Accommodation, String> statusCol = new TableColumn<>("Status");
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+        statusCol.setPrefWidth(100);
+        statusCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if ("AVAILABLE".equals(item)) {
+                        setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
+                    } else if ("BOOKED".equals(item)) {
+                        setStyle("-fx-text-fill: #6366f1; -fx-font-weight: bold;"); // Indigo for booked
                     } else {
-                        setText("€" + String.format("%.0f", item));
+                        setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;"); // Red for maintenance
                     }
                 }
-            });
+            }
+        });
 
-            TableColumn<Accommodation, String> statusCol = new TableColumn<>("Status");
-            statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
-            statusCol.setPrefWidth(100);
-            statusCol.setCellFactory(col -> new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        setText(item);
-                        if ("AVAILABLE".equals(item)) {
-                            setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
-                        } else {
-                            setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
-                        }
-                    }
-                }
-            });
+        TableColumn<Accommodation, Void> actionsCol = new TableColumn<>("Actions");
+        actionsCol.setCellFactory(col -> new TableCell<>() {
+            private final Button editBtn = new Button("Edit");
+            private final Button delBtn = new Button("Delete");
+            private final HBox box = new HBox(6, editBtn, delBtn);
+            {
+                box.setAlignment(javafx.geometry.Pos.CENTER);
+                editBtn.getStyleClass().add("btn-small");
+                delBtn.getStyleClass().add("btn-small-danger");
+                editBtn.setOnAction(e -> {
+                    Accommodation a = getTableView().getItems().get(getIndex());
+                    showRoomForm(a);
+                });
+                delBtn.setOnAction(e -> {
+                    Accommodation a = getTableView().getItems().get(getIndex());
+                    deleteRoomConfirm(a);
+                });
+            }
 
-            TableColumn<Accommodation, Void> actionsCol = new TableColumn<>("Actions");
-            actionsCol.setCellFactory(col -> new TableCell<>() {
-                private final Button editBtn = new Button("Edit");
-                private final Button delBtn = new Button("Delete");
-                private final HBox box = new HBox(6, editBtn, delBtn);
-                {
-                    editBtn.getStyleClass().add("btn-small");
-                    delBtn.getStyleClass().add("btn-small-danger");
-                    editBtn.setOnAction(e -> {
-                        Accommodation a = getTableView().getItems().get(getIndex());
-                        showRoomForm(a);
-                    });
-                    delBtn.setOnAction(e -> {
-                        Accommodation a = getTableView().getItems().get(getIndex());
-                        deleteRoomConfirm(a);
-                    });
-                }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty)
+                    setGraphic(null);
+                else
+                    setGraphic(box);
+            }
+        });
+        actionsCol.setPrefWidth(140);
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty)
-                        setGraphic(null);
-                    else
-                        setGraphic(box);
-                }
-            });
-            actionsCol.setPrefWidth(140);
-
-            // noinspection unchecked
-            accommodationTable.getColumns().addAll(idCol, typeCol, addressCol, rentCol, statusCol, actionsCol);
-        }
+        // noinspection unchecked
+        accommodationTable.getColumns().addAll(idCol, typeCol, addressCol, rentCol, sizeCol, furnishedCol, statusCol,
+                actionsCol);
 
         refresh();
         if (searchField != null) {
@@ -167,44 +182,26 @@ public class AccommodationManagementController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/accommodation_form.fxml"));
             Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle(a == null ? "Add accommodation" : "Edit accommodation");
+            dialog.setTitle(a == null ? "Add New Accommodation" : "Edit Accommodation");
+
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
             AccommodationFormController c = loader.getController();
             c.setStage(dialog);
-            if (a != null)
-                c.setValues(a.getType(), String.valueOf(a.getPrice()));
+            c.setAccommodation(a);
+
             dialog.setScene(scene);
             dialog.showAndWait();
+
             if (c.isSaved()) {
-                String type = c.getType();
-                String priceS = c.getPrice();
-                try {
-                    double price = Double.parseDouble(priceS);
-                    if (a == null) {
-                        try {
-                            Accommodation created = AccommodationDAO.create(type, price, "Address", "", true,
-                                    "Description", "AVAILABLE");
-                            statusLabel.setText(created != null ? "Added" : "Failed");
-                        } catch (SQLException ex) {
-                            statusLabel.setText("DB error: " + ex.getMessage());
-                        }
-                    } else {
-                        try {
-                            boolean ok = AccommodationDAO.update(a.getId(), type, price);
-                            statusLabel.setText(ok ? "Updated" : "Update failed");
-                        } catch (SQLException ex) {
-                            statusLabel.setText("DB error: " + ex.getMessage());
-                        }
-                    }
-                    refresh();
-                } catch (NumberFormatException ex) {
-                    statusLabel.setText("Invalid price");
-                }
+                statusLabel.setText(
+                        a == null ? "Accommodation added successfully." : "Accommodation updated successfully.");
+                refresh();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            statusLabel.setText("Failed to open form");
+            statusLabel.setText("Failed to open form: " + e.getMessage());
         }
     }
 
@@ -233,7 +230,8 @@ public class AccommodationManagementController {
                 .filter(a -> a.getType().toLowerCase().contains(lc)
                         || String.valueOf(a.getId()).contains(lc)
                         || (a.getAddress() != null && a.getAddress().toLowerCase().contains(lc))
-                        || (a.getStatus() != null && a.getStatus().toLowerCase().contains(lc)))
+                        || (a.getStatus() != null && a.getStatus().toLowerCase().contains(lc))
+                        || (a.getSize() != null && a.getSize().toLowerCase().contains(lc)))
                 .collect(Collectors.toList());
         accommodationTable.getItems().setAll(filtered);
     }
@@ -249,13 +247,3 @@ public class AccommodationManagementController {
         showRoomForm(null);
     }
 }
-
-
-
-
-
-
-
-
-
-

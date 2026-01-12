@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="25" alignment="TOP_LEFT" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="com.pandalodge.controller.ReviewManagementController" styleClass="root">
+    <padding>
+        <Insets top="30" right="40" bottom="30" left="40" />
+    </padding>
+
+    <!-- Top Navigation Block -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button text="← Back" onAction="#onBack" styleClass="link-button" />
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label text="Review Management" styleClass="search-hero-title" style="-fx-font-size: 28px;" />
+            <Label text="Moderate and manage student feedback on accommodations" styleClass="text-muted" style="-fx-font-size: 14px;" />
+        </VBox>
+    </HBox>
+
+    <!-- Search and Status -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="🔍 Search reviews by student name or content..." 
+                   HBox.hgrow="ALWAYS" styleClass="dashboard-search-field" prefHeight="45" />
+        <Label fx:id="statusLabel" style="-fx-font-weight: bold; -fx-text-fill: -primary-color;" />
+    </HBox>
+
+    <!-- Table Container -->
+    <VBox VBox.vgrow="ALWAYS" styleClass="card" style="-fx-padding: 0; -fx-background-radius: 12; -fx-overflow: hidden;">
+        <TableView fx:id="reviewTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 12; -fx-background-color: transparent;">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="60" />
+                <TableColumn fx:id="studentColumn" text="Student" prefWidth="150" />
+                <TableColumn fx:id="accommodationColumn" text="Accommodation" prefWidth="250" />
+                <TableColumn fx:id="ratingColumn" text="Rating" prefWidth="100" />
+                <TableColumn fx:id="reviewColumn" text="Review Content" prefWidth="350" />
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="120" />
+            </columns>
+            <placeholder>
+                <Label text="No reviews found." styleClass="text-muted" />
+            </placeholder>
+        </TableView>
+    </VBox>
+</VBox>

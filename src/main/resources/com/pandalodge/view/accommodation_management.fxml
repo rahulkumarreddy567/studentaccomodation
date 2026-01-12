@@ -9,13 +9,17 @@
       stylesheets="@../styles.css">
     <padding><Insets top="24" right="24" bottom="24" left="24" /></padding>
 
-    <HBox alignment="CENTER_LEFT" spacing="16" styleClass="topbar">
+    <!-- Custom Topbar -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
         <Button text="← Back" onAction="#onBack" styleClass="link-button" />
-        <Label text="🏠 Accommodation Management" styleClass="title" />
+        <VBox>
+            <Label text="Accommodation Management" styleClass="search-hero-title" style="-fx-font-size: 20px; -fx-text-fill: -text-main;" />
+            <Label text="Monitor and update your property listings" styleClass="text-muted" style="-fx-font-size: 13px;" />
+        </VBox>
         <Region HBox.hgrow="ALWAYS" />
-        <HBox spacing="12" styleClass="header-actions">
-            <TextField fx:id="searchField" promptText="🔍 Search accommodations..." styleClass="search-field" />
-            <Button text="+ Add Accommodation" onAction="#onAddAccommodation" styleClass="add-button" />
+        <HBox spacing="12">
+            <TextField fx:id="searchField" promptText="🔍 Search accommodations..." styleClass="dashboard-search-field" prefWidth="250" />
+            <Button text="+ Add Accommodation" onAction="#onAddAccommodation" styleClass="btn-primary-dashboard" />
         </HBox>
     </HBox>
 

@@ -1,23 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.AccommodationFormController" styleClass="card">
-    <padding><Insets top="12" right="12" bottom="12" left="12" /></padding>
-    <Label text="Accommodation" styleClass="card-title" />
-    <GridPane hgap="8" vgap="8">
-        <Label text="Type:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <TextField fx:id="typeField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-        <Label text="Price:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <TextField fx:id="priceField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-    </GridPane>
-    <HBox spacing="8" alignment="CENTER_RIGHT">
-        <Button fx:id="cancelBtn" text="Cancel" />
-        <Button fx:id="okBtn" text="Save" />
-    </HBox>
-</VBox>
+<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.AccommodationFormController" style="-fx-background-color: #f8fafc;" prefWidth="600" prefHeight="750">
+    <VBox spacing="25" style="-fx-background-color: #f8fafc;">
+        <padding>
+            <Insets top="30" right="40" bottom="40" left="40" />
+        </padding>
 
+        <!-- Header -->
+        <VBox spacing="5">
+            <Label text="Post Your Accommodation" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+            <Label text="Connect with thousands of students looking for a home" style="-fx-text-fill: #64748b;" />
+        </VBox>
 
+        <!-- Section 1: Basic Info -->
+        <VBox styleClass="card" spacing="20">
+            <Label text="Property Information" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #6366f1;" />
+            
+            <GridPane hgap="20" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="100" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="100" />
+                </columnConstraints>
 
+                <VBox spacing="6" GridPane.columnSpan="2">
+                    <Label text="Property Title (e.g., Sunny Studio near Sorbonne)" styleClass="detail-label" />
+                    <TextField fx:id="titleField" promptText="Enter a catchy title" styleClass="form-field" />
+                </VBox>
 
+                <VBox spacing="6" GridPane.rowIndex="1">
+                    <Label text="Accommodation Type" styleClass="detail-label" />
+                    <ComboBox fx:id="typeCombo" promptText="Select type" prefWidth="300" styleClass="combo-box">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Room" />
+                                <String fx:value="Studio" />
+                                <String fx:value="Apartment" />
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </VBox>
+
+                <VBox spacing="6" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <Label text="Monthly Rent (€)" styleClass="detail-label" />
+                    <TextField fx:id="priceField" promptText="850" styleClass="form-field" />
+                </VBox>
+
+                <VBox spacing="6" GridPane.rowIndex="2">
+                    <Label text="Property Size (m²)" styleClass="detail-label" />
+                    <TextField fx:id="sizeField" promptText="18m²" styleClass="form-field" />
+                </VBox>
+
+                <VBox spacing="6" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                    <Label text="Listing Status" styleClass="detail-label" />
+                    <ComboBox fx:id="statusCombo" promptText="Select status" prefWidth="300" styleClass="combo-box">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="AVAILABLE" />
+                                <String fx:value="BOOKED" />
+                                <String fx:value="MAINTENANCE" />
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </VBox>
+
+                <VBox spacing="6" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                    <Label text="Full Address" styleClass="detail-label" />
+                    <TextField fx:id="addressField" promptText="Rue de Rivoli, Paris, France" styleClass="form-field" />
+                </VBox>
+            </GridPane>
+        </VBox>
+
+        <!-- Section 2: Details & Media -->
+        <VBox styleClass="card" spacing="20">
+            <Label text="Listing Details &amp; Media" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #6366f1;" />
+            
+            <VBox spacing="6">
+                <Label text="Description" styleClass="detail-label" />
+                <TextArea fx:id="descriptionField" promptText="Tell students about the neighborhood, amenities, and vibe..." prefHeight="100" wrapText="true" styleClass="form-field" />
+            </VBox>
+
+            <HBox spacing="30" alignment="CENTER_LEFT">
+                <CheckBox fx:id="furnishedCheck" text="Fully Furnished" selected="true" style="-fx-font-weight: bold;" />
+            <VBox spacing="6">
+                <Label text="Property Image" styleClass="detail-label" />
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="imageUrlField" promptText="Enter image URL or browse..." HBox.hgrow="ALWAYS" styleClass="form-field" />
+                    <Button text="Browse..." onAction="#onBrowseImage" styleClass="button-secondary" prefHeight="40" />
+                </HBox>
+            </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Section 3: Owner Information -->
+        <VBox styleClass="card" spacing="20">
+            <Label text="Contact Information" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #6366f1;" />
+            
+            <GridPane hgap="20" vgap="15">
+                <VBox spacing="6" GridPane.columnIndex="0">
+                    <Label text="Owner Name" styleClass="detail-label" />
+                    <TextField fx:id="ownerNameField" promptText="Your full name" styleClass="form-field" />
+                </VBox>
+                <VBox spacing="6" GridPane.columnIndex="1">
+                    <Label text="Phone Number" styleClass="detail-label" />
+                    <TextField fx:id="ownerPhoneField" promptText="+33 6 ..." styleClass="form-field" />
+                </VBox>
+                <VBox spacing="6" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                    <Label text="Email Address" styleClass="detail-label" />
+                    <TextField fx:id="ownerEmailField" promptText="email@example.com" styleClass="form-field" />
+                </VBox>
+            </GridPane>
+        </VBox>
+
+        <!-- Footer Actions -->
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Button fx:id="cancelBtn" text="Cancel" styleClass="button-secondary" prefWidth="120" prefHeight="40" />
+            <Button fx:id="okBtn" text="Publish Listing" styleClass="primary-button" prefWidth="180" prefHeight="40" />
+        </HBox>
+        
+        <Label fx:id="statusLabel" alignment="CENTER" maxWidth="Infinity" style="-fx-font-weight: bold;" />
+    </VBox>
+</ScrollPane>

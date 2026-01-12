@@ -14,19 +14,22 @@
 <VBox spacing="0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.AccommodationsController" stylesheets="@../styles.css" styleClass="root">
     
     <!-- Hero / Search Section -->
-    <VBox styleClass="hero-section" style="-fx-background-color: white; -fx-padding: 10 30; -fx-border-color: #eee; -fx-border-width: 0 0 1 0;">
-        <Button text="← Back to Home" onAction="#onBack" styleClass="link-button" />
-        <Label text="Find your student home" styleClass="h1" />
-        <Label text="100% verified listings" styleClass="h2" style="-fx-font-size: 14px; -fx-font-weight: normal; -fx-text-fill: #666;" />
-        
-        <HBox spacing="10" style="-fx-padding: 15 0 0 0;">
-            <HBox styleClass="search-container" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
-                 <Label text="🔍" style="-fx-padding: 0 0 0 10;"/>
-                 <TextField fx:id="searchField" promptText="City, school, or agency..." styleClass="search-field" HBox.hgrow="ALWAYS" onAction="#onSearch"/>
-                 <Button text="Search" styleClass="primary-button" style="-fx-background-radius: 20;" onAction="#onSearch"/>
-            </HBox>
+    <VBox spacing="10" styleClass="search-hero-section">
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Button text="← Back to Home" onAction="#onBack" styleClass="link-button-white" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button text="+ Add Listing" onAction="#onAdd" styleClass="button-secondary" />
+            <Button text="+ Add Listing" onAction="#onAdd" styleClass="btn-primary-dashboard" />
+        </HBox>
+        
+        <VBox spacing="5" style="-fx-padding: 10 0 20 0;">
+            <Label text="Find your student home" styleClass="search-hero-title" />
+            <Label text="Verified listings in France's top cities" styleClass="search-hero-subtitle" />
+        </VBox>
+        
+        <HBox styleClass="dashboard-search-bar" alignment="CENTER_LEFT" spacing="10" maxWidth="600">
+             <Label text="🔍" style="-fx-font-size: 16px; -fx-opacity: 0.5;"/>
+             <TextField fx:id="searchField" promptText="City, school, or agency..." styleClass="dashboard-search-field" HBox.hgrow="ALWAYS" onAction="#onSearch"/>
+             <Button text="Search" styleClass="btn-primary-dashboard" onAction="#onSearch"/>
         </HBox>
     </VBox>
 

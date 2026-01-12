@@ -17,7 +17,11 @@ import java.io.IOException;
 
 public class DashboardController {
     @FXML
-    private Button backToHomeBtn;
+    private Button homeBtn;
+    @FXML
+    private Button browseBtn;
+    @FXML
+    private Button adminOverviewBtn;
     @FXML
     private Button adminStudentsBtn;
     @FXML
@@ -25,13 +29,15 @@ public class DashboardController {
     @FXML
     private Button adminBookingsBtn;
     @FXML
+    private Button adminReviewsBtn;
+    @FXML
+    private Button adminFaqsBtn;
+    @FXML
     private Button studentBookingsBtn;
     @FXML
     private Button profileBtn;
     @FXML
-    private Label userRoleLabel;
-    @FXML
-    private Label userNameLabel;
+    private VBox adminMenu;
     @FXML
     private Label welcomeLabel;
     @FXML
@@ -62,13 +68,9 @@ public class DashboardController {
 
         // Role-based visibility
         boolean isAdmin = UserSession.isAdmin();
-        if (adminStudentsBtn != null)
-            adminStudentsBtn.setVisible(isAdmin);
-        if (adminAccommodationsBtn != null)
-            adminAccommodationsBtn.setVisible(isAdmin);
-        if (adminBookingsBtn != null) {
-            adminBookingsBtn.setVisible(isAdmin);
-            adminBookingsBtn.setManaged(isAdmin);
+        if (adminMenu != null) {
+            adminMenu.setVisible(isAdmin);
+            adminMenu.setManaged(isAdmin);
         }
         if (studentBookingsBtn != null) {
             studentBookingsBtn.setVisible(!isAdmin);
@@ -79,19 +81,26 @@ public class DashboardController {
             profileBtn.setManaged(!isAdmin);
         }
 
-        // Set welcome message based on user
+        // Set default view
+        if (isAdmin) {
+            showAdminOverview();
+        } else {
+            showAccommodations();
+        }
+
+        // Set welcome message
         if (welcomeLabel != null) {
             if (isAdmin) {
                 welcomeLabel.setText("Welcome, Admin");
             } else if (UserSession.getCurrentStudent() != null) {
                 welcomeLabel.setText("Welcome, " + UserSession.getCurrentStudent().getName());
-            } else {
-                welcomeLabel.setText("Welcome");
             }
         }
+    }
 
-        // Removed showAccommodations() to allow caller (e.g. HomeController) to set
-        // filters first
+    public void showAdminOverview() {
+        setActive(adminOverviewBtn);
+        loadCenter("/com/pandalodge/view/admin_overview.fxml");
     }
 
     @FXML
@@ -139,6 +148,7 @@ public class DashboardController {
 
     @FXML
     public void showAccommodations() {
+        setActive(browseBtn);
         showAccommodations(null, null);
     }
 
@@ -159,7 +169,6 @@ public class DashboardController {
             controller.loadData(type, location);
 
             centerPane.getChildren().setAll(node);
-            System.out.println("DEBUG: Accommodations view set to centerPane");
 
             FadeTransition ft = new FadeTransition(Duration.millis(220), node);
             ft.setFromValue(0);
@@ -185,9 +194,41 @@ public class DashboardController {
         }
     }
 
+    private void setActive(Button activeBtn) {
+        Button[] btns = { homeBtn, browseBtn, adminOverviewBtn, adminStudentsBtn, adminAccommodationsBtn,
+                adminBookingsBtn, adminReviewsBtn, adminFaqsBtn, studentBookingsBtn, profileBtn };
+        for (Button b : btns) {
+            if (b != null) {
+                b.getStyleClass().removeAll("sidebar-item-active");
+                if (b == activeBtn) {
+                    b.getStyleClass().add("sidebar-item-active");
+                }
+            }
+        }
+    }
+
     @FXML
     public void showMyBookings() {
+        setActive(studentBookingsBtn);
         loadCenter("/com/pandalodge/view/bookings.fxml");
+    }
+
+    @FXML
+    public void showAdminBookings() {
+        setActive(adminBookingsBtn);
+        loadCenter("/com/pandalodge/view/bookings.fxml");
+    }
+
+    @FXML
+    public void showReviewsManagement() {
+        setActive(adminReviewsBtn);
+        loadCenter("/com/pandalodge/view/reviews_management.fxml");
+    }
+
+    @FXML
+    public void showFaqsManagement() {
+        setActive(adminFaqsBtn);
+        loadCenter("/com/pandalodge/view/faqs_management.fxml");
     }
 
     private void setSidebarVisible(boolean visible, boolean animate) {
@@ -218,13 +259,13 @@ public class DashboardController {
 
     @FXML
     public void showStudents() {
-        System.out.println("**** DEBUG: showStudents() called ****");
+        setActive(adminStudentsBtn);
         loadCenter("/com/pandalodge/view/student.fxml");
     }
 
     @FXML
     public void showAccommodationManagement() {
-        System.out.println("**** DEBUG: showAccommodationManagement() called ****");
+        setActive(adminAccommodationsBtn);
         loadCenter("/com/pandalodge/view/accommodation_management.fxml");
     }
 
@@ -236,18 +277,19 @@ public class DashboardController {
             Node node = loader.load();
 
             Object controller = loader.getController();
-            System.out.println("**** DEBUG: Controller loaded: "
-                    + (controller != null ? controller.getClass().getName() : "null") + " ****");
 
             if (controller instanceof StudentController) {
-                System.out.println("**** DEBUG: Setting dashboardController on StudentController ****");
                 ((StudentController) controller).setDashboardController(this);
             } else if (controller instanceof AccommodationManagementController) {
-                System.out.println("**** DEBUG: Setting dashboardController on AccommodationManagementController ****");
                 ((AccommodationManagementController) controller).setDashboardController(this);
             } else if (controller instanceof BookingController) {
-                System.out.println("**** DEBUG: Setting dashboardController on BookingController ****");
                 ((BookingController) controller).setDashboardController(this);
+            } else if (controller instanceof AdminOverviewController) {
+                ((AdminOverviewController) controller).setDashboardController(this);
+            } else if (controller instanceof ReviewManagementController) {
+                ((ReviewManagementController) controller).setDashboardController(this);
+            } else if (controller instanceof FAQManagementController) {
+                ((FAQManagementController) controller).setDashboardController(this);
             }
 
             centerPane.getChildren().setAll(node);

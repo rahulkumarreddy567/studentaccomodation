@@ -19,14 +19,9 @@ public class AccommodationsController {
     private FlowPane cardsContainer;
 
     private DashboardController dashboardController;
-    private AdminController adminController;
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
-    }
-
-    public void setAdminController(AdminController admin) {
-        this.adminController = admin;
     }
 
     @FXML
@@ -86,16 +81,11 @@ public class AccommodationsController {
         System.out.println("DEBUG AccommodationsController.onBack() called");
         if (dashboardController != null) {
             dashboardController.showHome();
-        } else if (adminController != null) {
-            // Navigate back to admin dashboard
-            javafx.stage.Stage stage = (javafx.stage.Stage) cardsContainer.getScene().getWindow();
-            adminController.goToAdmin(stage);
         } else {
-            // Fallback: navigate to home page if no controller is set
-            System.err
-                    .println("WARN: No parent controller set in AccommodationsController.onBack(), navigating to home");
+            // Fallback: navigate to home page
             try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/pandalodge/view/home.fxml"));
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/com/pandalodge/view/home.fxml"));
                 javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
                 scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
                 javafx.stage.Stage stage = (javafx.stage.Stage) cardsContainer.getScene().getWindow();
@@ -128,13 +118,3 @@ public class AccommodationsController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

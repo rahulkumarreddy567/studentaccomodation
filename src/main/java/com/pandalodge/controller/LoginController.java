@@ -75,9 +75,9 @@ public class LoginController {
         }
         // admin login - check multiple admin credentials
         if ((u.equals("admin") || u.equals("admin@panda.com")) &&
-            p != null && (p.equals("admin") || p.equals("admin123"))) {
+                p != null && (p.equals("admin") || p.equals("admin123"))) {
             com.pandalodge.util.UserSession.loginAdmin();
-            openAdminPanel();
+            openUnifiedDashboard();
             return;
         }
         // student login by email + password
@@ -94,20 +94,18 @@ public class LoginController {
         }
     }
 
-    private void openAdminPanel() {
+    private void openUnifiedDashboard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/admin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Panda Stays - Admin Panel");
-            stage.setMinWidth(1000);
-            stage.setMinHeight(650);
+            stage.setTitle("Panda Stays - Dashboard");
             stage.centerOnScreen();
         } catch (IOException e) {
-            errorLabel.setText("Failed to load admin panel: " + e.getMessage());
+            errorLabel.setText("Failed to load dashboard: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -158,13 +156,3 @@ public class LoginController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

@@ -18,7 +18,7 @@ public class ReviewDAO {
                     "review_date TEXT NOT NULL, " +
                     "rating INTEGER DEFAULT 5, " +
                     "FOREIGN KEY(student_id) REFERENCES students(id), " +
-                    "FOREIGN KEY(accommodation_id) REFERENCES accommodations(accommodation_id))");
+                    "FOREIGN KEY(accommodation_id) REFERENCES accommodations(id))");
 
             // Seed sample reviews if empty
             ResultSet rs = s.executeQuery("SELECT count(*) FROM reviews");
@@ -43,9 +43,9 @@ public class ReviewDAO {
     public static Review create(int studentId, int accommodationId, String reviewData, int rating) throws SQLException {
         String reviewDate = LocalDate.now().toString();
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "INSERT INTO reviews(student_id, accommodation_id, review_data, review_date, rating) VALUES(?,?,?,?,?)",
-                     Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement ps = c.prepareStatement(
+                        "INSERT INTO reviews(student_id, accommodation_id, review_data, review_date, rating) VALUES(?,?,?,?,?)",
+                        Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, studentId);
             ps.setInt(2, accommodationId);
             ps.setString(3, reviewData);
@@ -64,10 +64,10 @@ public class ReviewDAO {
     public static List<Review> findByAccommodation(int accommodationId) {
         List<Review> list = new ArrayList<>();
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT r.*, s.name as student_name FROM reviews r " +
-                     "LEFT JOIN students s ON r.student_id = s.id " +
-                     "WHERE r.accommodation_id = ? ORDER BY r.review_date DESC")) {
+                PreparedStatement ps = c.prepareStatement(
+                        "SELECT r.*, s.name as student_name FROM reviews r " +
+                                "LEFT JOIN students s ON r.student_id = s.id " +
+                                "WHERE r.accommodation_id = ? ORDER BY r.review_date DESC")) {
             ps.setInt(1, accommodationId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -87,8 +87,8 @@ public class ReviewDAO {
     public static List<Review> findByStudent(int studentId) {
         List<Review> list = new ArrayList<>();
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT * FROM reviews WHERE student_id = ? ORDER BY review_date DESC")) {
+                PreparedStatement ps = c.prepareStatement(
+                        "SELECT * FROM reviews WHERE student_id = ? ORDER BY review_date DESC")) {
             ps.setInt(1, studentId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -105,10 +105,10 @@ public class ReviewDAO {
     public static List<Review> findAll() {
         List<Review> list = new ArrayList<>();
         try (Connection c = DBConnection.getConnection();
-             Statement s = c.createStatement();
-             ResultSet rs = s.executeQuery(
-                     "SELECT r.*, s.name as student_name FROM reviews r " +
-                     "LEFT JOIN students s ON r.student_id = s.id ORDER BY r.review_date DESC")) {
+                Statement s = c.createStatement();
+                ResultSet rs = s.executeQuery(
+                        "SELECT r.*, s.name as student_name FROM reviews r " +
+                                "LEFT JOIN students s ON r.student_id = s.id ORDER BY r.review_date DESC")) {
             while (rs.next()) {
                 Review review = new Review(
                         rs.getInt("id"), rs.getInt("student_id"), rs.getInt("accommodation_id"),
@@ -124,8 +124,8 @@ public class ReviewDAO {
 
     public static double getAverageRating(int accommodationId) {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT AVG(rating) as avg_rating FROM reviews WHERE accommodation_id = ?")) {
+                PreparedStatement ps = c.prepareStatement(
+                        "SELECT AVG(rating) as avg_rating FROM reviews WHERE accommodation_id = ?")) {
             ps.setInt(1, accommodationId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -140,7 +140,7 @@ public class ReviewDAO {
 
     public static boolean delete(int id) {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement("DELETE FROM reviews WHERE id = ?")) {
+                PreparedStatement ps = c.prepareStatement("DELETE FROM reviews WHERE id = ?")) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -151,8 +151,8 @@ public class ReviewDAO {
 
     public static boolean update(int id, String reviewData, int rating) throws SQLException {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "UPDATE reviews SET review_data = ?, rating = ? WHERE id = ?")) {
+                PreparedStatement ps = c.prepareStatement(
+                        "UPDATE reviews SET review_data = ?, rating = ? WHERE id = ?")) {
             ps.setString(1, reviewData);
             ps.setInt(2, rating);
             ps.setInt(3, id);
@@ -160,15 +160,3 @@ public class ReviewDAO {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

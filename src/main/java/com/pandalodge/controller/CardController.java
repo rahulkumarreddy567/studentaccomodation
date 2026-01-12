@@ -23,6 +23,8 @@ public class CardController {
     @FXML
     private Label statusBadge;
     @FXML
+    private Label sizeLabel;
+    @FXML
     private Label furnishedLabel;
     @FXML
     private Label description;
@@ -80,6 +82,11 @@ public class CardController {
             furnishedLabel.setText(accommodation.isFurnished() ? "• Furnished" : "• Unfurnished");
         }
 
+        // Size label
+        if (sizeLabel != null) {
+            sizeLabel.setText("• " + (accommodation.getSize() != null ? accommodation.getSize() : "15m²"));
+        }
+
         // Description preview (truncate if too long)
         if (description != null) {
             String desc = accommodation.getDescription();
@@ -101,20 +108,18 @@ public class CardController {
         }
     }
 
+    private Runnable customAction;
+
+    public void setCustomAction(Runnable action) {
+        this.customAction = action;
+    }
+
     @FXML
     private void onView() {
-        if (dashboardController != null) {
+        if (customAction != null) {
+            customAction.run();
+        } else if (dashboardController != null) {
             dashboardController.showDetails(accommodation);
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

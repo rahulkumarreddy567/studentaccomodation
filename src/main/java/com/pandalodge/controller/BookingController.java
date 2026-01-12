@@ -6,6 +6,7 @@ import com.pandalodge.dao.StudentDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -30,34 +31,30 @@ public class BookingController {
     private TableColumn<Booking, String> statusCol;
     @FXML
     private Label titleLabel;
+    @FXML
+    private Label statusLabel;
 
     private DashboardController dashboardController;
-    private AdminController adminController;
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
         System.out.println("DEBUG BookingController: dashboardController set = " + (dash != null));
     }
 
-    public void setAdminController(AdminController admin) {
-        this.adminController = admin;
-        System.out.println("DEBUG BookingController: adminController set = " + (admin != null));
-    }
-
     @FXML
     public void onBack() {
         System.out.println("DEBUG BookingController.onBack() called");
         if (dashboardController != null) {
-            dashboardController.showAccommodations();
-        } else if (adminController != null) {
-            // Navigate back to admin dashboard
-            javafx.stage.Stage stage = (javafx.stage.Stage) bookingTable.getScene().getWindow();
-            adminController.goToAdmin(stage);
+            if (UserSession.isAdmin()) {
+                dashboardController.showAdminOverview();
+            } else {
+                dashboardController.showAccommodations();
+            }
         } else {
-            // Fallback: navigate to home page if no controller is set
-            System.err.println("WARN: No parent controller set in BookingController.onBack(), navigating to home");
+            // Fallback: navigate to home page
             try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/pandalodge/view/home.fxml"));
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/com/pandalodge/view/home.fxml"));
                 javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
                 scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
                 javafx.stage.Stage stage = (javafx.stage.Stage) bookingTable.getScene().getWindow();
@@ -161,70 +158,91 @@ public class BookingController {
             }
         });
 
-        // Status Column with color
+        // Status Column with color and background
         TableColumn<Booking, String> statusColumn = new TableColumn<>("Status");
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        statusColumn.setPrefWidth(100);
+        statusColumn.setPrefWidth(120);
         statusColumn.setCellFactory(col -> new TableCell<>() {
+            private final Label label = new Label();
+            {
+                label.setStyle(
+                        "-fx-padding: 4 12; -fx-background-radius: 12; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px;");
+            }
+
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
+                    setGraphic(null);
                 } else {
-                    setText(item);
+                    label.setText(item);
                     switch (item) {
-                        case "PENDING" -> setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold;");
-                        case "APPROVED" -> setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
-                        case "REJECTED" -> setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
-                        default -> setStyle("-fx-text-fill: #64748b;");
+                        case "PENDING" -> label.setStyle(label.getStyle() + " -fx-background-color: #f59e0b;");
+                        case "APPROVED" -> label.setStyle(label.getStyle() + " -fx-background-color: #22c55e;");
+                        case "REJECTED" -> label.setStyle(label.getStyle() + " -fx-background-color: #ef4444;");
+                        default -> label.setStyle(label.getStyle() + " -fx-background-color: #64748b;");
                     }
+                    setGraphic(label);
+                    setAlignment(Pos.CENTER);
                 }
             }
         });
 
-        // Actions Column (only for admin)
-        TableColumn<Booking, Void> actionsCol = null;
-        if (isAdmin) {
-            actionsCol = new TableColumn<>("Actions");
-            actionsCol.setCellFactory(col -> new TableCell<>() {
-                private final Button approveBtn = new Button("✓ Approve");
-                private final Button rejectBtn = new Button("✗ Reject");
-                private final HBox box = new HBox(6, approveBtn, rejectBtn);
-                {
-                    approveBtn.setStyle(
-                            "-fx-background-color: #22c55e; -fx-text-fill: white; -fx-padding: 4 10; -fx-background-radius: 4; -fx-cursor: hand;");
-                    rejectBtn.setStyle(
-                            "-fx-background-color: #ef4444; -fx-text-fill: white; -fx-padding: 4 10; -fx-background-radius: 4; -fx-cursor: hand;");
+        // Actions Column
+        TableColumn<Booking, Void> actionsCol = new TableColumn<>("Actions");
+        actionsCol.setCellFactory(col -> new TableCell<>() {
+            private final Button approveBtn = new Button("Approve");
+            private final Button rejectBtn = new Button("Reject");
+            private final Button deleteBtn = new Button("Delete");
+            private final Button cancelBtn = new Button("Cancel");
+            private final HBox adminBox = new HBox(8, approveBtn, rejectBtn, deleteBtn);
+            private final HBox studentBox = new HBox(8, cancelBtn);
 
-                    approveBtn.setOnAction(e -> {
-                        Booking b = getTableView().getItems().get(getIndex());
-                        updateBookingStatus(b, "APPROVED");
-                    });
-                    rejectBtn.setOnAction(e -> {
-                        Booking b = getTableView().getItems().get(getIndex());
-                        updateBookingStatus(b, "REJECTED");
-                    });
-                }
+            {
+                adminBox.setAlignment(Pos.CENTER);
+                studentBox.setAlignment(Pos.CENTER);
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Booking b = getTableView().getItems().get(getIndex());
+                approveBtn.getStyleClass().add("btn-small");
+                approveBtn.setStyle("-fx-background-color: #22c55e; -fx-text-fill: white;");
+                rejectBtn.getStyleClass().add("btn-small-danger");
+                deleteBtn.getStyleClass().add("btn-small-danger");
+                deleteBtn.setStyle("-fx-background-color: #64748b; -fx-text-fill: white;");
+
+                cancelBtn.getStyleClass().add("btn-small-danger");
+
+                approveBtn.setOnAction(e -> updateBookingStatus(getTableView().getItems().get(getIndex()), "APPROVED"));
+                rejectBtn.setOnAction(e -> updateBookingStatus(getTableView().getItems().get(getIndex()), "REJECTED"));
+                deleteBtn.setOnAction(e -> deleteBookingConfirm(getTableView().getItems().get(getIndex())));
+                cancelBtn.setOnAction(e -> deleteBookingConfirm(getTableView().getItems().get(getIndex())));
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Booking b = getTableView().getItems().get(getIndex());
+                    if (isAdmin) {
                         if ("PENDING".equals(b.getStatus())) {
-                            setGraphic(box);
+                            approveBtn.setVisible(true);
+                            rejectBtn.setVisible(true);
+                        } else {
+                            approveBtn.setVisible(false);
+                            rejectBtn.setVisible(false);
+                        }
+                        setGraphic(adminBox);
+                    } else {
+                        if ("PENDING".equals(b.getStatus())) {
+                            setGraphic(studentBox);
                         } else {
                             setGraphic(null);
                         }
                     }
                 }
-            });
-            actionsCol.setPrefWidth(180);
-        }
+            }
+        });
+        actionsCol.setPrefWidth(isAdmin ? 240 : 120);
 
         // Add columns based on role
         bookingTable.getColumns().add(idColumn);
@@ -236,9 +254,7 @@ public class BookingController {
         bookingTable.getColumns().add(durationColumn);
         bookingTable.getColumns().add(bookedOnColumn);
         bookingTable.getColumns().add(statusColumn);
-        if (isAdmin && actionsCol != null) {
-            bookingTable.getColumns().add(actionsCol);
-        }
+        bookingTable.getColumns().add(actionsCol);
 
         loadData();
     }
@@ -252,7 +268,39 @@ public class BookingController {
         if (result.isPresent() && result.get() == ButtonType.YES) {
             boolean success = BookingDAO.updateStatus(booking.getId(), newStatus);
             if (success) {
+                if (statusLabel != null) {
+                    statusLabel.setText("✅ Booking request " + newStatus.toLowerCase() + " successfully.");
+                    statusLabel
+                            .setStyle("-fx-text-fill: " + ("APPROVED".equals(newStatus) ? "#22c55e" : "#ef4444") + ";");
+                }
+                // If approved, mark accommodation as BOOKED
+                if ("APPROVED".equals(newStatus)) {
+                    AccommodationDAO.updateStatus(booking.getAccommodationId(), "BOOKED");
+                }
+                // If rejected, mark accommodation as AVAILABLE (in case it was somehow marked
+                // booked before)
+                else if ("REJECTED".equals(newStatus)) {
+                    AccommodationDAO.updateStatus(booking.getAccommodationId(), "AVAILABLE");
+                }
                 loadData(); // Refresh the table
+            }
+        }
+    }
+
+    private void deleteBookingConfirm(Booking b) {
+        String msg = UserSession.isAdmin() ? "Delete this booking record permanently?" : "Cancel your booking request?";
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = confirm.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            boolean success = BookingDAO.delete(b.getId());
+            if (success) {
+                if (statusLabel != null) {
+                    statusLabel.setText(
+                            "✅ Booking " + (UserSession.isAdmin() ? "deleted" : "cancelled") + " successfully.");
+                    statusLabel.setStyle("-fx-text-fill: #64748b;");
+                }
+                loadData();
             }
         }
     }
@@ -273,13 +321,3 @@ public class BookingController {
         bookingTable.setItems(FXCollections.observableArrayList(list));
     }
 }
-
-
-
-
-
-
-
-
-
-

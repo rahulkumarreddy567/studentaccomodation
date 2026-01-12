@@ -48,17 +48,10 @@ public class Main extends Application {
         stage.setY((screenHeight - windowHeight) / 2);
 
         stage.show();
+        stage.setMaximized(true);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 }
-
-
-
-
-
-
-
-

@@ -22,6 +22,7 @@
         <!-- Price and Furnished -->
         <HBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="price" text="€850/mo" styleClass="card-price" />
+            <Label fx:id="sizeLabel" text="• 18m²" styleClass="muted" />
             <Label fx:id="furnishedLabel" text="• Furnished" styleClass="muted" />
         </HBox>
         

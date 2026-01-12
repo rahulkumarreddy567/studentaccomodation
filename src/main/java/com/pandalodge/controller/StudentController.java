@@ -32,32 +32,22 @@ public class StudentController {
     private Label statusLabel;
 
     private DashboardController dashboardController;
-    private AdminController adminController;
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
         System.out.println("DEBUG StudentController: dashboardController set = " + (dash != null));
     }
 
-    public void setAdminController(AdminController admin) {
-        this.adminController = admin;
-        System.out.println("DEBUG StudentController: adminController set = " + (admin != null));
-    }
-
     @FXML
     public void onBack() {
         System.out.println("DEBUG StudentController.onBack() called");
         if (dashboardController != null) {
-            dashboardController.showAccommodations();
-        } else if (adminController != null) {
-            // Navigate back to admin dashboard
-            javafx.stage.Stage stage = (javafx.stage.Stage) studentTable.getScene().getWindow();
-            adminController.goToAdmin(stage);
+            dashboardController.showAdminOverview();
         } else {
-            // Fallback: navigate to home page if no controller is set
-            System.err.println("WARN: No parent controller set in StudentController.onBack(), navigating to home");
+            // Fallback: navigate to home page
             try {
-                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/pandalodge/view/home.fxml"));
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/com/pandalodge/view/home.fxml"));
                 javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
                 scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
                 javafx.stage.Stage stage = (javafx.stage.Stage) studentTable.getScene().getWindow();
@@ -74,50 +64,53 @@ public class StudentController {
     @FXML
     @SuppressWarnings("unchecked")
     public void initialize() {
-        // setup columns if not defined in FXML
-        if (studentTable.getColumns().isEmpty()) {
-            TableColumn<Student, Integer> idCol = new TableColumn<>("ID");
-            idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            idCol.setPrefWidth(60);
+        // Always clear and rebuild columns to ensure Actions column is present
+        studentTable.getColumns().clear();
 
-            TableColumn<Student, String> nameCol = new TableColumn<>("Name");
-            nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-            nameCol.setPrefWidth(200);
+        TableColumn<Student, Integer> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setPrefWidth(60);
 
-            TableColumn<Student, String> emailCol = new TableColumn<>("Email");
-            emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-            emailCol.setPrefWidth(240);
+        TableColumn<Student, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameCol.setPrefWidth(200);
 
-            TableColumn<Student, Void> actionsCol = new TableColumn<>("Actions");
-            actionsCol.setCellFactory(col -> new TableCell<>() {
-                private final Button editBtn = new Button("Edit");
-                private final Button delBtn = new Button("Delete");
-                private final HBox box = new HBox(6, editBtn, delBtn);
-                {
-                    editBtn.setOnAction(e -> {
-                        Student s = getTableView().getItems().get(getIndex());
-                        showStudentForm(s);
-                    });
-                    delBtn.setOnAction(e -> {
-                        Student s = getTableView().getItems().get(getIndex());
-                        deleteStudentConfirm(s);
-                    });
-                }
+        TableColumn<Student, String> emailCol = new TableColumn<>("Email");
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailCol.setPrefWidth(240);
 
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty)
-                        setGraphic(null);
-                    else
-                        setGraphic(box);
-                }
-            });
-            actionsCol.setPrefWidth(140);
+        TableColumn<Student, Void> actionsCol = new TableColumn<>("Actions");
+        actionsCol.setCellFactory(col -> new TableCell<>() {
+            private final Button editBtn = new Button("Edit");
+            private final Button delBtn = new Button("Delete");
+            private final HBox box = new HBox(6, editBtn, delBtn);
+            {
+                box.setAlignment(javafx.geometry.Pos.CENTER);
+                editBtn.getStyleClass().add("btn-small");
+                delBtn.getStyleClass().add("btn-small-danger");
+                editBtn.setOnAction(e -> {
+                    Student s = getTableView().getItems().get(getIndex());
+                    showStudentForm(s);
+                });
+                delBtn.setOnAction(e -> {
+                    Student s = getTableView().getItems().get(getIndex());
+                    deleteStudentConfirm(s);
+                });
+            }
 
-            // noinspection unchecked
-            studentTable.getColumns().addAll(idCol, nameCol, emailCol, actionsCol);
-        }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty)
+                    setGraphic(null);
+                else
+                    setGraphic(box);
+            }
+        });
+        actionsCol.setPrefWidth(140);
+
+        // noinspection unchecked
+        studentTable.getColumns().addAll(idCol, nameCol, emailCol, actionsCol);
 
         refresh();
         if (searchField != null) {
@@ -130,48 +123,25 @@ public class StudentController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/student_form.fxml"));
             Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.setTitle(s == null ? "Add student" : "Edit student");
+            dialog.setTitle(s == null ? "Add New Student" : "Edit Student");
+
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
             StudentFormController c = loader.getController();
             c.setStage(dialog);
-            if (s != null)
-                c.setValues(s.getName(), s.getEmail());
+            c.setStudent(s);
+
             dialog.setScene(scene);
             dialog.showAndWait();
+
             if (c.isSaved()) {
-                String name = c.getName();
-                String email = c.getEmail();
-                if (s == null) {
-                    try {
-                        Student created = StudentDAO.create(name, email);
-                        statusLabel.setText(created != null ? "Added" : "Failed");
-                    } catch (SQLException ex) {
-                        if (ex.getMessage().toLowerCase().contains("unique")
-                                || ex.getMessage().toLowerCase().contains("constraint")) {
-                            statusLabel.setText("Email already exists");
-                        } else {
-                            statusLabel.setText("DB error: " + ex.getMessage());
-                        }
-                    }
-                } else {
-                    try {
-                        boolean ok = StudentDAO.update(s.getId(), name, email);
-                        statusLabel.setText(ok ? "Updated" : "Update failed");
-                    } catch (SQLException ex) {
-                        if (ex.getMessage().toLowerCase().contains("unique")
-                                || ex.getMessage().toLowerCase().contains("constraint")) {
-                            statusLabel.setText("Email already exists");
-                        } else {
-                            statusLabel.setText("DB error: " + ex.getMessage());
-                        }
-                    }
-                }
+                statusLabel.setText(s == null ? "Student registered successfully." : "Student updated successfully.");
                 refresh();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            statusLabel.setText("Failed to open form");
+            statusLabel.setText("Failed to open form: " + e.getMessage());
         }
     }
 
@@ -213,13 +183,3 @@ public class StudentController {
         showStudentForm(null);
     }
 }
-
-
-
-
-
-
-
-
-
-

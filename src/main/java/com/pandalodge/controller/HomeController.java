@@ -23,9 +23,35 @@ public class HomeController {
     private Button myBookingsBtn;
 
     @FXML
+    private javafx.scene.layout.HBox featuredContainer;
+
+    @FXML
     public void initialize() {
         if (com.pandalodge.util.UserSession.isLoggedIn() && !com.pandalodge.util.UserSession.isAdmin()) {
             setLoggedIn(true);
+        }
+        loadFeaturedAccommodations();
+    }
+
+    private void loadFeaturedAccommodations() {
+        if (featuredContainer == null)
+            return;
+
+        featuredContainer.getChildren().clear();
+        java.util.List<com.pandalodge.model.Accommodation> featured = com.pandalodge.dao.AccommodationDAO
+                .findFeatured(4);
+
+        for (com.pandalodge.model.Accommodation acc : featured) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/card.fxml"));
+                javafx.scene.Parent card = loader.load();
+                CardController controller = loader.getController();
+                controller.setData(acc);
+                controller.setCustomAction(() -> navigateToDashboard(acc.getType(), acc.getAddress()));
+                featuredContainer.getChildren().add(card);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -88,6 +114,32 @@ public class HomeController {
     }
 
     @FXML
+    public void onSearchCity(javafx.scene.input.MouseEvent event) {
+        Object source = event.getSource();
+        if (source instanceof javafx.scene.layout.VBox) {
+            javafx.scene.layout.VBox box = (javafx.scene.layout.VBox) source;
+            // Look for a label that contains the city name
+            for (javafx.scene.Node node : box.getChildren()) {
+                if (node instanceof javafx.scene.control.Label) {
+                    javafx.scene.control.Label lbl = (javafx.scene.control.Label) node;
+                    if (lbl.getStyleClass().contains("city-name-modern")) {
+                        navigateToDashboard(null, lbl.getText());
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    @FXML
+    public void onSearchCity(javafx.event.ActionEvent event) {
+        if (event.getSource() instanceof Button) {
+            String city = ((Button) event.getSource()).getText();
+            navigateToDashboard(null, city);
+        }
+    }
+
+    @FXML
     public void onViewRooms() {
         navigateToDashboard("Room", null);
     }
@@ -100,6 +152,34 @@ public class HomeController {
     @FXML
     public void onViewApartments() {
         navigateToDashboard("Apartment", null);
+    }
+
+    @FXML
+    public void onListProperty() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/accommodation_form.fxml"));
+            javafx.scene.Parent root = loader.load();
+            AccommodationFormController controller = loader.getController();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Post Your Accommodation");
+            dialogStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            dialogStage.initOwner(loginBtn.getScene().getWindow());
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            dialogStage.setScene(scene);
+
+            controller.setStage(dialogStage);
+            dialogStage.showAndWait();
+
+            if (controller.isSaved()) {
+                // Show success message or refresh
+                System.out.println("Property listed successfully!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String mapType(String type) {
@@ -148,13 +228,3 @@ public class HomeController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

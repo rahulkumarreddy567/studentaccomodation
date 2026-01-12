@@ -12,7 +12,7 @@
             <!-- Left: branding -->
             <VBox alignment="CENTER" spacing="16" minWidth="280" prefWidth="340" styleClass="left-pane">
                 <padding><Insets top="30" right="30" bottom="30" left="30" /></padding>
-                <Label text="🎓" style="-fx-font-size: 48px;" />
+                <Label text="🐼" style="-fx-font-size: 48px;" />
                 <Label text="Join Panda Stays" styleClass="brand-title" />
                 <Label text="Create your account and find accommodation" wrapText="true" styleClass="brand-sub" />
                 <Region prefHeight="15" />

@@ -56,6 +56,10 @@ public class DetailController {
     @FXML
     private Label furnishedLabel;
     @FXML
+    private Label sizeLabel;
+    @FXML
+    private Label availableInfoLabel;
+    @FXML
     private StackPane mapContainer;
     @FXML
     private ImageView mapImage;
@@ -71,6 +75,12 @@ public class DetailController {
     private Label durationLabel;
     @FXML
     private Label totalCostLabel;
+    @FXML
+    private VBox successOverlay;
+    @FXML
+    private Label successTitle;
+    @FXML
+    private Label successMessage;
 
     // Owner info fields
     @FXML
@@ -233,6 +243,17 @@ public class DetailController {
         // Furnished label
         if (furnishedLabel != null) {
             furnishedLabel.setText(accommodation.isFurnished() ? "Furnished" : "Unfurnished");
+        }
+
+        // Size label
+        if (sizeLabel != null) {
+            sizeLabel.setText(accommodation.getSize());
+        }
+
+        // Available info label
+        if (availableInfoLabel != null) {
+            String status = accommodation.getStatus() != null ? accommodation.getStatus() : "AVAILABLE";
+            availableInfoLabel.setText("AVAILABLE".equalsIgnoreCase(status) ? "Now" : "Booked");
         }
 
         // Load image
@@ -410,21 +431,35 @@ public class DetailController {
     }
 
     @FXML
+    public void navigateToBookings() {
+        if (dashboardController != null) {
+            dashboardController.showMyBookings();
+        } else {
+            back(); // Fallback
+        }
+    }
+
+    @FXML
     public void back() {
-        try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
-            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
-            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        if (dashboardController != null) {
+            dashboardController.showAccommodations();
+        } else {
+            try {
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
+                javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-            DashboardController dashboard = loader.getController();
-            dashboard.showAccommodations(null, null);
+                DashboardController dashboard = loader.getController();
+                dashboard.showAccommodations(null, null);
 
-            javafx.stage.Stage stage = (javafx.stage.Stage) titleLabel.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Panda - Accommodations");
-            stage.centerOnScreen();
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
+                javafx.stage.Stage stage = (javafx.stage.Stage) titleLabel.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Panda - Accommodations");
+                stage.centerOnScreen();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -499,14 +534,37 @@ public class DetailController {
 
         System.out.println("Creating booking: studentId=" + studentId + ", accommodationId=" + accommodationId);
 
-        boolean ok = BookingDAO.create(studentId, accommodationId, startStr, endStr);
+        boolean ok = BookingDAO.create(studentId, accommodationId, startStr, endStr, "PENDING");
 
         if (ok) {
             long months = ChronoUnit.MONTHS.between(startDate, endDate);
             String durationText = months > 0 ? months + " month" + (months > 1 ? "s" : "")
                     : ChronoUnit.DAYS.between(startDate, endDate) + " days";
-            statusLabel.setText("🎉 Booking requested for " + durationText + "!");
-            statusLabel.setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
+
+            if (successOverlay != null) {
+                successMessage.setText("Your request for " + accommodation.getType() + " has been sent to the admin.");
+                successOverlay.setVisible(true);
+                successOverlay.setOpacity(0);
+
+                javafx.animation.FadeTransition ft = new javafx.animation.FadeTransition(
+                        javafx.util.Duration.millis(500), successOverlay);
+                ft.setFromValue(0);
+                ft.setToValue(1);
+                ft.play();
+
+                // Also scale up effect
+                successOverlay.setScaleX(0.9);
+                successOverlay.setScaleY(0.9);
+                javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(
+                        javafx.util.Duration.millis(500), successOverlay);
+                st.setToX(1.0);
+                st.setToY(1.0);
+                st.play();
+            } else {
+                statusLabel.setText("🎉 Booking requested for " + durationText + "!");
+                statusLabel.setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
+            }
+
             bookBtn.setDisable(true);
             bookBtn.setText("✓ Request Sent");
             bookBtn.setStyle("-fx-background-color: #22c55e;");
@@ -517,19 +575,39 @@ public class DetailController {
             if (endDatePicker != null)
                 endDatePicker.setDisable(true);
         } else {
-            statusLabel.setText("Booking failed. Please try again.");
+            statusLabel.setText("Booking failed. Please check the console or try again.");
             statusLabel.setStyle("-fx-text-fill: #ef4444;");
-            System.out.println("BookingDAO.create returned false");
+            System.err.println("CRITICAL: BookingDAO.create returned false for student=" + studentId + " accommodation="
+                    + accommodationId);
+        }
+    }
+
+    @FXML
+    public void handleAddReview() {
+        if (!UserSession.isLoggedIn()) {
+            statusLabel.setText("Please log in to add a review.");
+            statusLabel.setStyle("-fx-text-fill: #ef4444;");
+            return;
+        }
+
+        // Show a simple dialog to get review text and rating
+        javafx.scene.control.TextInputDialog dialog = new javafx.scene.control.TextInputDialog();
+        dialog.setTitle("Add Review");
+        dialog.setHeaderText("Share your experience with " + accommodation.getType());
+        dialog.setContentText("Write your review (Rating will be 5 stars by default):");
+
+        java.util.Optional<String> result = dialog.showAndWait();
+        if (result.isPresent() && !result.get().isBlank()) {
+            try {
+                ReviewDAO.create(UserSession.getCurrentStudent().getId(), accommodation.getId(), result.get(), 5);
+                loadReviews(); // Refresh reviews
+                statusLabel.setText("✅ Review added successfully!");
+                statusLabel.setStyle("-fx-text-fill: #22c55e;");
+            } catch (Exception e) {
+                statusLabel.setText("Failed to save review.");
+                statusLabel.setStyle("-fx-text-fill: #ef4444;");
+                e.printStackTrace();
+            }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

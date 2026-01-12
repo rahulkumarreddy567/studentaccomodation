@@ -9,121 +9,200 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
-<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.HomeController" stylesheets="@../styles.css">
+<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.HomeController">
     <VBox styleClass="root" minWidth="800">
         <!-- Header -->
-        <HBox styleClass="header-dark" alignment="CENTER_LEFT" spacing="12">
-            <Label text="🐼 Panda Stays" styleClass="header-brand" />
-            <Label text="Student Housing" styleClass="header-tagline" />
+        <HBox styleClass="header-clean" alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 15 40;">
+            <Label text="🐼 Panda Stays" styleClass="header-logo" />
             <Region HBox.hgrow="ALWAYS" />
-            <HBox spacing="10">
-                <Button fx:id="myBookingsBtn" text="📋 My Bookings" styleClass="btn-header" onAction="#onMyBookings" visible="false" managed="false"/>
-                <Button fx:id="loginBtn" text="Login" styleClass="btn-header" onAction="#onLogin"/>
-                <Button fx:id="signupBtn" text="Sign Up" styleClass="btn-header" onAction="#onSignup"/>
+            <HBox spacing="25" alignment="CENTER">
+                <Button text="Post an Ad" styleClass="btn-nav-accent" onAction="#onListProperty" />
+                <Button fx:id="myBookingsBtn" text="My Bookings" styleClass="btn-nav" onAction="#onMyBookings" visible="false" managed="false"/>
+                <Button fx:id="loginBtn" text="Login" styleClass="btn-nav" onAction="#onLogin"/>
+                <Button fx:id="signupBtn" text="Join Now" styleClass="btn-nav-primary" onAction="#onSignup"/>
             </HBox>
         </HBox>
 
-        <!-- Hero Section with Gradient -->
-        <VBox styleClass="hero-container" spacing="30">
-            <!-- Search Section -->
-            <VBox spacing="5">
-                <Label text="Find Your Perfect Home" styleClass="hero-title"/>
-                <Label text="Discover verified student accommodations" styleClass="hero-subtitle"/>
-                <HBox styleClass="search-bar-row" maxWidth="650">
-                    <Label text="🔍" styleClass="search-icon"/>
-                    <ComboBox fx:id="typeCombo" promptText="All Types" styleClass="combo-box">
-                        <items>
-                            <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="Rooms" />
-                                <String fx:value="Studios" />
-                                <String fx:value="Apartments" />
-                            </FXCollections>
-                        </items>
-                    </ComboBox>
-                    <TextField fx:id="locationField" promptText="Enter city..." styleClass="search-input" />
-                    <Button text="Search" styleClass="btn-search" onAction="#onSearch"/>
+        <!-- Hero Section -->
+        <StackPane styleClass="hero-section">
+            <VBox spacing="20" alignment="CENTER" maxWidth="900">
+                <Label text="Find your home away from home." styleClass="hero-main-title" wrapText="true" textAlignment="CENTER"/>
+                <Label text="The simplest way for students to find verified housing in France's best cities." styleClass="hero-main-subtitle" wrapText="true" textAlignment="CENTER"/>
+                
+                <HBox styleClass="modern-search-bar" maxWidth="700">
+                    <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS" style="-fx-padding: 0 20;">
+                        <Label text="🔍" style="-fx-font-size: 18px;"/>
+                        <TextField fx:id="locationField" promptText="Search city or university..." styleClass="modern-search-input" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                    <Separator orientation="VERTICAL" style="-fx-padding: 10 0;"/>
+                    <HBox alignment="CENTER" spacing="10" style="-fx-padding: 0 20;">
+                        <ComboBox fx:id="typeCombo" promptText="Type" styleClass="modern-combo-box">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Rooms" />
+                                    <String fx:value="Studios" />
+                                    <String fx:value="Apartments" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                    <Button text="Search" styleClass="btn-modern-search" onAction="#onSearch"/>
                 </HBox>
+
+                <HBox spacing="15" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+                    <Label text="Popular: " style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 14px;"/>
+                    <Button text="Paris" styleClass="btn-pill-light" onAction="#onSearchCity"/>
+                    <Button text="Lyon" styleClass="btn-pill-light" onAction="#onSearchCity"/>
+                    <Button text="Marseille" styleClass="btn-pill-light" onAction="#onSearchCity"/>
+                    <Button text="Toulouse" styleClass="btn-pill-light" onAction="#onSearchCity"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+
+            <!-- Featured Listings Section -->
+            <VBox spacing="15" style="-fx-padding: 20 0;">
+                <HBox alignment="BOTTOM_LEFT" spacing="10">
+                    <Label text="Featured Accommodations" styleClass="section-title"/>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="View all →" styleClass="btn-link" onAction="#onViewRooms"/>
+                </HBox>
+                <ScrollPane vbarPolicy="NEVER" hbarPolicy="AS_NEEDED" fitToHeight="true" style="-fx-background-color: transparent;">
+                    <HBox fx:id="featuredContainer" spacing="20" style="-fx-padding: 10 5;">
+                        <!-- Dynamically filled or sample cards -->
+                        <VBox styleClass="featured-mini-card">
+                            <StackPane styleClass="mini-card-image-container">
+                                <Label text="NEW" styleClass="badge-new" StackPane.alignment="TOP_RIGHT"/>
+                            </StackPane>
+                            <VBox spacing="5" style="-fx-padding: 12;">
+                                <Label text="Studio in Paris Centre" styleClass="mini-card-title"/>
+                                <Label text="From 950€ / month" styleClass="mini-card-price"/>
+                                <Label text="5th Arrondissement, Paris" styleClass="mini-card-loc"/>
+                            </VBox>
+                        </VBox>
+                        <VBox styleClass="featured-mini-card">
+                            <StackPane styleClass="mini-card-image-container-2">
+                                <Label text="VERIFIED" styleClass="badge-verified" StackPane.alignment="TOP_RIGHT"/>
+                            </StackPane>
+                            <VBox spacing="5" style="-fx-padding: 12;">
+                                <Label text=" Mediterranean Room" styleClass="mini-card-title"/>
+                                <Label text="From 600€ / month" styleClass="mini-card-price"/>
+                                <Label text="Old Town, Nice" styleClass="mini-card-loc"/>
+                            </VBox>
+                        </VBox>
+                        <VBox styleClass="featured-mini-card">
+                            <StackPane styleClass="mini-card-image-container-3">
+                            </StackPane>
+                            <VBox spacing="5" style="-fx-padding: 12;">
+                                <Label text="Charming Toulouse Studio" styleClass="mini-card-title"/>
+                                <Label text="From 650€ / month" styleClass="mini-card-price"/>
+                                <Label text="Capitole, Toulouse" styleClass="mini-card-loc"/>
+                            </VBox>
+                        </VBox>
+                        <VBox styleClass="featured-mini-card">
+                            <StackPane styleClass="mini-card-image-container-4">
+                            </StackPane>
+                            <VBox spacing="5" style="-fx-padding: 12;">
+                                <Label text="Bordeaux Stone Apartment" styleClass="mini-card-title"/>
+                                <Label text="From 1100€ / month" styleClass="mini-card-price"/>
+                                <Label text="Chartrons, Bordeaux" styleClass="mini-card-loc"/>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </ScrollPane>
             </VBox>
 
             <!-- Categories Section -->
-            <VBox>
-                <Label text="Browse Categories" styleClass="section-title"/>
+            <VBox spacing="15">
+                <Label text="What are you looking for?" styleClass="section-title"/>
                 <HBox spacing="24" alignment="CENTER_LEFT">
-                    <VBox styleClass="category-card" HBox.hgrow="ALWAYS" maxWidth="280">
-                        <Label text="🛏️" styleClass="category-icon"/>
-                        <Label text="Private Rooms" styleClass="category-title"/>
-                        <Label text="Cozy and affordable" styleClass="category-label"/>
-                        <Button text="View →" styleClass="btn-category" onAction="#onViewRooms"/>
+                    <VBox styleClass="category-card-modern" HBox.hgrow="ALWAYS">
+                        <Label text="🛏️" styleClass="category-icon-large"/>
+                        <Label text="Rooms" styleClass="category-title-modern"/>
+                        <Label text="Shared living" styleClass="category-subtitle-modern"/>
+                        <Button text="Explore" styleClass="btn-category-modern" onAction="#onViewRooms"/>
                     </VBox>
 
-                    <VBox styleClass="category-card" HBox.hgrow="ALWAYS" maxWidth="280">
-                        <Label text="🏠" styleClass="category-icon"/>
-                        <Label text="Studios" styleClass="category-title"/>
-                        <Label text="Independent living" styleClass="category-label"/>
-                        <Button text="View →" styleClass="btn-category" onAction="#onViewStudios"/>
+                    <VBox styleClass="category-card-modern" HBox.hgrow="ALWAYS">
+                        <Label text="🏠" styleClass="category-icon-large"/>
+                        <Label text="Studios" styleClass="category-title-modern"/>
+                        <Label text="Private space" styleClass="category-subtitle-modern"/>
+                        <Button text="Explore" styleClass="btn-category-modern" onAction="#onViewStudios"/>
                     </VBox>
 
-                    <VBox styleClass="category-card" HBox.hgrow="ALWAYS" maxWidth="280">
-                        <Label text="🏢" styleClass="category-icon"/>
-                        <Label text="Apartments" styleClass="category-title"/>
-                        <Label text="Shared living" styleClass="category-label"/>
-                        <Button text="View →" styleClass="btn-category" onAction="#onViewApartments"/>
+                    <VBox styleClass="category-card-modern" HBox.hgrow="ALWAYS">
+                        <Label text="🏢" styleClass="category-icon-large"/>
+                        <Label text="Apartments" styleClass="category-title-modern"/>
+                        <Label text="Full units" styleClass="category-subtitle-modern"/>
+                        <Button text="Explore" styleClass="btn-category-modern" onAction="#onViewApartments"/>
                     </VBox>
                 </HBox>
             </VBox>
 
-            <!-- Features Section -->
-            <VBox>
-                <Label text="Why Choose Us?" styleClass="section-title"/>
-                <HBox spacing="40" alignment="CENTER_LEFT" style="-fx-padding: 10 0 0 0;">
-                    <VBox styleClass="feature-box" HBox.hgrow="ALWAYS">
-                        <Label text="💬" style="-fx-font-size: 24px;"/>
-                        <Label text="24/7 Support" styleClass="feature-title"/>
-                        <Label text="Always here to help" styleClass="feature-desc"/>
+            <!-- Popular Cities Section -->
+            <VBox spacing="15">
+                <Label text="Popular Cities" styleClass="section-title"/>
+                <HBox spacing="20">
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f1f5f9; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
+                        <Label text="Paris" styleClass="city-name-modern" mouseTransparent="true"/>
+                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
                     </VBox>
-                    <VBox styleClass="feature-box" HBox.hgrow="ALWAYS">
-                        <Label text="💰" style="-fx-font-size: 24px;"/>
-                        <Label text="Best Prices" styleClass="feature-title"/>
-                        <Label text="No hidden fees" styleClass="feature-desc"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fef2f2; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
+                        <Label text="Lyon" styleClass="city-name-modern" mouseTransparent="true"/>
+                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
                     </VBox>
-                    <VBox styleClass="feature-box" HBox.hgrow="ALWAYS">
-                        <Label text="⚡" style="-fx-font-size: 24px;"/>
-                        <Label text="Easy Booking" styleClass="feature-title"/>
-                        <Label text="Book in 3 clicks" styleClass="feature-desc"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0fdf4; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
+                        <Label text="Bordeaux" styleClass="city-name-modern" mouseTransparent="true"/>
+                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
                     </VBox>
-                    <VBox styleClass="feature-box" HBox.hgrow="ALWAYS">
-                        <Label text="✅" style="-fx-font-size: 24px;"/>
-                        <Label text="Verified" styleClass="feature-title"/>
-                        <Label text="All properties checked" styleClass="feature-desc"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffbeb; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
+                        <Label text="Nice" styleClass="city-name-modern" mouseTransparent="true"/>
+                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
                     </VBox>
                 </HBox>
             </VBox>
-        </VBox>
 
-        <!-- Trust Badges Section -->
-        <VBox styleClass="trust-section" style="-fx-padding: 30 40;">
-            <HBox styleClass="trust-badges" spacing="40">
-                <VBox styleClass="trust-badge">
-                    <Label text="⭐" styleClass="trust-icon"/>
-                    <Label text="4.8/5 Rating" styleClass="trust-text"/>
+            <!-- Owner Section - Studapart inspired -->
+            <HBox styleClass="premium-owner-card" spacing="40" alignment="CENTER_LEFT">
+                <VBox spacing="15" HBox.hgrow="ALWAYS">
+                    <Label text="FOR PROPERTY OWNERS" styleClass="owner-tag" />
+                    <Label text="Rent with peace of mind." styleClass="owner-title-large" />
+                    <Label text="Reach verified students and get our Panda Guarantee against unpaid rent." styleClass="owner-desc-text" wrapText="true" />
+                    <Button text="Post your ad for free" styleClass="btn-owner-primary" onAction="#onListProperty" />
                 </VBox>
-                <VBox styleClass="trust-badge">
-                    <Label text="🔒" styleClass="trust-icon"/>
-                    <Label text="Secure" styleClass="trust-text"/>
-                </VBox>
-                <VBox styleClass="trust-badge">
-                    <Label text="🏆" styleClass="trust-icon"/>
-                    <Label text="10K+ Students" styleClass="trust-text"/>
-                </VBox>
-                <VBox styleClass="trust-badge">
-                    <Label text="✓" styleClass="trust-icon"/>
-                    <Label text="Verified" styleClass="trust-text"/>
+                <VBox alignment="CENTER" prefWidth="250">
+                    <Label text="🏠✨" style="-fx-font-size: 100px;" />
                 </VBox>
             </HBox>
-        </VBox>
+
+            <!-- Trust Badges Section -->
+            <VBox styleClass="trust-section" style="-fx-padding: 30 40;">
+                <HBox styleClass="trust-badges" spacing="40" alignment="CENTER">
+                    <VBox styleClass="trust-badge" alignment="CENTER">
+                        <Label text="⭐" styleClass="trust-icon"/>
+                        <Label text="4.8/5 Rating" styleClass="trust-text"/>
+                        <Label text="on Trustpilot" styleClass="trust-subtext"/>
+                    </VBox>
+                    <VBox styleClass="trust-badge" alignment="CENTER">
+                        <Label text="🔒" styleClass="trust-icon"/>
+                        <Label text="Secure Payment" styleClass="trust-text"/>
+                        <Label text="SSL Encrypted" styleClass="trust-subtext"/>
+                    </VBox>
+                    <VBox styleClass="trust-badge" alignment="CENTER">
+                        <Label text="🏆" styleClass="trust-icon"/>
+                        <Label text="10K+ Students" styleClass="trust-text"/>
+                        <Label text="Housed since 2020" styleClass="trust-subtext"/>
+                    </VBox>
+                    <VBox styleClass="trust-badge" alignment="CENTER">
+                        <Label text="✓" styleClass="trust-icon"/>
+                        <Label text="Verified Hosts" styleClass="trust-text"/>
+                        <Label text="Manual check" styleClass="trust-subtext"/>
+                    </VBox>
+                </HBox>
+            </VBox>
 
         <!-- Comprehensive Footer -->
         <VBox styleClass="footer" spacing="16">

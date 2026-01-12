@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.pandalodge.controller.AdminOverviewController"
+      spacing="24" styleClass="root">
+    <padding><Insets top="24" right="30" bottom="24" left="30" /></padding>
+
+    <!-- Dashboard Header -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
+        <VBox>
+            <Label text="Overview" styleClass="search-hero-title" style="-fx-text-fill: -text-main;" />
+            <Label text="Monitor your accommodation system performance" styleClass="text-muted" />
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="+ Add Accommodation" onAction="#onAddAccommodation" styleClass="btn-primary-dashboard" />
+    </HBox>
+
+    <!-- Stats Cards Row -->
+    <HBox spacing="20">
+        <!-- Total Students Card -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
+            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <StackPane style="-fx-background-color: #eef2ff; -fx-background-radius: 12; -fx-padding: 10;">
+                    <Label text="🎓" style="-fx-font-size: 24px;" />
+                </StackPane>
+                <VBox>
+                    <Label text="Students" styleClass="text-muted" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <Label fx:id="totalStudentsLabel" text="0" styleClass="card-price" style="-fx-font-size: 24px;" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Total Rooms Card -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
+            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <StackPane style="-fx-background-color: #f0fdf4; -fx-background-radius: 12; -fx-padding: 10;">
+                    <Label text="🏠" style="-fx-font-size: 24px;" />
+                </StackPane>
+                <VBox>
+                    <Label text="Rooms" styleClass="text-muted" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <Label fx:id="totalAccommodationsLabel" text="0" styleClass="card-price" style="-fx-font-size: 24px; -fx-text-fill: -secondary-color;" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Active Bookings Card -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
+            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <StackPane style="-fx-background-color: #fffbeb; -fx-background-radius: 12; -fx-padding: 10;">
+                    <Label text="📅" style="-fx-font-size: 24px;" />
+                </StackPane>
+                <VBox>
+                    <Label text="Bookings" styleClass="text-muted" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <Label fx:id="activeBookingsLabel" text="0" styleClass="card-price" style="-fx-font-size: 24px; -fx-text-fill: #f59e0b;" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Revenue Card -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
+            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <StackPane style="-fx-background-color: #fef2f2; -fx-background-radius: 12; -fx-padding: 10;">
+                    <Label text="💰" style="-fx-font-size: 24px;" />
+                </StackPane>
+                <VBox>
+                    <Label text="Revenue" styleClass="text-muted" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    <Label fx:id="revenueLabel" text="€0" styleClass="card-price" style="-fx-font-size: 24px; -fx-text-fill: #ef4444;" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <!-- Recent Bookings Table -->
+        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="16">
+            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Recent Bookings" styleClass="card-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Manage →" styleClass="link-button" onAction="#showAllBookings" />
+            </HBox>
+            <TableView fx:id="recentBookingsTable" prefHeight="200" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colStudent" text="Student" prefWidth="150" />
+                    <TableColumn fx:id="colRoom" text="Room" prefWidth="150" />
+                    <TableColumn fx:id="colDate" text="Date" prefWidth="120" />
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="100" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Quick Actions Sidebar within content -->
+        <VBox spacing="20" prefWidth="300">
+            <VBox styleClass="card" spacing="16">
+                <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                <Label text="Room Distribution" styleClass="card-title" style="-fx-font-size: 15px;" />
+                
+                <VBox spacing="10">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="●" style="-fx-text-fill: #22c55e;" />
+                        <Label text="Available" HBox.hgrow="ALWAYS" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="availableLabel" text="0" style="-fx-font-weight: bold;" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="●" style="-fx-text-fill: #f59e0b;" />
+                        <Label text="Occupied" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="occupiedLabel" text="0" style="-fx-font-weight: bold;" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="●" style="-fx-text-fill: #ef4444;" />
+                        <Label text="Maintenance" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="maintenanceLabel" text="0" style="-fx-font-weight: bold;" />
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <VBox styleClass="card" spacing="16">
+                <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
+                <Label text="Quick Actions" styleClass="card-title" style="-fx-font-size: 15px;" />
+                <VBox spacing="10">
+                    <Button text="Add Student" onAction="#onAddStudent" styleClass="button-secondary" maxWidth="Infinity" />
+                    <Button text="Add Room" onAction="#onAddAccommodation" styleClass="button-secondary" maxWidth="Infinity" />
+                </VBox>
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox>

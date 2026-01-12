@@ -3,6 +3,7 @@ package com.pandalodge.model;
 public class Accommodation {
     private int id;
     private String type; // e.g., Room, Studio, Apartment
+    private String size; // e.g., 18m2
     private double price;
     private String address;
     private String imageUrl;
@@ -17,7 +18,7 @@ public class Accommodation {
     private String ownerPhone;
 
     public Accommodation(int id, String type, double price, String address, String imageUrl, boolean furnished,
-            String description, String status, double latitude, double longitude) {
+            String description, String status, double latitude, double longitude, String size) {
         this.id = id;
         this.type = type;
         this.price = price;
@@ -28,12 +29,13 @@ public class Accommodation {
         this.status = status;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.size = size;
     }
 
     public Accommodation(int id, String type, double price, String address, String imageUrl, boolean furnished,
             String description, String status, double latitude, double longitude,
-            int ownerId, String ownerName, String ownerEmail, String ownerPhone) {
-        this(id, type, price, address, imageUrl, furnished, description, status, latitude, longitude);
+            int ownerId, String ownerName, String ownerEmail, String ownerPhone, String size) {
+        this(id, type, price, address, imageUrl, furnished, description, status, latitude, longitude, size);
         this.ownerId = ownerId;
         this.ownerName = ownerName;
         this.ownerEmail = ownerEmail;
@@ -55,6 +57,14 @@ public class Accommodation {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSize() {
+        return size != null ? size : "15m²";
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public double getPrice() {
@@ -154,7 +164,7 @@ public class Accommodation {
     }
 
     public boolean hasOwner() {
-        return ownerId > 0 && ownerName != null && !ownerName.isEmpty();
+        return ownerName != null && !ownerName.isEmpty();
     }
 
     public String getOwnerContactInfo() {
@@ -179,13 +189,3 @@ public class Accommodation {
         return price;
     }
 }
-
-
-
-
-
-
-
-
-
-
