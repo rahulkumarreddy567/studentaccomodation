@@ -18,8 +18,8 @@ Thumbs.db
 *.log
 output.log
 
-# Database (optional - remove this line if you want to track the DB)
-data/*.db
+# Database - now tracked for project submission
+# data/*.db
 
 # Maven wrapper downloaded files (optional)
 .mvn/wrapper/maven-wrapper.jar
