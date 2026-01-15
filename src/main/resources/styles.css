@@ -131,7 +131,6 @@
 .btn-pill-light:hover {
     -fx-background-color: rgba(255, 255, 255, 0.3);
 }
-}
 
 /* ========== BUTTONS ========== */
 .add-button {
@@ -482,6 +481,79 @@
 
 .btn-category:hover {
     -fx-background-color: -primary-color;
+    -fx-text-fill: white;
+}
+
+.btn-category-active {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: -primary-color;
+    -fx-border-radius: 6;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+}
+
+.faq-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 8, 0, 0, 2);
+}
+
+/* ========== FAQ PAGE STYLES ========== */
+.btn-pill {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #475569;
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.btn-pill:hover {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #1e293b;
+}
+
+.btn-pill-active {
+    -fx-background-color: #6366f1;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.btn-info {
+    -fx-background-color: #0ea5e9;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+}
+
+.btn-info:hover {
+    -fx-background-color: #0284c7;
+}
+
+.btn-outline-info {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0ea5e9;
+    -fx-font-weight: 600;
+    -fx-border-color: #0ea5e9;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+}
+
+.btn-outline-info:hover {
+    -fx-background-color: #0ea5e9;
     -fx-text-fill: white;
 }
 
@@ -1852,46 +1924,6 @@
     -fx-font-weight: bold;
 }
 
-/* ========== PAYMENT SECTION ========== */
-.payment-form {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-padding: 24;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 8, 0, 0, 2);
-}
-
-.payment-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1e293b;
-}
-
-.payment-amount {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #22c55e;
-}
-
-.payment-method {
-    -fx-background-color: #f8fafc;
-    -fx-background-radius: 8;
-    -fx-padding: 12;
-    -fx-border-color: #e2e8f0;
-    -fx-border-radius: 8;
-    -fx-cursor: hand;
-}
-
-.payment-method:hover {
-    -fx-border-color: #6366f1;
-    -fx-background-color: #eef2ff;
-}
-
-.payment-method-selected {
-    -fx-border-color: #6366f1;
-    -fx-border-width: 2;
-    -fx-background-color: #eef2ff;
-}
-
 /* ========== FAQ SECTION ========== */
 .faq-item {
     -fx-background-color: white;
@@ -2281,13 +2313,6 @@
     -fx-underline: true;
 }
 
-/* Premium Owner Section */
-.premium-owner-card {
-    -fx-background-color: #1e293b;
-    -fx-background-radius: 30;
-    -fx-padding: 60;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 30, 0, 0, 15);
-}
 
 .owner-tag {
     -fx-text-fill: -secondary-color;
@@ -2315,4 +2340,143 @@
     -fx-padding: 15 40;
     -fx-background-radius: 50;
     -fx-cursor: hand;
+}
+
+/* ========== PROFILE PAGE STYLES ========== */
+.profile-container {
+    -fx-padding: 40;
+    -fx-background-color: transparent;
+}
+
+.profile-header-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 15, 0, 0, 5);
+}
+
+.profile-avatar {
+    -fx-min-width: 100;
+    -fx-min-height: 100;
+    -fx-max-width: 100;
+    -fx-max-height: 100;
+    -fx-background-color: #eef2ff;
+    -fx-background-radius: 50;
+    -fx-border-color: #6366f1;
+    -fx-border-width: 2;
+    -fx-border-radius: 50;
+}
+
+.avatar-icon {
+    -fx-font-size: 40px;
+    -fx-text-fill: #6366f1;
+}
+
+.profile-name {
+    -fx-font-size: 28px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e293b;
+}
+
+.profile-email {
+    -fx-font-size: 16px;
+    -fx-text-fill: #6366f1;
+    -fx-font-weight: 500;
+}
+
+.bookings-section {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 15, 0, 0, 5);
+}
+
+.section-heading {
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e293b;
+}
+
+.booking-count {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #64748b;
+    -fx-padding: 6 14;
+    -fx-background-radius: 20;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.section-divider {
+    -fx-opacity: 0.1;
+}
+
+/* Booking Cards within List */
+.booking-card {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-border-color: #f1f5f9;
+    -fx-border-radius: 16;
+}
+
+.booking-card:hover {
+    -fx-border-color: #e2e8f0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.03), 10, 0, 0, 2);
+}
+
+.booking-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.booking-address {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+}
+
+.detail-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+    -fx-font-weight: bold;
+}
+
+.detail-value {
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-font-weight: 600;
+}
+
+.detail-value-highlight {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6366f1;
+    -fx-font-weight: bold;
+}
+
+/* Status Badges */
+.status-badge {
+    -fx-padding: 5 12;
+    -fx-background-radius: 20;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.status-pending {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #d97706;
+}
+
+.status-confirmed {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #16a34a;
+}
+
+.status-cancelled {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #dc2626;
+}
+
+.status-completed {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #4b5563;
 }

@@ -146,21 +146,17 @@
             <VBox spacing="15">
                 <Label text="Popular Cities" styleClass="section-title"/>
                 <HBox spacing="20">
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f1f5f9; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Paris" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f1f5f9;">
+                        <Label text="Paris" styleClass="city-name-modern"/>
                     </VBox>
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fef2f2; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Lyon" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fef2f2;">
+                        <Label text="Lyon" styleClass="city-name-modern"/>
                     </VBox>
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0fdf4; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Bordeaux" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0fdf4;">
+                        <Label text="Bordeaux" styleClass="city-name-modern"/>
                     </VBox>
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffbeb; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Nice" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffbeb;">
+                        <Label text="Nice" styleClass="city-name-modern"/>
                     </VBox>
                 </HBox>
             </VBox>
@@ -212,27 +208,24 @@
                 <VBox styleClass="footer-column" minWidth="160">
                     <Label text="🐼 Panda Stays" styleClass="footer-brand"/>
                     <Label text="Student housing made easy" styleClass="footer-brand-desc"/>
-                    <HBox styleClass="footer-social">
-                        <Label text="📷" styleClass="social-icon"/>
-                        <Label text="📘" styleClass="social-icon"/>
-                        <Label text="💼" styleClass="social-icon"/>
-                    </HBox>
+                    <!-- Social icons removed -->
+
                 </VBox>
 
                 <!-- Quick Links Column -->
                 <VBox styleClass="footer-column" minWidth="120">
                     <Label text="Quick Links" styleClass="footer-title"/>
-                    <Label text="Home" styleClass="footer-link"/>
-                    <Label text="Browse" styleClass="footer-link"/>
-                    <Label text="Dashboard" styleClass="footer-link"/>
+                    <Label text="Home" styleClass="footer-link" onMouseClicked="#onHome" style="-fx-cursor: hand;"/>
+                    <Label text="Browse" styleClass="footer-link" onMouseClicked="#onViewRooms" style="-fx-cursor: hand;"/>
+                    <Label text="Dashboard" styleClass="footer-link" onMouseClicked="#onDashboard" style="-fx-cursor: hand;"/>
                 </VBox>
 
                 <!-- Support Column -->
                 <VBox styleClass="footer-column" minWidth="120">
                     <Label text="Support" styleClass="footer-title"/>
-                    <Label text="Help Center" styleClass="footer-link"/>
-                    <Label text="Contact Us" styleClass="footer-link"/>
-                    <Label text="FAQs" styleClass="footer-link"/>
+                    <Label text="Help Center" styleClass="footer-link" onMouseClicked="#openFAQs" style="-fx-cursor: hand;"/>
+                    <Label text="Contact Us" styleClass="footer-link" onMouseClicked="#onContact" style="-fx-cursor: hand;"/>
+                    <Label text="FAQs" styleClass="footer-link" onMouseClicked="#openFAQs" style="-fx-cursor: hand;"/>
                 </VBox>
 
                 <!-- Contact Column -->

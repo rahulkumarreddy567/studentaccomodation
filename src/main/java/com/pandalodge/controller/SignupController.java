@@ -50,15 +50,16 @@ public class SignupController {
 
     private void redirectToHome() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-            HomeController home = loader.getController();
-            home.setLoggedIn(true);
+
+            DashboardController dash = loader.getController();
+            dash.showAccommodations();
 
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Panda - Home");
+            stage.setTitle("Panda - Dashboard");
             stage.centerOnScreen();
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,13 +93,3 @@ public class SignupController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

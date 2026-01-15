@@ -89,6 +89,13 @@ public class LoginController {
         if (s != null) {
             com.pandalodge.util.UserSession.login(s);
             openDashboard();
+            return;
+        }
+
+        com.pandalodge.model.Renter r = com.pandalodge.dao.RenterDAO.verify(u, p);
+        if (r != null) {
+            com.pandalodge.util.UserSession.loginRenter(r);
+            openUnifiedDashboard();
         } else {
             errorLabel.setText("Invalid credentials or unknown email");
         }
@@ -99,6 +106,15 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+            DashboardController dash = loader.getController();
+            if (com.pandalodge.util.UserSession.isAdmin()) {
+                dash.showAdminOverview();
+            } else if (com.pandalodge.util.UserSession.isRenter()) {
+                dash.showOwnerDashboard();
+            } else {
+                dash.showAccommodations();
+            }
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);

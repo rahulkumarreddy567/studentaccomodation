@@ -62,19 +62,7 @@
             </HBox>
         </VBox>
 
-        <!-- Revenue Card -->
-        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
-            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
-            <HBox alignment="CENTER_LEFT" spacing="15">
-                <StackPane style="-fx-background-color: #fef2f2; -fx-background-radius: 12; -fx-padding: 10;">
-                    <Label text="💰" style="-fx-font-size: 24px;" />
-                </StackPane>
-                <VBox>
-                    <Label text="Revenue" styleClass="text-muted" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
-                    <Label fx:id="revenueLabel" text="€0" styleClass="card-price" style="-fx-font-size: 24px; -fx-text-fill: #ef4444;" />
-                </VBox>
-            </HBox>
-        </VBox>
+
     </HBox>
 
     <HBox spacing="20" VBox.vgrow="ALWAYS">

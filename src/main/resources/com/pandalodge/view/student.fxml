@@ -6,7 +6,7 @@
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.pandalodge.controller.StudentController" styleClass="root"
-      stylesheets="@../styles.css">
+      stylesheets="@/styles.css">
     <padding><Insets top="24" right="24" bottom="24" left="24" /></padding>
 
     <!-- Custom Topbar -->

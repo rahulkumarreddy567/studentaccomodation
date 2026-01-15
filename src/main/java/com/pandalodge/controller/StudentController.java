@@ -35,12 +35,12 @@ public class StudentController {
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
-        System.out.println("DEBUG StudentController: dashboardController set = " + (dash != null));
+
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG StudentController.onBack() called");
+
         if (dashboardController != null) {
             dashboardController.showAdminOverview();
         } else {

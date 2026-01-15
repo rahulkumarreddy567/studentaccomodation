@@ -10,19 +10,6 @@ import java.util.List;
 public class BookingDAO {
     public static void init() {
         try (Connection c = DBConnection.getConnection(); Statement s = c.createStatement()) {
-            System.out.println("BookingDAO: Checking database schema...");
-
-            // Debug: Print current table info
-            try (ResultSet rs = s.executeQuery("PRAGMA table_info(bookings)")) {
-                System.out.println("--- Current 'bookings' table schema ---");
-                while (rs.next()) {
-                    System.out.println("Column: " + rs.getString("name") + " (" + rs.getString("type") + ") "
-                            + (rs.getInt("notnull") == 1 ? "NOT NULL" : ""));
-                }
-                System.out.println("---------------------------------------");
-            } catch (SQLException e) {
-                System.out.println("BookingDAO: Table 'bookings' does not exist yet.");
-            }
 
             // Perform check for migration
             boolean migrationNeeded = false;
@@ -141,7 +128,6 @@ public class BookingDAO {
                     }
                 }
             }
-            System.out.println("BookingDAO: Initialization successful.");
 
         } catch (Exception e) {
             System.err.println("BookingDAO.init CRITICAL ERROR: " + e.getMessage());
@@ -169,10 +155,7 @@ public class BookingDAO {
                 ps.setString(5, status);
                 ps.setString(6, createdAt);
 
-                System.out.println("BookingDAO.create: Executing SQL: " + sql);
                 int rows = ps.executeUpdate();
-                System.out.println("BookingDAO.create: Rows affected = " + rows);
-
                 if (rows > 0) {
                     System.out.println("BookingDAO.create SUCCESS!");
                     return true;

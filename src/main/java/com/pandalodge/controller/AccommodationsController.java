@@ -34,12 +34,10 @@ public class AccommodationsController {
             if (cardsContainer == null)
                 return;
 
-            System.out.println("DEBUG: loadData(type=" + type + ", loc=" + location + ")");
             cardsContainer.getChildren().clear();
 
             // Fetch from DB with filters
             List<Accommodation> accommodations = com.pandalodge.dao.AccommodationDAO.findMatches(type, location);
-            System.out.println("DEBUG: Found " + accommodations.size() + " accommodations");
 
             for (Accommodation a : accommodations) {
                 addCard(a);
@@ -72,13 +70,13 @@ public class AccommodationsController {
     @FXML
     public void onSearch() {
         String q = searchField.getText();
-        System.out.println("Dashboard broad search for: " + q);
+
         loadData(null, q); // Search location by default, or we can improve DAO to search both
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG AccommodationsController.onBack() called");
+
         if (dashboardController != null) {
             dashboardController.showHome();
         } else {

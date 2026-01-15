@@ -5,7 +5,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.pandalodge.controller.SignupController"
-            styleClass="root-pane" stylesheets="@../styles.css"
+            styleClass="root-pane" stylesheets="@/styles.css"
             minWidth="700" minHeight="500">
     <center>
         <HBox spacing="0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">

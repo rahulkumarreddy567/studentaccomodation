@@ -4,6 +4,9 @@ import com.pandalodge.dao.BookingDAO;
 import com.pandalodge.dao.ReviewDAO;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -22,6 +25,7 @@ import com.pandalodge.model.Accommodation;
 import com.pandalodge.model.Student;
 import com.pandalodge.util.UserSession;
 
+import java.io.IOException;
 import java.awt.Desktop;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -435,7 +439,18 @@ public class DetailController {
         if (dashboardController != null) {
             dashboardController.showMyBookings();
         } else {
-            back(); // Fallback
+            // Navigate to profile/bookings page
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/profile.fxml"));
+                javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+                javafx.stage.Stage stage = (javafx.stage.Stage) titleLabel.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Panda - My Bookings");
+                stage.centerOnScreen();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

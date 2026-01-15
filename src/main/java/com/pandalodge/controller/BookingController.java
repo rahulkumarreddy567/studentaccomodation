@@ -38,12 +38,12 @@ public class BookingController {
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
-        System.out.println("DEBUG BookingController: dashboardController set = " + (dash != null));
+
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG BookingController.onBack() called");
+
         if (dashboardController != null) {
             if (UserSession.isAdmin()) {
                 dashboardController.showAdminOverview();

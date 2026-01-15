@@ -25,8 +25,7 @@ public class AdminOverviewController {
     private Label totalAccommodationsLabel;
     @FXML
     private Label activeBookingsLabel;
-    @FXML
-    private Label revenueLabel;
+
     @FXML
     private Label availableLabel;
     @FXML
@@ -80,9 +79,6 @@ public class AdminOverviewController {
             activeBookingsLabel.setText(String.valueOf(bookings.size()));
             recentBookingsTable.setItems(FXCollections.observableArrayList(
                     bookings.subList(0, Math.min(bookings.size(), 10))));
-
-            double revenue = accs.stream().mapToDouble(Accommodation::getPrice).sum();
-            revenueLabel.setText("€" + String.format("%.0f", revenue));
 
             long available = accs.stream().filter(a -> "AVAILABLE".equalsIgnoreCase(a.getStatus())).count();
             long occupied = accs.stream().filter(a -> "OCCUPIED".equalsIgnoreCase(a.getStatus())).count();

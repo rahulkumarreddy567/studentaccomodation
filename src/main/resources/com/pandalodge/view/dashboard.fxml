@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.DashboardController" stylesheets="@../styles.css" styleClass="root">
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.DashboardController" stylesheets="@/styles.css" styleClass="root">
     <top>
         <HBox fx:id="topbar" spacing="16" alignment="CENTER_LEFT" styleClass="topbar">
             <padding>
@@ -35,6 +35,12 @@
                 <Button fx:id="adminBookingsBtn" onAction="#showAdminBookings" styleClass="sidebar-item" text="📋  Manage Bookings" maxWidth="Infinity" />
                 <Button fx:id="adminReviewsBtn" onAction="#showReviewsManagement" styleClass="sidebar-item" text="⭐  Manage Reviews" maxWidth="Infinity" />
                 <Button fx:id="adminFaqsBtn" onAction="#showFaqsManagement" styleClass="sidebar-item" text="❓  Manage FAQs" maxWidth="Infinity" />
+            </VBox>
+
+            <VBox fx:id="ownerMenu" spacing="6">
+                <Button fx:id="ownerDashboardBtn" onAction="#showOwnerDashboard" styleClass="sidebar-item" text="📈  My Performance" maxWidth="Infinity" />
+                <Button fx:id="ownerAccommodationsBtn" onAction="#showOwnerAccommodations" styleClass="sidebar-item" text="🏠  My Properties" maxWidth="Infinity" />
+                <Button fx:id="ownerBookingsBtn" onAction="#showOwnerBookings" styleClass="sidebar-item" text="📝  Rental Requests" maxWidth="Infinity" />
             </VBox>
 
             <Button fx:id="studentBookingsBtn" onAction="#showMyBookings" styleClass="sidebar-item" text="📅  My Bookings" maxWidth="Infinity" />

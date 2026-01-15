@@ -21,6 +21,9 @@ public class FAQDAO {
             if (rs.next() && rs.getInt(1) == 0) {
                 seedData(s);
             }
+
+            // Cleanup: Remote payment-related questions specifically requested for removal
+            s.execute("DELETE FROM faqs WHERE question LIKE '%payment%' OR question LIKE '%charged%'");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,13 +38,13 @@ public class FAQDAO {
         s.execute("INSERT INTO faqs(question, answer, category, order_index) VALUES " +
                 "('How far in advance can I book?', 'You can book up to 12 months in advance, depending on availability.', 'BOOKING', 3)");
 
-        // Payment FAQs
+        // Security FAQs
         s.execute("INSERT INTO faqs(question, answer, category, order_index) VALUES " +
-                "('What payment methods do you accept?', 'We accept credit/debit cards (Visa, Mastercard, Amex), bank transfers, and PayPal.', 'PAYMENT', 1)");
+                "('Are the properties verified?', 'Yes, all properties are personally verified by our team before listing. We ensure safety and quality standards are met.', 'SECURITY', 1)");
         s.execute("INSERT INTO faqs(question, answer, category, order_index) VALUES " +
-                "('Is my payment secure?', 'Yes, all payments are processed through secure, encrypted payment gateways. We never store your card details.', 'PAYMENT', 2)");
+                "('Is my personal data safe?', 'Absolutely. We use industry-standard encryption and never share your data with third parties without your consent.', 'SECURITY', 2)");
         s.execute("INSERT INTO faqs(question, answer, category, order_index) VALUES " +
-                "('When will I be charged?', 'The first month price is charged upon booking confirmation. Subsequent payments are due monthly.', 'PAYMENT', 3)");
+                "('What if I have issues with my landlord?', 'Contact our support team immediately. We mediate disputes and ensure your rights as a tenant are protected.', 'SECURITY', 3)");
 
         // Accommodation FAQs
         s.execute("INSERT INTO faqs(question, answer, category, order_index) VALUES " +
@@ -62,9 +65,9 @@ public class FAQDAO {
 
     public static FAQ create(String question, String answer, String category) throws SQLException {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "INSERT INTO faqs(question, answer, category) VALUES(?,?,?)",
-                     Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement ps = c.prepareStatement(
+                        "INSERT INTO faqs(question, answer, category) VALUES(?,?,?)",
+                        Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, question);
             ps.setString(2, answer);
             ps.setString(3, category);
@@ -80,7 +83,7 @@ public class FAQDAO {
 
     public static FAQ findById(int id) {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement("SELECT * FROM faqs WHERE id = ?")) {
+                PreparedStatement ps = c.prepareStatement("SELECT * FROM faqs WHERE id = ?")) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -97,8 +100,8 @@ public class FAQDAO {
     public static List<FAQ> findByCategory(String category) {
         List<FAQ> list = new ArrayList<>();
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT * FROM faqs WHERE category = ? ORDER BY order_index")) {
+                PreparedStatement ps = c.prepareStatement(
+                        "SELECT * FROM faqs WHERE category = ? ORDER BY order_index")) {
             ps.setString(1, category);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -115,8 +118,8 @@ public class FAQDAO {
     public static List<FAQ> findAll() {
         List<FAQ> list = new ArrayList<>();
         try (Connection c = DBConnection.getConnection();
-             Statement s = c.createStatement();
-             ResultSet rs = s.executeQuery("SELECT * FROM faqs ORDER BY category, order_index")) {
+                Statement s = c.createStatement();
+                ResultSet rs = s.executeQuery("SELECT * FROM faqs ORDER BY category, order_index")) {
             while (rs.next()) {
                 list.add(new FAQ(rs.getInt("id"), rs.getString("question"), rs.getString("answer"),
                         rs.getString("category"), rs.getInt("order_index")));
@@ -129,8 +132,8 @@ public class FAQDAO {
 
     public static boolean update(int id, String question, String answer, String category) throws SQLException {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "UPDATE faqs SET question = ?, answer = ?, category = ? WHERE id = ?")) {
+                PreparedStatement ps = c.prepareStatement(
+                        "UPDATE faqs SET question = ?, answer = ?, category = ? WHERE id = ?")) {
             ps.setString(1, question);
             ps.setString(2, answer);
             ps.setString(3, category);
@@ -141,7 +144,7 @@ public class FAQDAO {
 
     public static boolean delete(int id) {
         try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement("DELETE FROM faqs WHERE id = ?")) {
+                PreparedStatement ps = c.prepareStatement("DELETE FROM faqs WHERE id = ?")) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -150,15 +153,3 @@ public class FAQDAO {
         return false;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

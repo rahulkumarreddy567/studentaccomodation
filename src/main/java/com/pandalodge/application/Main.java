@@ -19,7 +19,6 @@ public class Main extends Application {
         AdminDAO.init();
         ReviewDAO.init();
         PhotoDAO.init();
-        PaymentDAO.init();
         FAQDAO.init();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/home.fxml"));

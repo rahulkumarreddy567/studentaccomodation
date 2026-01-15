@@ -30,17 +30,13 @@ public class ProfileController {
     @FXML
     private Label avatarLabel;
     @FXML
-    private Label memberSinceLabel;
-    @FXML
-    private Label totalBookingsLabel;
-    @FXML
-    private Label activeBookingsLabel;
-    @FXML
-    private Label completedBookingsLabel;
-    @FXML
     private Label bookingCountLabel;
     @FXML
     private VBox bookingsContainer;
+    @FXML
+    private javafx.scene.layout.HBox profileHeader;
+    @FXML
+    private VBox profileFooter;
     @FXML
     private VBox emptyState;
     @FXML
@@ -48,8 +44,13 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
-        loadProfile();
-        loadBookings();
+        try {
+            loadProfile();
+            loadBookings();
+        } catch (Exception e) {
+            System.err.println("Error initializing ProfileController: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void loadProfile() {
@@ -59,10 +60,20 @@ public class ProfileController {
             emailLabel.setText(student.getEmail());
 
             // Generate avatar from first letter of name
-            String initial = student.getName().substring(0, 1).toUpperCase();
+            String name = student.getName();
+            String initial = (name != null && !name.isBlank()) ? name.substring(0, 1).toUpperCase() : "👤";
             avatarLabel.setText(initial);
+        }
+    }
 
-            memberSinceLabel.setText("📅 Member since 2026");
+    public void setAsSubView() {
+        if (profileHeader != null) {
+            profileHeader.setVisible(false);
+            profileHeader.setManaged(false);
+        }
+        if (profileFooter != null) {
+            profileFooter.setVisible(false);
+            profileFooter.setManaged(false);
         }
     }
 
@@ -80,9 +91,6 @@ public class ProfileController {
                 .count();
         int completed = (int) bookings.stream().filter(b -> "COMPLETED".equalsIgnoreCase(b.getStatus())).count();
 
-        totalBookingsLabel.setText(String.valueOf(total));
-        activeBookingsLabel.setText(String.valueOf(active));
-        completedBookingsLabel.setText(String.valueOf(completed));
         bookingCountLabel.setText(total + " booking" + (total != 1 ? "s" : ""));
 
         bookingsContainer.getChildren().clear();
@@ -289,6 +297,26 @@ public class ProfileController {
         onBrowse();
     }
 
+    @FXML
+    public void onDashboard() {
+        navigateTo("/com/pandalodge/view/dashboard.fxml", "Dashboard");
+    }
+
+    @FXML
+    public void openFAQs() {
+        navigateTo("/com/pandalodge/view/faqs.fxml", "FAQs");
+    }
+
+    @FXML
+    public void onContact() {
+        navigateTo("/com/pandalodge/view/contact.fxml", "Contact Us");
+    }
+
+    @FXML
+    public void onViewRooms() {
+        onBrowse();
+    }
+
     private String formatBookingDates(String startDate, String endDate) {
         try {
             java.time.LocalDate start = java.time.LocalDate.parse(startDate);
@@ -315,13 +343,3 @@ public class ProfileController {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
