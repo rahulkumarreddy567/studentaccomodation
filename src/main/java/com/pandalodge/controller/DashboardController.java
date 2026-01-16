@@ -43,6 +43,14 @@ public class DashboardController {
     @FXML
     private VBox sidebar;
     @FXML
+    private VBox ownerMenu;
+    @FXML
+    private Button ownerDashboardBtn;
+    @FXML
+    private Button ownerAccommodationsBtn;
+    @FXML
+    private Button ownerBookingsBtn;
+    @FXML
     private StackPane centerPane;
     @FXML
     private ToggleButton menuToggle;
@@ -66,32 +74,31 @@ public class DashboardController {
             });
         }
 
-        // Role-based visibility
         boolean isAdmin = UserSession.isAdmin();
+        boolean isRenter = UserSession.isRenter();
+
         if (adminMenu != null) {
             adminMenu.setVisible(isAdmin);
             adminMenu.setManaged(isAdmin);
         }
+        if (ownerMenu != null) {
+            ownerMenu.setVisible(isRenter);
+            ownerMenu.setManaged(isRenter);
+        }
         if (studentBookingsBtn != null) {
-            studentBookingsBtn.setVisible(!isAdmin);
-            studentBookingsBtn.setManaged(!isAdmin);
+            studentBookingsBtn.setVisible(!isAdmin && !isRenter);
+            studentBookingsBtn.setManaged(!isAdmin && !isRenter);
         }
         if (profileBtn != null) {
             profileBtn.setVisible(!isAdmin);
             profileBtn.setManaged(!isAdmin);
         }
 
-        // Set default view
-        if (isAdmin) {
-            showAdminOverview();
-        } else {
-            showAccommodations();
-        }
-
-        // Set welcome message
         if (welcomeLabel != null) {
             if (isAdmin) {
                 welcomeLabel.setText("Welcome, Admin");
+            } else if (UserSession.isRenter()) {
+                welcomeLabel.setText("Welcome, " + UserSession.getCurrentRenter().getName());
             } else if (UserSession.getCurrentStudent() != null) {
                 welcomeLabel.setText("Welcome, " + UserSession.getCurrentStudent().getName());
             }
@@ -134,16 +141,8 @@ public class DashboardController {
 
     @FXML
     public void showProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/profile.fxml"));
-            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
-            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-            javafx.stage.Stage stage = (javafx.stage.Stage) sidebar.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Panda - My Profile");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setActive(profileBtn);
+        loadCenter("/com/pandalodge/view/profile.fxml");
     }
 
     @FXML
@@ -153,10 +152,10 @@ public class DashboardController {
     }
 
     public void showAccommodations(String type, String location) {
-        System.out.println("DEBUG: showAccommodations(type=" + type + ", loc=" + location + ")");
+
         try {
             java.net.URL res = getClass().getResource("/com/pandalodge/view/accommodations.fxml");
-            System.out.println("DEBUG: Loading FXML from: " + res);
+
             if (res == null) {
                 System.err.println("ERROR: Could not find /view/accommodations.fxml");
                 return;
@@ -165,7 +164,7 @@ public class DashboardController {
             Node node = loader.load();
 
             AccommodationsController controller = loader.getController();
-            controller.setDashboardController(this); // Pass dashboard reference
+            controller.setDashboardController(this);
             controller.loadData(type, location);
 
             centerPane.getChildren().setAll(node);
@@ -196,7 +195,8 @@ public class DashboardController {
 
     private void setActive(Button activeBtn) {
         Button[] btns = { homeBtn, browseBtn, adminOverviewBtn, adminStudentsBtn, adminAccommodationsBtn,
-                adminBookingsBtn, adminReviewsBtn, adminFaqsBtn, studentBookingsBtn, profileBtn };
+                adminBookingsBtn, adminReviewsBtn, adminFaqsBtn, studentBookingsBtn, profileBtn,
+                ownerDashboardBtn, ownerAccommodationsBtn, ownerBookingsBtn };
         for (Button b : btns) {
             if (b != null) {
                 b.getStyleClass().removeAll("sidebar-item-active");
@@ -258,6 +258,24 @@ public class DashboardController {
     }
 
     @FXML
+    public void showOwnerDashboard() {
+        setActive(ownerDashboardBtn);
+        loadCenter("/com/pandalodge/view/admin_overview.fxml");
+    }
+
+    @FXML
+    public void showOwnerAccommodations() {
+        setActive(ownerAccommodationsBtn);
+        loadCenter("/com/pandalodge/view/accommodation_management.fxml");
+    }
+
+    @FXML
+    public void showOwnerBookings() {
+        setActive(ownerBookingsBtn);
+        loadCenter("/com/pandalodge/view/bookings.fxml");
+    }
+
+    @FXML
     public void showStudents() {
         setActive(adminStudentsBtn);
         loadCenter("/com/pandalodge/view/student.fxml");
@@ -270,8 +288,7 @@ public class DashboardController {
     }
 
     private void loadCenter(String resource) {
-        System.out.println("**** DEBUG: loadCenter called with resource: " + resource + " ****");
-        System.err.println("**** STDERR DEBUG: loadCenter called ****");
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
             Node node = loader.load();
@@ -290,15 +307,24 @@ public class DashboardController {
                 ((ReviewManagementController) controller).setDashboardController(this);
             } else if (controller instanceof FAQManagementController) {
                 ((FAQManagementController) controller).setDashboardController(this);
+            } else if (controller instanceof ProfileController) {
+                ((ProfileController) controller).setAsSubView();
             }
 
             centerPane.getChildren().setAll(node);
+            node.setOpacity(1.0);
+
             FadeTransition ft = new FadeTransition(Duration.millis(220), node);
-            ft.setFromValue(0);
-            ft.setToValue(1);
+            ft.setFromValue(0.1);
+            ft.setToValue(1.0);
             ft.play();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.err.println("CRITICAL ERROR loading view [" + resource + "]: " + e.getMessage());
             e.printStackTrace();
+
+            Label errorLabel = new Label("Failed to load section: " + resource + "\nError: " + e.getMessage());
+            errorLabel.setStyle("-fx-text-fill: red; -fx-padding: 40; -fx-font-weight: bold;");
+            centerPane.getChildren().setAll(errorLabel);
         }
     }
 }

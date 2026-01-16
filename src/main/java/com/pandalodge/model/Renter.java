@@ -33,24 +33,19 @@ public class Renter {
     public void setPhone(String phone) { this.phone = phone; }
     public void setPassword(String password) { this.password = password; }
 
-    // Login validation
     public static boolean login(String email, String password) {
         return email != null && password != null;
     }
 
-    // Accommodation management methods
     public boolean addAccommodation(com.pandalodge.model.Accommodation acc) {
-        // Implementation to add accommodation
         return true;
     }
 
     public boolean updateAccommodation(com.pandalodge.model.Accommodation acc) {
-        // Implementation to update accommodation
         return true;
     }
 
     public boolean removeAccommodation(com.pandalodge.model.Accommodation acc) {
-        // Implementation to remove accommodation
         return true;
     }
 
@@ -59,14 +54,4 @@ public class Renter {
         return name + " (" + email + ")";
     }
 }
-
-
-
-
-
-
-
-
-
-
 

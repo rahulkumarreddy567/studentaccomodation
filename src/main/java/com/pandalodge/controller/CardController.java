@@ -39,10 +39,8 @@ public class CardController {
     public void setData(Accommodation accommodation) {
         this.accommodation = accommodation;
 
-        // Price
         price.setText("€" + String.format("%.0f", accommodation.getPrice()) + "/mo");
 
-        // Title - extract location city from address for title
         String accommodationTitle = accommodation.getType();
         if (accommodation.getAddress() != null && accommodation.getAddress().contains(",")) {
             String[] parts = accommodation.getAddress().split(",");
@@ -52,23 +50,20 @@ public class CardController {
         }
         title.setText(accommodationTitle);
 
-        // Address
         address.setText(accommodation.getAddress() != null ? accommodation.getAddress() : "Location not specified");
 
-        // Type Badge with color styling
         if (typeBadge != null) {
             typeBadge.setText(accommodation.getType());
             String badgeColor = switch (accommodation.getType()) {
-                case "Room" -> "#22c55e"; // Green
-                case "Studio" -> "#6366f1"; // Indigo
-                case "Apartment" -> "#f59e0b"; // Amber
-                default -> "#64748b"; // Gray
+                case "Room" -> "#22c55e";
+                case "Studio" -> "#6366f1";
+                case "Apartment" -> "#f59e0b";
+                default -> "#64748b";
             };
             typeBadge.setStyle("-fx-background-color: " + badgeColor
                     + "; -fx-text-fill: white; -fx-padding: 4 10; -fx-background-radius: 12; -fx-font-size: 11px; -fx-font-weight: bold;");
         }
 
-        // Status Badge
         if (statusBadge != null) {
             String status = accommodation.getStatus() != null ? accommodation.getStatus() : "AVAILABLE";
             boolean isAvailable = "AVAILABLE".equalsIgnoreCase(status);
@@ -77,17 +72,14 @@ public class CardController {
                     "; -fx-text-fill: white; -fx-padding: 4 10; -fx-background-radius: 12; -fx-font-size: 11px; -fx-font-weight: bold;");
         }
 
-        // Furnished label
         if (furnishedLabel != null) {
             furnishedLabel.setText(accommodation.isFurnished() ? "• Furnished" : "• Unfurnished");
         }
 
-        // Size label
         if (sizeLabel != null) {
             sizeLabel.setText("• " + (accommodation.getSize() != null ? accommodation.getSize() : "15m²"));
         }
 
-        // Description preview (truncate if too long)
         if (description != null) {
             String desc = accommodation.getDescription();
             if (desc != null && desc.length() > 80) {
@@ -97,12 +89,10 @@ public class CardController {
             description.setStyle("-fx-text-fill: #64748b; -fx-font-size: 12px;");
         }
 
-        // Load image
         if (accommodation.getImageUrl() != null && !accommodation.getImageUrl().isEmpty()) {
             try {
                 image.setImage(new Image(accommodation.getImageUrl(), 300, 180, false, true, true));
             } catch (Exception e) {
-                // Set placeholder color if image fails
                 image.setStyle("-fx-background-color: #e2e8f0;");
             }
         }

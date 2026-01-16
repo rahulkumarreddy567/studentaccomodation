@@ -15,7 +15,7 @@
 
 <ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.HomeController">
     <VBox styleClass="root" minWidth="800">
-        <!-- Header -->
+        
         <HBox styleClass="header-clean" alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 15 40;">
             <Label text="🐼 Panda Stays" styleClass="header-logo" />
             <Region HBox.hgrow="ALWAYS" />
@@ -27,7 +27,7 @@
             </HBox>
         </HBox>
 
-        <!-- Hero Section -->
+        
         <StackPane styleClass="hero-section">
             <VBox spacing="20" alignment="CENTER" maxWidth="900">
                 <Label text="Find your home away from home." styleClass="hero-main-title" wrapText="true" textAlignment="CENTER"/>
@@ -63,7 +63,7 @@
             </VBox>
         </StackPane>
 
-            <!-- Featured Listings Section -->
+            
             <VBox spacing="15" style="-fx-padding: 20 0;">
                 <HBox alignment="BOTTOM_LEFT" spacing="10">
                     <Label text="Featured Accommodations" styleClass="section-title"/>
@@ -72,7 +72,7 @@
                 </HBox>
                 <ScrollPane vbarPolicy="NEVER" hbarPolicy="AS_NEEDED" fitToHeight="true" style="-fx-background-color: transparent;">
                     <HBox fx:id="featuredContainer" spacing="20" style="-fx-padding: 10 5;">
-                        <!-- Dynamically filled or sample cards -->
+                        
                         <VBox styleClass="featured-mini-card">
                             <StackPane styleClass="mini-card-image-container">
                                 <Label text="NEW" styleClass="badge-new" StackPane.alignment="TOP_RIGHT"/>
@@ -115,7 +115,7 @@
                 </ScrollPane>
             </VBox>
 
-            <!-- Categories Section -->
+            
             <VBox spacing="15">
                 <Label text="What are you looking for?" styleClass="section-title"/>
                 <HBox spacing="24" alignment="CENTER_LEFT">
@@ -142,30 +142,26 @@
                 </HBox>
             </VBox>
 
-            <!-- Popular Cities Section -->
+            
             <VBox spacing="15">
                 <Label text="Popular Cities" styleClass="section-title"/>
                 <HBox spacing="20">
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f1f5f9; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Paris" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f1f5f9;">
+                        <Label text="Paris" styleClass="city-name-modern"/>
                     </VBox>
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fef2f2; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Lyon" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fef2f2;">
+                        <Label text="Lyon" styleClass="city-name-modern"/>
                     </VBox>
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0fdf4; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Bordeaux" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0fdf4;">
+                        <Label text="Bordeaux" styleClass="city-name-modern"/>
                     </VBox>
-                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffbeb; -fx-cursor: hand;" onMouseClicked="#onSearchCity">
-                        <Label text="Nice" styleClass="city-name-modern" mouseTransparent="true"/>
-                        <Label text="Explore →" styleClass="city-link" mouseTransparent="true"/>
+                    <VBox styleClass="city-card-modern" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffbeb;">
+                        <Label text="Nice" styleClass="city-name-modern"/>
                     </VBox>
                 </HBox>
             </VBox>
 
-            <!-- Owner Section - Studapart inspired -->
+            
             <HBox styleClass="premium-owner-card" spacing="40" alignment="CENTER_LEFT">
                 <VBox spacing="15" HBox.hgrow="ALWAYS">
                     <Label text="FOR PROPERTY OWNERS" styleClass="owner-tag" />
@@ -178,7 +174,7 @@
                 </VBox>
             </HBox>
 
-            <!-- Trust Badges Section -->
+            
             <VBox styleClass="trust-section" style="-fx-padding: 30 40;">
                 <HBox styleClass="trust-badges" spacing="40" alignment="CENTER">
                     <VBox styleClass="trust-badge" alignment="CENTER">
@@ -204,38 +200,35 @@
                 </HBox>
             </VBox>
 
-        <!-- Comprehensive Footer -->
+        
         <VBox styleClass="footer" spacing="16">
-            <!-- Footer Main Content -->
+            
             <HBox styleClass="footer-main" spacing="40">
-                <!-- Brand Column -->
+                
                 <VBox styleClass="footer-column" minWidth="160">
                     <Label text="🐼 Panda Stays" styleClass="footer-brand"/>
                     <Label text="Student housing made easy" styleClass="footer-brand-desc"/>
-                    <HBox styleClass="footer-social">
-                        <Label text="📷" styleClass="social-icon"/>
-                        <Label text="📘" styleClass="social-icon"/>
-                        <Label text="💼" styleClass="social-icon"/>
-                    </HBox>
+                    
+
                 </VBox>
 
-                <!-- Quick Links Column -->
+                
                 <VBox styleClass="footer-column" minWidth="120">
                     <Label text="Quick Links" styleClass="footer-title"/>
-                    <Label text="Home" styleClass="footer-link"/>
-                    <Label text="Browse" styleClass="footer-link"/>
-                    <Label text="Dashboard" styleClass="footer-link"/>
+                    <Label text="Home" styleClass="footer-link" onMouseClicked="#onHome" style="-fx-cursor: hand;"/>
+                    <Label text="Browse" styleClass="footer-link" onMouseClicked="#onViewRooms" style="-fx-cursor: hand;"/>
+                    <Label text="Dashboard" styleClass="footer-link" onMouseClicked="#onDashboard" style="-fx-cursor: hand;"/>
                 </VBox>
 
-                <!-- Support Column -->
+                
                 <VBox styleClass="footer-column" minWidth="120">
                     <Label text="Support" styleClass="footer-title"/>
-                    <Label text="Help Center" styleClass="footer-link"/>
-                    <Label text="Contact Us" styleClass="footer-link"/>
-                    <Label text="FAQs" styleClass="footer-link"/>
+                    <Label text="Help Center" styleClass="footer-link" onMouseClicked="#openFAQs" style="-fx-cursor: hand;"/>
+                    <Label text="Contact Us" styleClass="footer-link" onMouseClicked="#onContact" style="-fx-cursor: hand;"/>
+                    <Label text="FAQs" styleClass="footer-link" onMouseClicked="#openFAQs" style="-fx-cursor: hand;"/>
                 </VBox>
 
-                <!-- Contact Column -->
+                
                 <VBox styleClass="footer-column" minWidth="180">
                     <Label text="Contact" styleClass="footer-title"/>
                     <Label text="✉ support@panda.com" styleClass="footer-contact"/>
@@ -243,10 +236,10 @@
                 </VBox>
             </HBox>
 
-            <!-- Divider -->
+            
             <Region styleClass="footer-divider" HBox.hgrow="ALWAYS"/>
 
-            <!-- Footer Bottom -->
+            
             <HBox styleClass="footer-bottom" alignment="CENTER">
                 <Label text="© 2026 Panda Stays. All rights reserved." styleClass="footer-copyright"/>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -258,7 +251,4 @@
         </VBox>
     </VBox>
 </ScrollPane>
-
-
-
 

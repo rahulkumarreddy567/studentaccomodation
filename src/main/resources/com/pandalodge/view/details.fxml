@@ -12,16 +12,16 @@
                 <Insets top="24" right="40" bottom="40" left="40" />
             </padding>
 
-            <!-- Header with back button -->
+            
             <HBox spacing="16" alignment="CENTER_LEFT">
                 <Button text="← Back to Listings" onAction="#back" styleClass="link-button" />
                 <Region HBox.hgrow="ALWAYS" />
                 <Button fx:id="saveBtn" text="♥ Save" onAction="#handleSave" styleClass="button-secondary" />
             </HBox>
 
-            <!-- Main Content -->
+            
             <HBox spacing="32">
-                <!-- Left: Image Gallery -->
+                
                 <VBox spacing="16" prefWidth="520">
                     <StackPane styleClass="detail-image-container">
                         <ImageView fx:id="imageView" fitWidth="520" fitHeight="350" preserveRatio="false" />
@@ -29,12 +29,12 @@
                         <Label fx:id="statusBadge" text="Available" styleClass="status-badge" StackPane.alignment="TOP_RIGHT" translateX="-16" translateY="16"/>
                     </StackPane>
 
-                    <!-- Location Map Section -->
+                    
                     <VBox styleClass="card" spacing="12">
                         <Label text="📍 Location" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
                         <Label fx:id="addressLabel" text="Address" wrapText="true" style="-fx-text-fill: #64748b;" />
 
-                        <!-- Map Container -->
+                        
                         <StackPane fx:id="mapContainer" prefHeight="200" style="-fx-background-color: #e2e8f0; -fx-background-radius: 8;">
                             <ImageView fx:id="mapImage" fitWidth="488" fitHeight="200" preserveRatio="false" />
                             <Label fx:id="mapPlaceholder" text="🗺️ Loading map..." style="-fx-font-size: 14px; -fx-text-fill: #64748b;" />
@@ -50,9 +50,9 @@
                     </VBox>
                 </VBox>
 
-                <!-- Right: Details -->
+                
                 <VBox spacing="20" HBox.hgrow="ALWAYS">
-                    <!-- Title and Price -->
+                    
                     <VBox spacing="8">
                         <Label fx:id="titleLabel" text="Room Title" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
                         <HBox spacing="16" alignment="CENTER_LEFT">
@@ -66,7 +66,7 @@
 
                     <Separator />
                     
-                    <!-- Quick Info -->
+                    
                     <HBox spacing="24">
                         <VBox alignment="CENTER" spacing="4">
                             <Label text="🏠" style="-fx-font-size: 24px;" />
@@ -92,13 +92,13 @@
 
                     <Separator />
 
-                    <!-- Description -->
+                    
                     <VBox spacing="10">
                         <Label text="About this property" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
                         <Label fx:id="descriptionLabel" text="No description available." wrapText="true" style="-fx-text-fill: #475569; -fx-line-spacing: 4;" />
                     </VBox>
 
-                    <!-- Amenities -->
+                    
                     <VBox spacing="12">
                         <Label text="Amenities included" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
                         <FlowPane hgap="12" vgap="12">
@@ -111,7 +111,7 @@
                         </FlowPane>
                     </VBox>
 
-                    <!-- Property Owner Info -->
+                    
                     <VBox fx:id="ownerInfoBox" spacing="12" styleClass="card" style="-fx-background-color: #ecfdf5;">
                         <Label text="👤 Property Owner" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #065f46;" />
                         <HBox spacing="24" alignment="CENTER_LEFT">
@@ -130,7 +130,7 @@
                     </HBox>
                 </VBox>
 
-                <!-- Reviews Section -->
+                
                 <VBox spacing="12" styleClass="card">
                      <HBox spacing="16" alignment="CENTER_LEFT">
                         <Label text="⭐ Reviews" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
@@ -144,7 +144,7 @@
 
                 <Region VBox.vgrow="ALWAYS" />
                 
-                <!-- Booking Section -->
+                
                 <VBox styleClass="card" spacing="16" style="-fx-background-color: #f1f5f9;">
                     <Label text="📅 Book Your Stay" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
 
@@ -181,7 +181,7 @@
     </VBox>
     </ScrollPane>
 
-    <!-- Success Overlay -->
+    
     <VBox fx:id="successOverlay" visible="false" alignment="CENTER" spacing="30" style="-fx-background-color: rgba(255,255,255,0.95);">
         <VBox alignment="CENTER" spacing="15">
             <Label text="🎉" style="-fx-font-size: 80px;" />

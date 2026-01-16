@@ -27,7 +27,7 @@ public class StudentFormController {
 
     private Stage stage;
     private boolean saved = false;
-    private com.pandalodge.model.Student student; // For editing
+    private com.pandalodge.model.Student student;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -75,13 +75,11 @@ public class StudentFormController {
 
         try {
             if (student == null) {
-                // Create new
                 String pwd = (passwordField != null && !passwordField.getText().isBlank())
                         ? passwordField.getText()
                         : "password123";
                 com.pandalodge.dao.StudentDAO.create(name, email, pwd);
             } else {
-                // Update
                 com.pandalodge.dao.StudentDAO.update(student.getId(), name, email);
             }
             saved = true;

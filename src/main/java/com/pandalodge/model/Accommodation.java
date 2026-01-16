@@ -2,14 +2,14 @@ package com.pandalodge.model;
 
 public class Accommodation {
     private int id;
-    private String type; // e.g., Room, Studio, Apartment
-    private String size; // e.g., 18m2
+    private String type;
+    private String size;
     private double price;
     private String address;
     private String imageUrl;
     private boolean furnished;
     private String description;
-    private String status; // AVAILABLE, BOOKED
+    private String status;
     private double latitude;
     private double longitude;
     private int ownerId;
@@ -42,7 +42,6 @@ public class Accommodation {
         this.ownerPhone = ownerPhone;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -184,7 +183,6 @@ public class Accommodation {
         return type + " - " + address;
     }
 
-    // Backward compatibility for rent vs price
     public double getRent() {
         return price;
     }

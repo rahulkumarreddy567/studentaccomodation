@@ -11,8 +11,8 @@ public class Booking {
     private int accommodationId;
     private String startDate;
     private String endDate;
-    private String status; // PENDING, CONFIRMED, CANCELLED
-    private String createdAt; // When booking was made
+    private String status;
+    private String createdAt;
 
     public Booking(int id, int studentId, int accommodationId, String startDate, String endDate, String status) {
         this.id = id;
@@ -63,9 +63,6 @@ public class Booking {
         return createdAt;
     }
 
-    /**
-     * Calculate booking duration in days
-     */
     public long getDurationDays() {
         try {
             LocalDate start = LocalDate.parse(startDate);
@@ -76,9 +73,6 @@ public class Booking {
         }
     }
 
-    /**
-     * Calculate booking duration in months (approximate)
-     */
     public long getDurationMonths() {
         try {
             LocalDate start = LocalDate.parse(startDate);
@@ -89,9 +83,6 @@ public class Booking {
         }
     }
 
-    /**
-     * Get formatted duration string
-     */
     public String getDurationFormatted() {
         long months = getDurationMonths();
         long days = getDurationDays();
@@ -107,9 +98,6 @@ public class Booking {
         return days + " day" + (days != 1 ? "s" : "");
     }
 
-    /**
-     * Get formatted creation date/time
-     */
     public String getCreatedAtFormatted() {
         if (createdAt == null)
             return "N/A";
@@ -121,13 +109,4 @@ public class Booking {
         }
     }
 }
-
-
-
-
-
-
-
-
-
 

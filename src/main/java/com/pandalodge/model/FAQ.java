@@ -4,8 +4,8 @@ public class FAQ {
     private int id;
     private String question;
     private String answer;
-    private String category; // BOOKING, PAYMENT, ACCOMMODATION, GENERAL
-    private int orderIndex; // For ordering FAQs
+    private String category;
+    private int orderIndex;
 
     public FAQ(int id, String question, String answer) {
         this.id = id;
@@ -29,24 +29,52 @@ public class FAQ {
         this.orderIndex = orderIndex;
     }
 
-    public int getId() { return id; }
-    public String getQuestion() { return question; }
-    public String getAnswer() { return answer; }
-    public String getCategory() { return category; }
-    public int getOrderIndex() { return orderIndex; }
+    public int getId() {
+        return id;
+    }
 
-    public void setQuestion(String question) { this.question = question; }
-    public void setAnswer(String answer) { this.answer = answer; }
-    public void setCategory(String category) { this.category = category; }
-    public void setOrderIndex(int orderIndex) { this.orderIndex = orderIndex; }
+    public String getQuestion() {
+        return question;
+    }
 
-    // Helper methods
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
+    }
+
     public String getFormattedCategory() {
         switch (category) {
-            case "BOOKING": return "📅 Booking";
-            case "PAYMENT": return "💳 Payment";
-            case "ACCOMMODATION": return "🏠 Accommodation";
-            default: return "ℹ️ General";
+            case "BOOKING":
+                return "📅 Booking";
+            case "SECURITY":
+                return "🔒 Security";
+            case "ACCOMMODATION":
+                return "🏠 Accommodation";
+            default:
+                return "ℹ️ General";
         }
     }
 
@@ -55,14 +83,3 @@ public class FAQ {
         return "Q: " + question;
     }
 }
-
-
-
-
-
-
-
-
-
-
-

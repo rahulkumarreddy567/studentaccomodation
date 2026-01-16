@@ -16,10 +16,8 @@ public class AdminDAO {
                     "email TEXT UNIQUE NOT NULL, " +
                     "password TEXT NOT NULL)");
 
-            // Create default admin if table is empty
             ResultSet rs = s.executeQuery("SELECT count(*) FROM admins");
             if (rs.next() && rs.getInt(1) == 0) {
-                // Default admin: admin@pandastays.com / admin123
                 String hashedPassword = BCrypt.hashpw("admin123", BCrypt.gensalt());
                 s.execute("INSERT INTO admins(name, email, password) VALUES " +
                         "('System Administrator', 'admin@pandastays.com', '" + hashedPassword + "')");
@@ -106,15 +104,4 @@ public class AdminDAO {
         return false;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 

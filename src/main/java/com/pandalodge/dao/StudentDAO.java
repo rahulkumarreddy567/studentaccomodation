@@ -12,7 +12,6 @@ public class StudentDAO {
         try (Connection c = DBConnection.getConnection(); Statement s = c.createStatement()) {
             s.execute(
                     "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT)");
-            // migration: ensure password column exists (for older DBs)
             try (ResultSet rs = s.executeQuery("PRAGMA table_info(students)")) {
                 boolean hasPassword = false;
                 while (rs.next()) {
@@ -26,7 +25,6 @@ public class StudentDAO {
                     try {
                         s.execute("ALTER TABLE students ADD COLUMN password TEXT");
                     } catch (SQLException ignore) {
-                        // If ALTER fails, we'll handle inserts without password later
                         ignore.printStackTrace();
                     }
                 }
@@ -50,11 +48,9 @@ public class StudentDAO {
                 try {
                     s.execute("ALTER TABLE students ADD COLUMN password TEXT");
                 } catch (SQLException ignore) {
-                    // ignore
                 }
             }
         } catch (SQLException e) {
-            // ignore
         }
     }
 
@@ -64,7 +60,6 @@ public class StudentDAO {
 
     public static Student create(String name, String email, String password) throws SQLException {
         try (Connection c = DBConnection.getConnection()) {
-            // make sure password column exists before insert
             ensurePasswordColumn(c);
             try (PreparedStatement ps = c.prepareStatement("INSERT INTO students(name,email,password) VALUES(?,?,?)",
                     Statement.RETURN_GENERATED_KEYS)) {
@@ -81,7 +76,6 @@ public class StudentDAO {
                 }
             } catch (SQLException ex) {
                 String msg = ex.getMessage() != null ? ex.getMessage().toLowerCase() : "";
-                // fallback: maybe DB has no password column; retry without password column
                 if (msg.contains("no column") || msg.contains("has no column")
                         || msg.contains("table students has no column")) {
                     try (PreparedStatement ps2 = c.prepareStatement("INSERT INTO students(name,email) VALUES(?,?)",
@@ -95,7 +89,7 @@ public class StudentDAO {
                         }
                     }
                 }
-                throw ex; // rethrow if it's a different error
+                throw ex;
             }
         }
         return null;
@@ -183,14 +177,4 @@ public class StudentDAO {
         return list;
     }
 }
-
-
-
-
-
-
-
-
-
-
 

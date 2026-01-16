@@ -1,6 +1,7 @@
 # Build artifacts
 target/
 dependency-reduced-pom.xml
+*.class
 
 # IDE files
 .idea/
@@ -9,22 +10,42 @@ dependency-reduced-pom.xml
 *.swp
 *.swo
 *~
+.settings/
+.project
+.classpath
+.factorypath
 
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Logs
+# Logs and temporary files
 *.log
 output.log
+*.tmp
+*.bak
+*.swp
+*~.nib
 
-# Database - now tracked for project submission
+# Database (tracked for demo purposes)
 # data/*.db
 
-# Maven wrapper downloaded files (optional)
+# Maven wrapper downloaded files
 .mvn/wrapper/maven-wrapper.jar
 
 # JavaFX SDK (users should download their own)
-javafx-sdk-21/
-javafx-sdk-25.0.1/
+javafx-sdk-*/
 
+# Python scripts (cleanup utilities)
+*.py
+__pycache__/
+*.pyc
+
+# Temporary documentation
+CLEANUP_SUMMARY.md
+GITHUB_PUSH_GUIDE.md
+
+# Build logs
+build_log.txt
+build_output.txt

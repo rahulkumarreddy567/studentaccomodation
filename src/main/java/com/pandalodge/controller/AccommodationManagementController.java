@@ -35,16 +35,15 @@ public class AccommodationManagementController {
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
-        System.out.println("DEBUG AccommodationManagementController: dashboardController set = " + (dash != null));
+
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG AccommodationManagementController.onBack() called");
+
         if (dashboardController != null) {
             dashboardController.showAdminOverview();
         } else {
-            // Fallback: navigate to home page
             try {
                 javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                         getClass().getResource("/com/pandalodge/view/home.fxml"));
@@ -64,8 +63,6 @@ public class AccommodationManagementController {
     @FXML
     @SuppressWarnings("unchecked")
     public void initialize() {
-        // Always clear and rebuild columns to ensure all features (Actions, Status
-        // colors) are active
         accommodationTable.getColumns().clear();
 
         TableColumn<Accommodation, Integer> idCol = new TableColumn<>("ID");
@@ -129,9 +126,9 @@ public class AccommodationManagementController {
                     if ("AVAILABLE".equals(item)) {
                         setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
                     } else if ("BOOKED".equals(item)) {
-                        setStyle("-fx-text-fill: #6366f1; -fx-font-weight: bold;"); // Indigo for booked
+                        setStyle("-fx-text-fill: #6366f1; -fx-font-weight: bold;");
                     } else {
-                        setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;"); // Red for maintenance
+                        setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
                     }
                 }
             }
@@ -167,7 +164,6 @@ public class AccommodationManagementController {
         });
         actionsCol.setPrefWidth(140);
 
-        // noinspection unchecked
         accommodationTable.getColumns().addAll(idCol, typeCol, addressCol, rentCol, sizeCol, furnishedCol, statusCol,
                 actionsCol);
 

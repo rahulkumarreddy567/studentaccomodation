@@ -26,7 +26,6 @@ public class AccommodationsController {
 
     @FXML
     public void initialize() {
-        // loadData(); // Removed to avoid double loading and potential exceptions
     }
 
     public void loadData(String type, String location) {
@@ -34,12 +33,9 @@ public class AccommodationsController {
             if (cardsContainer == null)
                 return;
 
-            System.out.println("DEBUG: loadData(type=" + type + ", loc=" + location + ")");
             cardsContainer.getChildren().clear();
 
-            // Fetch from DB with filters
             List<Accommodation> accommodations = com.pandalodge.dao.AccommodationDAO.findMatches(type, location);
-            System.out.println("DEBUG: Found " + accommodations.size() + " accommodations");
 
             for (Accommodation a : accommodations) {
                 addCard(a);
@@ -72,17 +68,16 @@ public class AccommodationsController {
     @FXML
     public void onSearch() {
         String q = searchField.getText();
-        System.out.println("Dashboard broad search for: " + q);
-        loadData(null, q); // Search location by default, or we can improve DAO to search both
+
+        loadData(null, q);
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG AccommodationsController.onBack() called");
+
         if (dashboardController != null) {
             dashboardController.showHome();
         } else {
-            // Fallback: navigate to home page
             try {
                 javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                         getClass().getResource("/com/pandalodge/view/home.fxml"));
@@ -111,7 +106,7 @@ public class AccommodationsController {
             dialog.setScene(scene);
             dialog.showAndWait();
             if (c.isSaved()) {
-                loadData(); // Refresh grid
+                loadData();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -6,10 +6,10 @@
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.pandalodge.controller.AccommodationManagementController" styleClass="root"
-      stylesheets="@../styles.css">
+      stylesheets="@/styles.css">
     <padding><Insets top="24" right="24" bottom="24" left="24" /></padding>
 
-    <!-- Custom Topbar -->
+    
     <HBox alignment="CENTER_LEFT" spacing="16">
         <Button text="← Back" onAction="#onBack" styleClass="link-button" />
         <VBox>
@@ -49,7 +49,4 @@
         <Label fx:id="statusLabel" styleClass="muted" />
     </VBox>
 </VBox>
-
-
-
 

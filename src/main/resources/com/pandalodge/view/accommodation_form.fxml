@@ -12,13 +12,13 @@
             <Insets top="30" right="40" bottom="40" left="40" />
         </padding>
 
-        <!-- Header -->
+        
         <VBox spacing="5">
             <Label text="Post Your Accommodation" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
             <Label text="Connect with thousands of students looking for a home" style="-fx-text-fill: #64748b;" />
         </VBox>
 
-        <!-- Section 1: Basic Info -->
+        
         <VBox styleClass="card" spacing="20">
             <Label text="Property Information" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #6366f1;" />
             
@@ -76,7 +76,7 @@
             </GridPane>
         </VBox>
 
-        <!-- Section 2: Details & Media -->
+        
         <VBox styleClass="card" spacing="20">
             <Label text="Listing Details &amp; Media" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #6366f1;" />
             
@@ -97,7 +97,7 @@
             </HBox>
         </VBox>
 
-        <!-- Section 3: Owner Information -->
+        
         <VBox styleClass="card" spacing="20">
             <Label text="Contact Information" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #6366f1;" />
             
@@ -117,7 +117,7 @@
             </GridPane>
         </VBox>
 
-        <!-- Footer Actions -->
+        
         <HBox spacing="15" alignment="CENTER_RIGHT">
             <Button fx:id="cancelBtn" text="Cancel" styleClass="button-secondary" prefWidth="120" prefHeight="40" />
             <Button fx:id="okBtn" text="Publish Listing" styleClass="primary-button" prefWidth="180" prefHeight="40" />

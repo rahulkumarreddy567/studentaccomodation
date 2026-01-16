@@ -32,7 +32,6 @@ public class Photo {
     public void setCaption(String caption) { this.caption = caption; }
     public void setPrimary(boolean primary) { isPrimary = primary; }
 
-    // Upload and delete methods
     public boolean uploadPhoto(String img) {
         this.imageUrl = img;
         return true;
@@ -48,14 +47,4 @@ public class Photo {
         return caption != null ? caption : "Photo " + id;
     }
 }
-
-
-
-
-
-
-
-
-
-
 

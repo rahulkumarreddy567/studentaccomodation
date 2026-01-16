@@ -110,7 +110,7 @@ public class FAQManagementController {
         TextArea answer = new TextArea();
         answer.setPromptText("Answer");
         TextField category = new TextField();
-        category.setPromptText("Category (GENERAL, PAYMENT, etc.)");
+        category.setPromptText("Category (GENERAL, ACCOMMODATION, etc.)");
 
         if (f != null) {
             question.setText(f.getQuestion());

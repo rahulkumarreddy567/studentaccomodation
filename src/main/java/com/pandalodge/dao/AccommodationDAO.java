@@ -26,24 +26,20 @@ public class AccommodationDAO {
                     "owner_phone TEXT, " +
                     "size TEXT)");
 
-            // Schema upgrade: check if owner_name column exists
             try {
                 s.executeQuery("SELECT owner_name FROM accommodations LIMIT 1");
             } catch (SQLException e) {
-                System.out.println("Migrating database to include owner fields...");
                 s.execute("ALTER TABLE accommodations ADD COLUMN owner_name TEXT");
                 s.execute("ALTER TABLE accommodations ADD COLUMN owner_email TEXT");
                 s.execute("ALTER TABLE accommodations ADD COLUMN owner_phone TEXT");
             }
 
-            // Check if size column exists
             try {
                 s.executeQuery("SELECT size FROM accommodations LIMIT 1");
             } catch (SQLException e) {
                 s.execute("ALTER TABLE accommodations ADD COLUMN size TEXT");
             }
 
-            // Check if address column exists (another possible legacy state)
             try {
                 s.executeQuery("SELECT address FROM accommodations LIMIT 1");
             } catch (SQLException e) {
@@ -63,61 +59,51 @@ public class AccommodationDAO {
     }
 
     private static void seedData(Statement s) throws SQLException {
-        // Paris - Quartier Latin
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Studio', 950, 'Quartier Latin, Paris', 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1000', 1, "
                         + "'Premium studio in the heart of the historic 5th arrondissement. Steps away from the Sorbonne. Fully renovated in 2025.', 'AVAILABLE', 48.8490, 2.3470, 'Jean Dupont', 'jean.dupont@paris.fr', '+33 1 45 67 89 01', '22m²')");
 
-        // Lyon - Part-Dieu
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Room', 550, 'Part-Dieu, Lyon', 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=1000', 1, "
                         + "'Large room in a friendly international flatshare. Close to Part-Dieu station. Includes weekly cleaning.', 'AVAILABLE', 45.7606, 4.8592, 'Sophie Morel', 'sophie.lyon@gmail.com', '+33 4 78 12 34 56', '18m²')");
 
-        // Bordeaux - Chartrons
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Apartment', 1100, 'Chartrons, Bordeaux', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1000', 1, "
                         + "'Typical Bordeaux stone apartment. 2 bedrooms, perfect for sharing. 2 minutes from the tramway.', 'AVAILABLE', 44.8540, -0.5750, 'Marc Durand', 'marc.bordeaux@yahoo.com', '+33 5 56 11 22 33', '55m²')");
 
-        // Marseille - Prado
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Studio', 700, 'Prado, Marseille', 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1000', 1, "
                         + "'Sunny studio with sea view from the balcony. Located near university campus and beaches.', 'AVAILABLE', 43.2721, 5.3854, 'Claire Petit', 'claire.petit@marseille.com', '+33 4 91 00 11 22', '20m²')");
 
-        // Toulouse - Capitole
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Studio', 650, 'Capitole, Toulouse', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000', 1, "
                         + "'Charming studio in the heart of the Pink City. Fast internet and bicycle storage. Close to Toulouse 1 University.', 'AVAILABLE', 43.6047, 1.4442, 'Antoine Bernard', 'a.bernard@toulouse.fr', '+33 5 61 33 44 55', '19m²')");
 
-        // Nice - Vieux Nice
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Room', 600, 'Vieux Nice, Nice', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1000', 1, "
                         + "'Room with Mediterranean charm. 5 min walk to the beach. Perfect for students at the Université Côte d''Azur.', 'AVAILABLE', 43.6961, 7.2718, 'Elodie Blanc', 'elodie.nice@orange.fr', '+33 4 93 55 66 77', '16m²')");
 
-        // Nantes - Centre
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Apartment', 900, 'Centre, Nantes', 'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1000', 1, "
                         + "'Modern 1-bedroom apartment near the Machines de l''île. Quiet area, very well connected to the university by tram.', 'AVAILABLE', 47.2184, -1.5536, 'Julien Leroy', 'j.leroy@nantes.fr', '+33 2 40 77 88 99', '45m²')");
 
-        // Strasbourg - Krutenau
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Studio', 750, 'Krutenau, Strasbourg', 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1000', 1, "
                         + "'Student-friendly studio in Strasbourg''s most dynamic district. Close to the campus and European Parliament.', 'AVAILABLE', 48.5839, 7.7455, 'Marie Fischer', 'm.fischer@strasbourg.eu', '+33 3 88 11 22 33', '21m²')");
 
-        // Lille - Vieux Lille
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Room', 500, 'Vieux Lille, Lille', 'https://images.unsplash.com/photo-1493238555826-5304c1af0039?w=1000', 1, "
                         + "'Cozy attic room in a Flanders-style house. Very central, friendly atmosphere. All bills included.', 'AVAILABLE', 50.6292, 3.0573, 'Pierre Dubois', 'pierre.dubois@lille.fr', '+33 3 20 44 55 66', '14m²')");
 
-        // Montpellier - Écusson
         s.execute(
                 "INSERT INTO accommodations(type, price, address, image_url, furnished, description, status, latitude, longitude, owner_name, owner_email, owner_phone, size) VALUES "
                         + "('Studio', 680, 'Écusson, Montpellier', 'https://images.unsplash.com/photo-1505691938895-1758d7eaa511?w=1000', 1, "

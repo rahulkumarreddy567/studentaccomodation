@@ -35,16 +35,15 @@ public class StudentController {
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
-        System.out.println("DEBUG StudentController: dashboardController set = " + (dash != null));
+
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG StudentController.onBack() called");
+
         if (dashboardController != null) {
             dashboardController.showAdminOverview();
         } else {
-            // Fallback: navigate to home page
             try {
                 javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                         getClass().getResource("/com/pandalodge/view/home.fxml"));
@@ -64,7 +63,6 @@ public class StudentController {
     @FXML
     @SuppressWarnings("unchecked")
     public void initialize() {
-        // Always clear and rebuild columns to ensure Actions column is present
         studentTable.getColumns().clear();
 
         TableColumn<Student, Integer> idCol = new TableColumn<>("ID");
@@ -109,7 +107,6 @@ public class StudentController {
         });
         actionsCol.setPrefWidth(140);
 
-        // noinspection unchecked
         studentTable.getColumns().addAll(idCol, nameCol, emailCol, actionsCol);
 
         refresh();

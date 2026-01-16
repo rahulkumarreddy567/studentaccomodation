@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,9 +16,6 @@ public class HomeController {
 
     @FXML
     private Button signupBtn;
-
-    @FXML
-    private Button profileBtn;
 
     @FXML
     private Button myBookingsBtn;
@@ -67,25 +65,79 @@ public class HomeController {
 
     @FXML
     public void onProfile() {
-        navigateTo("/com/pandalodge/view/profile.fxml", "My Profile");
+        if (com.pandalodge.util.UserSession.isLoggedIn()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
+                javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+                DashboardController dash = loader.getController();
+                dash.showProfile();
+
+                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Panda - My Profile");
+                stage.centerOnScreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            onLogin();
+        }
     }
 
     @FXML
     public void onMyBookings() {
-        navigateTo("/com/pandalodge/view/profile.fxml", "My Bookings");
+        if (com.pandalodge.util.UserSession.isLoggedIn()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
+                javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+                DashboardController dash = loader.getController();
+                dash.showMyBookings();
+
+                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Panda - My Bookings");
+                stage.centerOnScreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            onLogin();
+        }
     }
 
     public void setLoggedIn(boolean loggedIn) {
         if (loggedIn) {
-            // Show My Bookings button
+            boolean isAdmin = com.pandalodge.util.UserSession.isAdmin();
+            boolean isRenter = com.pandalodge.util.UserSession.isRenter();
+
             if (myBookingsBtn != null) {
-                myBookingsBtn.setVisible(true);
-                myBookingsBtn.setManaged(true);
+                boolean isStudent = !isAdmin && !isRenter;
+                myBookingsBtn.setVisible(isStudent);
+                myBookingsBtn.setManaged(isStudent);
+                if (isStudent) {
+                    myBookingsBtn.setText("My Bookings");
+                    myBookingsBtn.setOnAction(e -> onMyBookings());
+                } else if (isRenter) {
+                    myBookingsBtn.setText("My Properties");
+                    myBookingsBtn.setVisible(true);
+                    myBookingsBtn.setManaged(true);
+                    myBookingsBtn.setOnAction(e -> onDashboard());
+                }
             }
 
-            loginBtn.setText("👤 My Profile");
-            loginBtn.setOnAction(e -> onProfile());
+            if (!isAdmin && !isRenter) {
+                loginBtn.setText("👤 My Profile");
+                loginBtn.setOnAction(e -> onProfile());
+            } else {
+                loginBtn.setText(isAdmin ? "📊 Admin Panel" : "📈 Owner Panel");
+                loginBtn.setOnAction(e -> onDashboard());
+            }
             loginBtn.getStyleClass().add("btn-profile");
+
             signupBtn.setText("Logout");
             signupBtn.setOnAction(e -> handleLogout());
             signupBtn.getStyleClass().add("btn-header-danger");
@@ -106,9 +158,7 @@ public class HomeController {
     public void onSearch() {
         String location = locationField.getText();
         String typeRaw = typeCombo.getValue();
-        String type = mapType(typeRaw); // Handle plural -> singular
-
-        System.out.println("Searching for: " + type + " (raw: " + typeRaw + ") in " + location);
+        String type = mapType(typeRaw);
 
         navigateToDashboard(type, location);
     }
@@ -118,7 +168,6 @@ public class HomeController {
         Object source = event.getSource();
         if (source instanceof javafx.scene.layout.VBox) {
             javafx.scene.layout.VBox box = (javafx.scene.layout.VBox) source;
-            // Look for a label that contains the city name
             for (javafx.scene.Node node : box.getChildren()) {
                 if (node instanceof javafx.scene.control.Label) {
                     javafx.scene.control.Label lbl = (javafx.scene.control.Label) node;
@@ -174,8 +223,11 @@ public class HomeController {
             dialogStage.showAndWait();
 
             if (controller.isSaved()) {
-                // Show success message or refresh
-                System.out.println("Property listed successfully!");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Property Posted!");
+                alert.setContentText("Your accommodation has been successfully listed and is now visible to students.");
+                alert.showAndWait();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,7 +270,6 @@ public class HomeController {
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-            // Get current stage
             Stage stage = (Stage) loginBtn.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Panda - " + title);
@@ -226,5 +277,48 @@ public class HomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void openFAQs() {
+        navigateTo("/com/pandalodge/view/faqs.fxml", "FAQs");
+    }
+
+    @FXML
+    public void onHome() {
+    }
+
+    @FXML
+    public void onDashboard() {
+        if (com.pandalodge.util.UserSession.isLoggedIn()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
+                Scene scene = new Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+                DashboardController dash = loader.getController();
+                if (com.pandalodge.util.UserSession.isAdmin()) {
+                    dash.showAdminOverview();
+                } else if (com.pandalodge.util.UserSession.isRenter()) {
+                    dash.showOwnerDashboard();
+                } else {
+                    dash.showAccommodations();
+                }
+
+                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Panda - Dashboard");
+                stage.centerOnScreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            onLogin();
+        }
+    }
+
+    @FXML
+    public void onContact() {
+        navigateTo("/com/pandalodge/view/contact.fxml", "Contact Us");
     }
 }

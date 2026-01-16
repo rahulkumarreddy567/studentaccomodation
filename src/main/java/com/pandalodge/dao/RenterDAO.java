@@ -17,7 +17,6 @@ public class RenterDAO {
                     "phone TEXT, " +
                     "password TEXT)");
 
-            // Seed sample renters if empty
             ResultSet rs = s.executeQuery("SELECT count(*) FROM renters");
             if (rs.next() && rs.getInt(1) == 0) {
                 seedData(s);
@@ -28,7 +27,6 @@ public class RenterDAO {
     }
 
     private static void seedData(Statement s) throws SQLException {
-        // Sample property owners in France
         s.execute("INSERT INTO renters(name, email, phone, password) VALUES " +
                 "('Marie Dubois', 'marie.dubois@gmail.com', '+33 6 12 34 56 78', '" + BCrypt.hashpw("password123", BCrypt.gensalt()) + "')");
         s.execute("INSERT INTO renters(name, email, phone, password) VALUES " +
@@ -149,15 +147,4 @@ public class RenterDAO {
         return false;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 

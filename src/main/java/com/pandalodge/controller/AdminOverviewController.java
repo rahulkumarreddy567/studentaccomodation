@@ -25,8 +25,7 @@ public class AdminOverviewController {
     private Label totalAccommodationsLabel;
     @FXML
     private Label activeBookingsLabel;
-    @FXML
-    private Label revenueLabel;
+
     @FXML
     private Label availableLabel;
     @FXML
@@ -81,9 +80,6 @@ public class AdminOverviewController {
             recentBookingsTable.setItems(FXCollections.observableArrayList(
                     bookings.subList(0, Math.min(bookings.size(), 10))));
 
-            double revenue = accs.stream().mapToDouble(Accommodation::getPrice).sum();
-            revenueLabel.setText("€" + String.format("%.0f", revenue));
-
             long available = accs.stream().filter(a -> "AVAILABLE".equalsIgnoreCase(a.getStatus())).count();
             long occupied = accs.stream().filter(a -> "OCCUPIED".equalsIgnoreCase(a.getStatus())).count();
 
@@ -99,7 +95,6 @@ public class AdminOverviewController {
     @FXML
     public void onAddAccommodation() {
         if (dashboardController != null) {
-            // Re-use logic or open form
             try {
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/com/pandalodge/view/accommodation_form.fxml"));

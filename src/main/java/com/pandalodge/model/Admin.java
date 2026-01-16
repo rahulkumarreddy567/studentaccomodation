@@ -28,7 +28,6 @@ public class Admin {
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
 
-    // Admin functionalities
     public boolean manageStudent(Student student) {
         return student != null;
     }
@@ -50,14 +49,4 @@ public class Admin {
         return name + " (Admin)";
     }
 }
-
-
-
-
-
-
-
-
-
-
 

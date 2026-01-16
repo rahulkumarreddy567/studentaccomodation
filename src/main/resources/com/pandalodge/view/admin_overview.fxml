@@ -8,7 +8,7 @@
       spacing="24" styleClass="root">
     <padding><Insets top="24" right="30" bottom="24" left="30" /></padding>
 
-    <!-- Dashboard Header -->
+    
     <HBox alignment="CENTER_LEFT" spacing="16">
         <VBox>
             <Label text="Overview" styleClass="search-hero-title" style="-fx-text-fill: -text-main;" />
@@ -18,9 +18,9 @@
         <Button text="+ Add Accommodation" onAction="#onAddAccommodation" styleClass="btn-primary-dashboard" />
     </HBox>
 
-    <!-- Stats Cards Row -->
+    
     <HBox spacing="20">
-        <!-- Total Students Card -->
+        
         <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
             <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
             <HBox alignment="CENTER_LEFT" spacing="15">
@@ -34,7 +34,7 @@
             </HBox>
         </VBox>
 
-        <!-- Total Rooms Card -->
+        
         <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
             <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
             <HBox alignment="CENTER_LEFT" spacing="15">
@@ -48,7 +48,7 @@
             </HBox>
         </VBox>
 
-        <!-- Active Bookings Card -->
+        
         <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
             <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
             <HBox alignment="CENTER_LEFT" spacing="15">
@@ -62,23 +62,10 @@
             </HBox>
         </VBox>
 
-        <!-- Revenue Card -->
-        <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="12">
-            <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
-            <HBox alignment="CENTER_LEFT" spacing="15">
-                <StackPane style="-fx-background-color: #fef2f2; -fx-background-radius: 12; -fx-padding: 10;">
-                    <Label text="💰" style="-fx-font-size: 24px;" />
-                </StackPane>
-                <VBox>
-                    <Label text="Revenue" styleClass="text-muted" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
-                    <Label fx:id="revenueLabel" text="€0" styleClass="card-price" style="-fx-font-size: 24px; -fx-text-fill: #ef4444;" />
-                </VBox>
-            </HBox>
-        </VBox>
     </HBox>
 
     <HBox spacing="20" VBox.vgrow="ALWAYS">
-        <!-- Recent Bookings Table -->
+        
         <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="16">
             <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>
             <HBox alignment="CENTER_LEFT">
@@ -96,7 +83,7 @@
             </TableView>
         </VBox>
 
-        <!-- Quick Actions Sidebar within content -->
+        
         <VBox spacing="20" prefWidth="300">
             <VBox styleClass="card" spacing="16">
                 <padding><Insets top="20" right="20" bottom="20" left="20" /></padding>

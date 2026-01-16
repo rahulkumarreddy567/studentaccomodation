@@ -42,7 +42,7 @@ public class AccommodationFormController {
 
     private Stage stage;
     private boolean saved = false;
-    private com.pandalodge.model.Accommodation accommodation; // For editing
+    private com.pandalodge.model.Accommodation accommodation;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -66,8 +66,7 @@ public class AccommodationFormController {
     public void setAccommodation(com.pandalodge.model.Accommodation acc) {
         this.accommodation = acc;
         if (acc != null) {
-            titleField.setText(acc.getType() + " - " + acc.getAddress()); // Title isn't in model but we can put
-                                                                          // something
+            titleField.setText(acc.getType() + " - " + acc.getAddress());
             typeCombo.setValue(acc.getType());
             priceField.setText(String.valueOf(acc.getPrice()));
             sizeField.setText(acc.getSize());
@@ -100,14 +99,12 @@ public class AccommodationFormController {
                 String ownerPhone = ownerPhoneField.getText();
 
                 if (accommodation == null) {
-                    // Create new
                     String status = (statusCombo != null && statusCombo.getValue() != null) ? statusCombo.getValue()
                             : "AVAILABLE";
                     AccommodationDAO.create(type, price, address, imageUrl, furnished, description, status,
                             ownerName,
                             ownerEmail, ownerPhone, size);
                 } else {
-                    // Update existing
                     accommodation.setType(type);
                     accommodation.setPrice(price);
                     accommodation.setAddress(address);

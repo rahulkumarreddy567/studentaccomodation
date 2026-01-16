@@ -4,6 +4,9 @@ import com.pandalodge.dao.BookingDAO;
 import com.pandalodge.dao.ReviewDAO;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -22,6 +25,7 @@ import com.pandalodge.model.Accommodation;
 import com.pandalodge.model.Student;
 import com.pandalodge.util.UserSession;
 
+import java.io.IOException;
 import java.awt.Desktop;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -82,7 +86,6 @@ public class DetailController {
     @FXML
     private Label successMessage;
 
-    // Owner info fields
     @FXML
     private Label ownerNameLabel;
     @FXML
@@ -92,7 +95,6 @@ public class DetailController {
     @FXML
     private VBox ownerInfoBox;
 
-    // Reviews section
     @FXML
     private VBox reviewsContainer;
     @FXML
@@ -111,17 +113,14 @@ public class DetailController {
 
     @FXML
     public void initialize() {
-        // Initialize date pickers with default values
         if (startDatePicker != null && endDatePicker != null) {
             LocalDate today = LocalDate.now();
             startDatePicker.setValue(today.plusDays(1));
             endDatePicker.setValue(today.plusMonths(6));
 
-            // Add listeners to update duration
             startDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateDuration());
             endDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateDuration());
 
-            // Initial duration calculation
             updateDuration();
         }
     }
@@ -148,7 +147,6 @@ public class DetailController {
                 }
                 durationLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #6366f1;");
 
-                // Calculate total cost
                 updateTotalCost(months, days);
             } else if (start != null && end != null && !end.isAfter(start)) {
                 durationLabel.setText("Invalid dates");
@@ -174,12 +172,10 @@ public class DetailController {
             double totalCost;
 
             if (months > 0) {
-                // Calculate based on months + partial month for remaining days
                 double remainingDays = days - (months * 30);
                 double dailyRate = monthlyRent / 30;
                 totalCost = (months * monthlyRent) + (remainingDays * dailyRate);
             } else {
-                // Calculate based on days (daily rate = monthly / 30)
                 double dailyRate = monthlyRent / 30;
                 totalCost = days * dailyRate;
             }
@@ -192,7 +188,6 @@ public class DetailController {
     public void setData(Accommodation accommodation) {
         this.accommodation = accommodation;
 
-        // Title - Room type + location
         String title = accommodation.getType();
         if (accommodation.getAddress() != null && accommodation.getAddress().contains(",")) {
             String[] parts = accommodation.getAddress().split(",");
@@ -202,18 +197,14 @@ public class DetailController {
         }
         titleLabel.setText(title);
 
-        // Price
         priceLabel.setText("€" + String.format("%.0f", accommodation.getPrice()));
 
-        // Address
         addressLabel
                 .setText(accommodation.getAddress() != null ? accommodation.getAddress() : "Location not specified");
 
-        // Description
         descriptionLabel.setText(
                 accommodation.getDescription() != null ? accommodation.getDescription() : "No description available.");
 
-        // Type badge
         if (typeBadge != null) {
             typeBadge.setText(accommodation.getType());
             String badgeColor = switch (accommodation.getType()) {
@@ -226,7 +217,6 @@ public class DetailController {
                     + "; -fx-text-fill: white; -fx-padding: 6 14; -fx-background-radius: 14; -fx-font-size: 12px; -fx-font-weight: bold;");
         }
 
-        // Status badge
         if (statusBadge != null) {
             String status = accommodation.getStatus() != null ? accommodation.getStatus() : "AVAILABLE";
             boolean isAvailable = "AVAILABLE".equalsIgnoreCase(status);
@@ -235,50 +225,40 @@ public class DetailController {
                     "; -fx-text-fill: white; -fx-padding: 6 14; -fx-background-radius: 14; -fx-font-size: 12px; -fx-font-weight: bold;");
         }
 
-        // Type label in quick info
         if (typeLabel != null) {
             typeLabel.setText(accommodation.getType());
         }
 
-        // Furnished label
         if (furnishedLabel != null) {
             furnishedLabel.setText(accommodation.isFurnished() ? "Furnished" : "Unfurnished");
         }
 
-        // Size label
         if (sizeLabel != null) {
             sizeLabel.setText(accommodation.getSize());
         }
 
-        // Available info label
         if (availableInfoLabel != null) {
             String status = accommodation.getStatus() != null ? accommodation.getStatus() : "AVAILABLE";
             availableInfoLabel.setText("AVAILABLE".equalsIgnoreCase(status) ? "Now" : "Booked");
         }
 
-        // Load image
         if (accommodation.getImageUrl() != null && !accommodation.getImageUrl().isBlank()) {
             try {
                 imageView.setImage(new Image(accommodation.getImageUrl(), 520, 350, false, true, true));
             } catch (Exception e) {
-                // ignore image load error
             }
         }
 
-        // Load map image using OpenStreetMap static tiles
         loadMapImage();
 
-        // Disable book button if already booked
         if (accommodation.getStatus() != null && accommodation.getStatus().equals("BOOKED")) {
             bookBtn.setDisable(true);
             bookBtn.setText("Already Booked");
             bookBtn.setStyle("-fx-background-color: #94a3b8;");
         }
 
-        // Load owner information
         loadOwnerInfo();
 
-        // Load reviews
         loadReviews();
     }
 
@@ -348,7 +328,6 @@ public class DetailController {
         VBox card = new VBox(8);
         card.setStyle("-fx-background-color: #f8fafc; -fx-padding: 15; -fx-background-radius: 10;");
 
-        // Header: name and date
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
 
@@ -360,11 +339,9 @@ public class DetailController {
 
         header.getChildren().addAll(nameLabel, dateLabel);
 
-        // Rating stars
         Label starsLabel = new Label(review.getStarRating());
         starsLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-size: 14px;");
 
-        // Review text
         Label textLabel = new Label(review.getReviewData());
         textLabel.setWrapText(true);
         textLabel.setStyle("-fx-text-fill: #475569;");
@@ -382,10 +359,9 @@ public class DetailController {
                 double lng = accommodation.getLongitude();
 
                 if (lat != 0 && lng != 0) {
-                    // Use OpenStreetMap static image API
                     int zoom = 15;
                     String mapUrl = String.format(
-                            "https://staticmap.openstreetmap.de/staticmap.php?center=%f,%f&zoom=%d&size=488x200&markers=%f,%f,red-pushpin",
+                            "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=%d&size=600x300&markers=color:red%%7C%f,%f&key=YOUR_API_KEY",
                             lat, lng, zoom, lat, lng);
 
                     mapImage.setImage(new Image(mapUrl, true));
@@ -393,7 +369,6 @@ public class DetailController {
                         mapPlaceholder.setVisible(false);
                     }
                 } else {
-                    // Use address-based map fallback
                     if (mapPlaceholder != null) {
                         mapPlaceholder.setText("📍 " + accommodation.getAddress());
                     }
@@ -413,14 +388,13 @@ public class DetailController {
             try {
                 String url;
                 if (accommodation.getLatitude() != 0 && accommodation.getLongitude() != 0) {
-                    url = String.format("https://www.google.com/maps?q=%f,%f",
+                    url = String.format("https://www.google.com/maps/search/?api=1&query=%f,%f",
                             accommodation.getLatitude(), accommodation.getLongitude());
                 } else {
                     String encoded = URLEncoder.encode(accommodation.getAddress(), StandardCharsets.UTF_8);
-                    url = "https://www.google.com/maps/search/" + encoded;
+                    url = "https://www.google.com/maps/search/?api=1&query=" + encoded;
                 }
 
-                // Open in default browser
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                     Desktop.getDesktop().browse(new URI(url));
                 }
@@ -435,7 +409,17 @@ public class DetailController {
         if (dashboardController != null) {
             dashboardController.showMyBookings();
         } else {
-            back(); // Fallback
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/profile.fxml"));
+                javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+                javafx.stage.Stage stage = (javafx.stage.Stage) titleLabel.getScene().getWindow();
+                stage.setScene(scene);
+                stage.setTitle("Panda - My Bookings");
+                stage.centerOnScreen();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -479,20 +463,15 @@ public class DetailController {
 
     @FXML
     public void handleBook() {
-        System.out.println("handleBook called");
 
         if (!UserSession.isLoggedIn() || UserSession.isAdmin()) {
             statusLabel.setText("Please log in as a student to book.");
             statusLabel.setStyle("-fx-text-fill: #ef4444;");
-            System.out.println("User not logged in or is admin");
             return;
         }
 
-        // Validate dates
         LocalDate startDate = startDatePicker != null ? startDatePicker.getValue() : null;
         LocalDate endDate = endDatePicker != null ? endDatePicker.getValue() : null;
-
-        System.out.println("Start date: " + startDate + ", End date: " + endDate);
 
         if (startDate == null || endDate == null) {
             statusLabel.setText("⚠️ Please select check-in and check-out dates.");
@@ -516,14 +495,12 @@ public class DetailController {
         if (student == null) {
             statusLabel.setText("Session expired. Please log in again.");
             statusLabel.setStyle("-fx-text-fill: #ef4444;");
-            System.out.println("Student session is null");
             return;
         }
 
         if (accommodation == null) {
             statusLabel.setText("Accommodation data not available. Please go back and try again.");
             statusLabel.setStyle("-fx-text-fill: #ef4444;");
-            System.out.println("Accommodation is null");
             return;
         }
 
@@ -531,8 +508,6 @@ public class DetailController {
         int accommodationId = accommodation.getId();
         String startStr = startDate.toString();
         String endStr = endDate.toString();
-
-        System.out.println("Creating booking: studentId=" + studentId + ", accommodationId=" + accommodationId);
 
         boolean ok = BookingDAO.create(studentId, accommodationId, startStr, endStr, "PENDING");
 
@@ -552,7 +527,6 @@ public class DetailController {
                 ft.setToValue(1);
                 ft.play();
 
-                // Also scale up effect
                 successOverlay.setScaleX(0.9);
                 successOverlay.setScaleY(0.9);
                 javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(
@@ -569,7 +543,6 @@ public class DetailController {
             bookBtn.setText("✓ Request Sent");
             bookBtn.setStyle("-fx-background-color: #22c55e;");
 
-            // Disable date pickers after successful booking
             if (startDatePicker != null)
                 startDatePicker.setDisable(true);
             if (endDatePicker != null)
@@ -590,7 +563,6 @@ public class DetailController {
             return;
         }
 
-        // Show a simple dialog to get review text and rating
         javafx.scene.control.TextInputDialog dialog = new javafx.scene.control.TextInputDialog();
         dialog.setTitle("Add Review");
         dialog.setHeaderText("Share your experience with " + accommodation.getType());
@@ -600,7 +572,7 @@ public class DetailController {
         if (result.isPresent() && !result.get().isBlank()) {
             try {
                 ReviewDAO.create(UserSession.getCurrentStudent().getId(), accommodation.getId(), result.get(), 5);
-                loadReviews(); // Refresh reviews
+                loadReviews();
                 statusLabel.setText("✅ Review added successfully!");
                 statusLabel.setStyle("-fx-text-fill: #22c55e;");
             } catch (Exception e) {

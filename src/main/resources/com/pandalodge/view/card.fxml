@@ -10,44 +10,41 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.CardController" fx:id="cardBox" styleClass="accommodation-card" prefWidth="300" prefHeight="380">
     <StackPane styleClass="card-image-container">
-        <!-- Room Image -->
+        
         <ImageView fx:id="image" fitWidth="300" fitHeight="180" preserveRatio="false" />
-        <!-- Type Badge -->
+        
         <Label fx:id="typeBadge" text="Room" styleClass="type-badge" StackPane.alignment="TOP_LEFT" translateX="12" translateY="12"/>
-        <!-- Status Badge -->
+        
         <Label fx:id="statusBadge" text="Available" styleClass="status-badge" StackPane.alignment="TOP_RIGHT" translateX="-12" translateY="12"/>
     </StackPane>
     
     <VBox spacing="6" styleClass="card-content" VBox.vgrow="ALWAYS">
-        <!-- Price and Furnished -->
+        
         <HBox spacing="8" alignment="CENTER_LEFT">
             <Label fx:id="price" text="€850/mo" styleClass="card-price" />
             <Label fx:id="sizeLabel" text="• 18m²" styleClass="muted" />
             <Label fx:id="furnishedLabel" text="• Furnished" styleClass="muted" />
         </HBox>
         
-        <!-- Title -->
+        
         <Label fx:id="title" text="Modern Studio Apartment" styleClass="card-title" wrapText="true" maxWidth="280"/>
 
-        <!-- Location -->
+        
         <HBox spacing="4" alignment="CENTER_LEFT">
             <Label text="📍" style="-fx-font-size: 12px;" />
             <Label fx:id="address" text="Rue de Rivoli, Paris" styleClass="card-location" wrapText="true" maxWidth="260"/>
         </HBox>
 
-        <!-- Description Preview -->
+        
         <Label fx:id="description" text="Beautiful studio with modern amenities..." styleClass="card-description" wrapText="true" maxWidth="280" maxHeight="40"/>
 
         <Region VBox.vgrow="ALWAYS" />
 
-        <!-- Action Buttons -->
+        
         <HBox spacing="10" alignment="CENTER">
             <Button text="View Details" styleClass="primary-button" onAction="#onView" HBox.hgrow="ALWAYS" maxWidth="140"/>
             <Button text="♥" styleClass="button-secondary" style="-fx-min-width: 40;" />
         </HBox>
     </VBox>
 </VBox>
-
-
-
 

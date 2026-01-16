@@ -9,7 +9,7 @@
             minWidth="700" minHeight="500">
     <center>
         <HBox spacing="0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-            <!-- Left: branding / illustration -->
+            
             <VBox fx:id="branding" alignment="CENTER" spacing="16" minWidth="280" prefWidth="340" styleClass="left-pane">
                 <padding><Insets top="30" right="30" bottom="30" left="30" /></padding>
                 <Label text="🐼" style="-fx-font-size: 48px;" />
@@ -21,7 +21,7 @@
                 <Label text="✓ 24/7 Support" style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px;" />
             </VBox>
 
-            <!-- Right: login form -->
+            
             <VBox alignment="CENTER" spacing="12" styleClass="form-pane" HBox.hgrow="ALWAYS" minWidth="320">
                 <padding>
                     <Insets top="30" right="40" bottom="30" left="40" />
@@ -59,7 +59,4 @@
         </HBox>
     </center>
 </BorderPane>
-
-
-
 

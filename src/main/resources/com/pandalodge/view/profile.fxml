@@ -8,11 +8,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.geometry.Insets?>
 
-<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.ProfileController" stylesheets="@../styles.css">
+<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pandalodge.controller.ProfileController" stylesheets="@/styles.css">
     <VBox styleClass="root" minWidth="800" spacing="0">
-        <!-- Header -->
-        <HBox styleClass="header-dark" alignment="CENTER_LEFT" spacing="12">
+        
+        <HBox fx:id="profileHeader" styleClass="header-dark" alignment="CENTER_LEFT" spacing="12">
             <Label text="🐼 Panda Stays" styleClass="header-brand" />
             <Label text="My Profile" styleClass="header-tagline" />
             <Region HBox.hgrow="ALWAYS" />
@@ -22,51 +23,25 @@
             </HBox>
         </HBox>
 
-        <!-- Profile Content -->
+        
         <VBox styleClass="profile-container" spacing="24">
-            <!-- Profile Header Card -->
+            
             <VBox styleClass="profile-header-card" spacing="16">
                 <HBox spacing="24" alignment="CENTER_LEFT">
-                    <!-- Avatar -->
+                    
                     <VBox styleClass="profile-avatar" alignment="CENTER">
                         <Label fx:id="avatarLabel" text="👤" styleClass="avatar-icon"/>
                     </VBox>
 
-                    <!-- User Info -->
+                    
                     <VBox spacing="6" HBox.hgrow="ALWAYS">
                         <Label fx:id="nameLabel" text="Student Name" styleClass="profile-name"/>
                         <Label fx:id="emailLabel" text="student@email.com" styleClass="profile-email"/>
-                        <HBox spacing="12" styleClass="profile-badges">
-                            <Label text="🎓 Student" styleClass="profile-badge"/>
-                            <Label fx:id="memberSinceLabel" text="📅 Member since 2026" styleClass="profile-badge"/>
-                        </HBox>
                     </VBox>
-
-                    <!-- Stats -->
-                    <HBox spacing="20" alignment="CENTER">
-                        <VBox styleClass="stat-box" alignment="CENTER">
-                            <Label fx:id="totalBookingsLabel" text="0" styleClass="stat-number"/>
-                            <Label text="Total Bookings" styleClass="stat-label"/>
-                        </VBox>
-                        <VBox styleClass="stat-box" alignment="CENTER">
-                            <Label fx:id="activeBookingsLabel" text="0" styleClass="stat-number"/>
-                            <Label text="Active" styleClass="stat-label"/>
-                        </VBox>
-                        <VBox styleClass="stat-box" alignment="CENTER">
-                            <Label fx:id="completedBookingsLabel" text="0" styleClass="stat-number"/>
-                            <Label text="Completed" styleClass="stat-label"/>
-                        </VBox>
-                    </HBox>
                 </HBox>
             </VBox>
 
-            <!-- Quick Actions -->
-            <HBox spacing="16" styleClass="quick-actions">
-                <Button text="🔍 Browse Accommodations" styleClass="action-button" onAction="#onBrowse"/>
-                <Button text="📋 View All Listings" styleClass="action-button-outline" onAction="#onViewListings"/>
-            </HBox>
-
-            <!-- My Bookings Section -->
+            
             <VBox styleClass="bookings-section" spacing="16">
                 <HBox alignment="CENTER_LEFT" spacing="12">
                     <Label text="📋 My Bookings" styleClass="section-heading"/>
@@ -76,12 +51,12 @@
 
                 <Separator styleClass="section-divider"/>
 
-                <!-- Bookings List Container -->
+                
                 <VBox fx:id="bookingsContainer" spacing="12">
-                    <!-- Booking cards will be added dynamically -->
+                    
                 </VBox>
 
-                <!-- Empty State -->
+                
                 <VBox fx:id="emptyState" styleClass="empty-state" alignment="CENTER" spacing="12" visible="false" managed="false">
                     <Label text="🏠" styleClass="empty-icon"/>
                     <Label text="No bookings yet" styleClass="empty-title"/>
@@ -91,16 +66,49 @@
             </VBox>
         </VBox>
 
-        <!-- Footer -->
-        <VBox styleClass="footer" spacing="16">
-            <HBox styleClass="footer-bottom" alignment="CENTER">
-                <Label text="© 2026 Panda Stays. All rights reserved." styleClass="footer-copyright"/>
+        
+        <VBox fx:id="profileFooter" styleClass="footer-modern" spacing="40">
+            <padding>
+                <Insets top="60" right="40" bottom="30" left="40" />
+            </padding>
+            <HBox spacing="80" alignment="TOP_CENTER">
+                
+                <VBox spacing="15" minWidth="200">
+                    <Label text="🐼 Panda Stays" styleClass="footer-brand"/>
+                    <Label text="Simplifying student housing search across Europe. Find your home away from home." 
+                           wrapText="true" styleClass="footer-desc" maxWidth="250"/>
+                </VBox>
+
+                
+                <VBox styleClass="footer-column" minWidth="120">
+                    <Label text="Quick Links" styleClass="footer-title"/>
+                    <Label text="Home" styleClass="footer-link" onMouseClicked="#onHome" style="-fx-cursor: hand;"/>
+                    <Label text="Browse" styleClass="footer-link" onMouseClicked="#onViewRooms" style="-fx-cursor: hand;"/>
+                    <Label text="Dashboard" styleClass="footer-link" onMouseClicked="#onDashboard" style="-fx-cursor: hand;"/>
+                </VBox>
+
+                
+                <VBox styleClass="footer-column" minWidth="120">
+                    <Label text="Support" styleClass="footer-title"/>
+                    <Label text="Help Center" styleClass="footer-link" onMouseClicked="#openFAQs" style="-fx-cursor: hand;"/>
+                    <Label text="Contact Us" styleClass="footer-link" onMouseClicked="#onContact" style="-fx-cursor: hand;"/>
+                    <Label text="FAQs" styleClass="footer-link" onMouseClicked="#openFAQs" style="-fx-cursor: hand;"/>
+                </VBox>
+
+                
+                <VBox styleClass="footer-column" minWidth="120">
+                    <Label text="Legal" styleClass="footer-title"/>
+                    <Label text="Privacy Policy" styleClass="footer-link"/>
+                    <Label text="Terms of Service" styleClass="footer-link"/>
+                    <Label text="Cookie Policy" styleClass="footer-link"/>
+                </VBox>
             </HBox>
+
+            <VBox spacing="15" alignment="CENTER">
+                <Separator opacity="0.1" maxWidth="1000"/>
+                <Label text="© 2026 Panda Stays. All rights reserved." styleClass="footer-copyright"/>
+            </VBox>
         </VBox>
     </VBox>
 </ScrollPane>
-
-
-
-
 

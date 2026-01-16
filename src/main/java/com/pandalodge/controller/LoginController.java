@@ -33,13 +33,11 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // replace placeholders with FontIcon when available
         try {
             Node u = IconUtil.createIcon("mdi-account", "👤");
             Node l = IconUtil.createIcon("mdi-lock", "🔒");
             if (u != null && iconUser != null) {
 
-                // parent is HBox -> VBox, so replace in HBox
                 ((javafx.scene.layout.HBox) iconUser.getParent()).getChildren().set(0, u);
             }
             if (l != null && iconLock != null) {
@@ -51,10 +49,7 @@ public class LoginController {
         loginButton.setOnAction(e -> handleLogin());
         signupButton.setOnAction(e -> showSignup());
 
-        // responsive: hide branding when width small
-        // branding may be null if not present
         if (branding != null) {
-            // wait until scene is available
             branding.sceneProperty().addListener((obs, oldScene, newScene) -> {
                 if (newScene != null) {
                     newScene.widthProperty().addListener((o, oldW, newW) -> {
@@ -73,14 +68,12 @@ public class LoginController {
             errorLabel.setText("Enter username or email");
             return;
         }
-        // admin login - check multiple admin credentials
         if ((u.equals("admin") || u.equals("admin@panda.com")) &&
                 p != null && (p.equals("admin") || p.equals("admin123"))) {
             com.pandalodge.util.UserSession.loginAdmin();
             openUnifiedDashboard();
             return;
         }
-        // student login by email + password
         if (p == null || p.isBlank()) {
             errorLabel.setText("Enter password for student login");
             return;
@@ -89,6 +82,13 @@ public class LoginController {
         if (s != null) {
             com.pandalodge.util.UserSession.login(s);
             openDashboard();
+            return;
+        }
+
+        com.pandalodge.model.Renter r = com.pandalodge.dao.RenterDAO.verify(u, p);
+        if (r != null) {
+            com.pandalodge.util.UserSession.loginRenter(r);
+            openUnifiedDashboard();
         } else {
             errorLabel.setText("Invalid credentials or unknown email");
         }
@@ -99,6 +99,15 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pandalodge/view/dashboard.fxml"));
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+            DashboardController dash = loader.getController();
+            if (com.pandalodge.util.UserSession.isAdmin()) {
+                dash.showAdminOverview();
+            } else if (com.pandalodge.util.UserSession.isRenter()) {
+                dash.showOwnerDashboard();
+            } else {
+                dash.showAccommodations();
+            }
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
@@ -128,7 +137,6 @@ public class LoginController {
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-            // Get controller and set logged in state
             HomeController home = loader.getController();
             home.setLoggedIn(true);
 

@@ -9,8 +9,8 @@ public class Review {
     private int accommodationId;
     private String reviewData;
     private String reviewDate;
-    private int rating; // 1-5 stars
-    private String studentName; // For display purposes
+    private int rating;
+    private String studentName;
 
     public Review(int id, int studentId, int accommodationId, String reviewData, String reviewDate, int rating) {
         this.id = id;
@@ -38,7 +38,6 @@ public class Review {
     public void setRating(int rating) { this.rating = rating; }
     public void setStudentName(String studentName) { this.studentName = studentName; }
 
-    // Helper methods
     public String getReview() {
         return reviewData;
     }
@@ -72,14 +71,4 @@ public class Review {
         return getStarRating() + " - " + reviewData;
     }
 }
-
-
-
-
-
-
-
-
-
-
 

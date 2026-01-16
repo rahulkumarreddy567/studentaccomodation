@@ -20,7 +20,6 @@ public class ReviewDAO {
                     "FOREIGN KEY(student_id) REFERENCES students(id), " +
                     "FOREIGN KEY(accommodation_id) REFERENCES accommodations(id))");
 
-            // Seed sample reviews if empty
             ResultSet rs = s.executeQuery("SELECT count(*) FROM reviews");
             if (rs.next() && rs.getInt(1) == 0) {
                 seedData(s);
@@ -31,7 +30,6 @@ public class ReviewDAO {
     }
 
     private static void seedData(Statement s) throws SQLException {
-        // Sample reviews for accommodations
         s.execute("INSERT INTO reviews(student_id, accommodation_id, review_data, review_date, rating) VALUES " +
                 "(1, 1, 'Great location near the university! The room was clean and cozy. Highly recommend for students.', '2025-10-15', 5)");
         s.execute("INSERT INTO reviews(student_id, accommodation_id, review_data, review_date, rating) VALUES " +

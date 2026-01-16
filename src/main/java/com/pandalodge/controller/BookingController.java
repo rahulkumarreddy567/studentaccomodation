@@ -38,12 +38,12 @@ public class BookingController {
 
     public void setDashboardController(DashboardController dash) {
         this.dashboardController = dash;
-        System.out.println("DEBUG BookingController: dashboardController set = " + (dash != null));
+
     }
 
     @FXML
     public void onBack() {
-        System.out.println("DEBUG BookingController.onBack() called");
+
         if (dashboardController != null) {
             if (UserSession.isAdmin()) {
                 dashboardController.showAdminOverview();
@@ -51,7 +51,6 @@ public class BookingController {
                 dashboardController.showAccommodations();
             }
         } else {
-            // Fallback: navigate to home page
             try {
                 javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                         getClass().getResource("/com/pandalodge/view/home.fxml"));
@@ -70,20 +69,16 @@ public class BookingController {
     public void initialize() {
         boolean isAdmin = UserSession.isAdmin();
 
-        // Update title based on role
         if (titleLabel != null) {
             titleLabel.setText(isAdmin ? "All Booking Requests" : "My Bookings");
         }
 
-        // Clear existing columns and rebuild
         bookingTable.getColumns().clear();
 
-        // ID Column
         TableColumn<Booking, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setPrefWidth(50);
 
-        // Student Column (only for admin)
         TableColumn<Booking, String> studentCol = null;
         if (isAdmin) {
             studentCol = new TableColumn<>("Student");
@@ -94,7 +89,6 @@ public class BookingController {
             studentCol.setPrefWidth(200);
         }
 
-        // Accommodation Column
         TableColumn<Booking, String> roomColumn = new TableColumn<>("Accommodation");
         roomColumn.setCellValueFactory(data -> {
             Accommodation a = AccommodationDAO.findById(data.getValue().getAccommodationId());
@@ -102,7 +96,6 @@ public class BookingController {
         });
         roomColumn.setPrefWidth(220);
 
-        // Date Column with formatted dates
         TableColumn<Booking, String> dateColumn = new TableColumn<>("Check-in / Check-out");
         dateColumn.setCellValueFactory(data -> {
             String start = data.getValue().getStartDate();
@@ -118,7 +111,6 @@ public class BookingController {
         });
         dateColumn.setPrefWidth(200);
 
-        // Duration Column
         TableColumn<Booking, String> durationColumn = new TableColumn<>("Duration");
         durationColumn.setCellValueFactory(data -> {
             return new SimpleStringProperty(data.getValue().getDurationFormatted());
@@ -138,7 +130,6 @@ public class BookingController {
             }
         });
 
-        // Booked On Column (when booking was made)
         TableColumn<Booking, String> bookedOnColumn = new TableColumn<>("Booked On");
         bookedOnColumn.setCellValueFactory(data -> {
             return new SimpleStringProperty(data.getValue().getCreatedAtFormatted());
@@ -158,7 +149,6 @@ public class BookingController {
             }
         });
 
-        // Status Column with color and background
         TableColumn<Booking, String> statusColumn = new TableColumn<>("Status");
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusColumn.setPrefWidth(120);
@@ -188,7 +178,6 @@ public class BookingController {
             }
         });
 
-        // Actions Column
         TableColumn<Booking, Void> actionsCol = new TableColumn<>("Actions");
         actionsCol.setCellFactory(col -> new TableCell<>() {
             private final Button approveBtn = new Button("Approve");
@@ -244,7 +233,6 @@ public class BookingController {
         });
         actionsCol.setPrefWidth(isAdmin ? 240 : 120);
 
-        // Add columns based on role
         bookingTable.getColumns().add(idColumn);
         if (isAdmin && studentCol != null) {
             bookingTable.getColumns().add(studentCol);
@@ -273,16 +261,13 @@ public class BookingController {
                     statusLabel
                             .setStyle("-fx-text-fill: " + ("APPROVED".equals(newStatus) ? "#22c55e" : "#ef4444") + ";");
                 }
-                // If approved, mark accommodation as BOOKED
                 if ("APPROVED".equals(newStatus)) {
                     AccommodationDAO.updateStatus(booking.getAccommodationId(), "BOOKED");
                 }
-                // If rejected, mark accommodation as AVAILABLE (in case it was somehow marked
-                // booked before)
                 else if ("REJECTED".equals(newStatus)) {
                     AccommodationDAO.updateStatus(booking.getAccommodationId(), "AVAILABLE");
                 }
-                loadData(); // Refresh the table
+                loadData();
             }
         }
     }
@@ -309,10 +294,8 @@ public class BookingController {
         List<Booking> list;
 
         if (UserSession.isAdmin()) {
-            // Admin sees all bookings
             list = BookingDAO.findAll();
         } else if (UserSession.isLoggedIn() && UserSession.getCurrentStudent() != null) {
-            // Student sees only their bookings
             list = BookingDAO.findByStudent(UserSession.getCurrentStudent().getId());
         } else {
             return;
