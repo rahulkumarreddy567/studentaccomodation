@@ -13,7 +13,7 @@ This project was developed collaboratively by:
   - Form layouts and navigation flows
   - Visual component arrangement
 
-#### FXML Files Created by Meghanath:
+#### FXML Files Created by Meghanath9121:
 - `accommodation_form.fxml` - Accommodation creation form
 - `accommodation_management.fxml` - Admin accommodation management
 - `accommodations.fxml` - Accommodation listing view
@@ -80,7 +80,7 @@ This project was developed collaboratively by:
 
 | Developer | Files | Lines of Code | Focus Area |
 |-----------|-------|---------------|------------|
-| **Meghanath** | 18 FXML files | ~2,000+ lines | UI/UX Design & Frontend |
+| **Meghanath9121** | 18 FXML files | ~2,000+ lines | UI/UX Design & Frontend |
 | **Rahul Kumar Reddy** | 38 Java files + CSS + Config | ~8,000+ lines | Backend & Architecture |
 
 ---
@@ -92,4 +92,3 @@ This project demonstrates effective collaboration between frontend and backend d
 ---
 
 *Last Updated: January 2026*
-
