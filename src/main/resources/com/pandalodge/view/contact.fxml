@@ -143,11 +143,4 @@
                 </VBox>
             </HBox>
 
-            <VBox spacing="15" alignment="CENTER">
-                <Separator opacity="0.1" maxWidth="1000"/>
-                <Label text="© 2026 Panda Stays. All rights reserved." styleClass="footer-copyright"/>
-            </VBox>
-        </VBox>
-
-    </VBox>
-</ScrollPane>
+           
