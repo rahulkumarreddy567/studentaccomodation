@@ -27,16 +27,4 @@
     </HBox>
 
     <!-- Table Container -->
-    <VBox VBox.vgrow="ALWAYS" styleClass="card" style="-fx-padding: 0; -fx-background-radius: 12; -fx-overflow: hidden;">
-        <TableView fx:id="faqTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 12; -fx-background-color: transparent;">
-            <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="60" />
-                <TableColumn fx:id="categoryColumn" text="Category" prefWidth="150" />
-                <TableColumn fx:id="questionColumn" text="Question" prefWidth="600" />
-            </columns>
-            <placeholder>
-                <Label text="No FAQs found." styleClass="text-muted" />
-            </placeholder>
-        </TableView>
-    </VBox>
 </VBox>
