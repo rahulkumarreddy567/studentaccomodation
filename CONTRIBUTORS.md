@@ -4,9 +4,9 @@ This project was developed collaboratively by:
 
 ## 👨‍💻 Development Team
 
-### Meghanath
+### Meghanath9121
 - **Role**: UI/UX Developer - Frontend Design
-- **GitHub**: [@meghanath-username](https://github.com/meghanath-username)
+- **GitHub**: [@Meghanath9121](https://github.com/Meghanath9121)
 - **Contributions**: 
   - **All FXML View Files** (18 files) - Complete UI/UX design and layout
   - User interface design and structure
